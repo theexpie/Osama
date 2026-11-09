@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1440 900">
-<title>Osama</title>
-<rect width="1440" height="900" fill="#17130f"/>
+<title>Osama</title><rect width="1440" height="900" fill="#17130f"/>
 <foreignObject x="0" y="0" width="100%" height="100%">
 <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;overflow:hidden">
 <style><![CDATA[
@@ -220,6 +219,4 @@
  createTab();
 })();
 ]]></script>
-</div>
-</foreignObject>
-</svg>
+</div></foreignObject></svg>
