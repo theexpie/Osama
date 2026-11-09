@@ -191,6 +191,12 @@
    const b=document.createElement('button');b.type='button';b.className='tab'+(t.id===activeId?' active':'');b.setAttribute('aria-label','Switch to '+t.title);
    b.innerHTML='<svg class="tab-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><span class="tab-title"></span><span class="tab-close" role="button" aria-label="Close tab">×</span>';
    b.querySelector('.tab-title').textContent=t.title;
+   b.draggable=true;
+   b.addEventListener('dragstart',e=>{b.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(t.id))});
+   b.addEventListener('dragend',()=>tabsEl.querySelectorAll('.tab').forEach(x=>x.classList.remove('dragging','drop-target')));
+   b.addEventListener('dragover',e=>{e.preventDefault();b.classList.add('drop-target')});
+   b.addEventListener('dragleave',()=>b.classList.remove('drop-target'));
+   b.addEventListener('drop',e=>{e.preventDefault();const from=Number(e.dataTransfer.getData('text/plain')),to=t.id;const a=tabs.findIndex(x=>x.id===from),z=tabs.findIndex(x=>x.id===to);if(a<0||z<0||a===z)return;const [moved]=tabs.splice(a,1);tabs.splice(z,0,moved);renderTabs()});
    b.addEventListener('click',e=>{if(e.target.closest('.tab-close')){e.stopPropagation();closeTab(t.id)}else activate(t.id)});
    tabsEl.appendChild(b);
   });
