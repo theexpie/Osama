@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="title desc">
+  <title id="title">Launch Osama</title>
+  <desc id="desc">Click to open the Osama browser interface in a new blob URL tab.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#342719"/>
+      <stop offset="1" stop-color="#17130f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d2a0"/>
+      <stop offset="1" stop-color="#bd8a4b"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="700" height="240" rx="28" fill="url(#bg)" stroke="#d6ae76" stroke-opacity=".3"/>
+  <ellipse cx="360" cy="224" rx="190" ry="12" fill="#d2a15f" opacity=".13" filter="url(#shadow)"/>
+  <circle cx="112" cy="130" r="53" fill="url(#gold)"/>
+  <text x="112" y="148" text-anchor="middle" font-family="Arial,sans-serif" font-size="52" font-weight="800" fill="#30200f">O</text>
+  <text x="195" y="112" fill="#f2e3cc" font-family="Arial,sans-serif" font-size="38" font-weight="700" letter-spacing="-1">OSAMA</text>
+  <text x="197" y="143" fill="#b8a184" font-family="Arial,sans-serif" font-size="15">CAVE NETWORK · BROWSER LAUNCHER</text>
+  <rect x="197" y="169" width="175" height="43" rx="13" fill="#e5c28f"/>
+  <text x="284" y="196" text-anchor="middle" fill="#30200f" font-family="Arial,sans-serif" font-size="15" font-weight="700">OPEN BROWSER ↗</text>
+  <text x="690" y="226" text-anchor="end" fill="#89765d" font-family="Arial,sans-serif" font-size="10">CLICK TO LAUNCH</text>
+  <rect id="hit" x="10" y="10" width="700" height="240" rx="28" fill="transparent" style="cursor:pointer"/>
+  <script><![CDATA[
+    (function () {
+      const hit = document.getElementById('hit');
+      hit.addEventListener('click', async function () {
+        let tab = null;
+        try {
+          tab = window.open('about:blank', '_blank');
+          if (!tab) {
+            alert('Allow pop-ups for this page, then click Launch Osama again.');
+            return;
+          }
+          tab.document.title = 'Launching Osama…';
+          tab.document.body.innerHTML = '<p style="font:16px system-ui;padding:32px;color:#eee;background:#17130f">Opening Osama…</p>';
+          const response = await fetch('./index.html', { cache: 'no-store' });
+          if (!response.ok) throw new Error('Could not load index.html (' + response.status + ')');
+          const html = await response.text();
+          const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          tab.location.replace(url);
+          // Keep the object URL alive while the new tab is using it.
+          window.addEventListener('pagehide', function () { URL.revokeObjectURL(url); }, { once: true });
+        } catch (error) {
+          if (tab && !tab.closed) tab.close();
+          alert('Osama could not launch: ' + (error && error.message ? error.message : error));
+        }
+      });
+    })();
+  ]]></script>
+</svg>
