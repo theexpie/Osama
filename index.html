@@ -7,10 +7,10 @@
 <title>Osama</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cpath fill='%23f4f7fb' d='M50 3 C46 13 45 26 45 39 L7 57 Q4 60 8 63 L45 54 L45 83 L29 97 L29 102 L49 96 L51 96 L71 102 L71 97 L55 83 L55 54 L92 63 Q96 60 93 57 L55 39 C55 26 54 13 50 3Z M24 53 L35 50 L35 63 L24 66Z M76 53 L65 50 L65 63 L76 66Z'/%3E%3C/svg%3E">
 <style>
-:root{color-scheme:dark;--bg:#0b1018;--panel:#111a26;--panel2:#162231;--line:rgba(206,224,244,.12);--text:#edf3fa;--muted:#8c9bad;--soft:#b8c5d4;--accent:#a9c9ee;--accent2:#719cc8;--radius:18px;--ease:cubic-bezier(.2,.75,.25,1);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+:root{color-scheme:dark;--bg:#17130f;--panel:#241d16;--panel2:#30251a;--line:rgba(238,204,151,.15);--text:#f4e8d4;--muted:#aa967a;--soft:#d0b995;--accent:#d8ad6b;--accent2:#a8783f;--radius:18px;--ease:cubic-bezier(.2,.75,.25,1);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 *{box-sizing:border-box}html,body{height:100%;margin:0}body{overflow:hidden;background:var(--bg);color:var(--text)}button,input{font:inherit}button{color:inherit}button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.browser{height:100dvh;min-height:0;display:flex;flex-direction:column;position:relative;isolation:isolate;background:radial-gradient(ellipse at 78% -20%,rgba(85,125,170,.17),transparent 42%),var(--bg)}
-.browser:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 100%,rgba(66,104,144,.10),transparent 38%);opacity:.9}
+.browser{height:100dvh;min-height:0;display:flex;flex-direction:column;position:relative;isolation:isolate;background:radial-gradient(ellipse at 78% -20%,rgba(181,124,57,.20),transparent 42%),var(--bg)}
+.browser:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 12% 100%,rgba(168,111,48,.12),transparent 38%);opacity:.9}
 .topline{height:43px;min-height:43px;display:flex;align-items:center;padding:0 15px;gap:10px;border-bottom:1px solid rgba(255,255,255,.045);background:rgba(8,13,20,.48)}
 .brand{display:flex;align-items:center;gap:9px;font-weight:650;letter-spacing:-.35px;font-size:14px;white-space:nowrap}
 .brand-mark{width:22px;height:26px;display:block;filter:drop-shadow(0 2px 7px #8ab9ed28)}
@@ -30,8 +30,8 @@
 .toolbar{height:58px;min-height:58px;display:flex;align-items:center;gap:5px;padding:7px 12px;background:rgba(14,21,31,.84);border-bottom:1px solid var(--line);backdrop-filter:blur(20px)}
 .tool-btn{width:35px;height:35px;flex:none;border:0;border-radius:10px;background:transparent;color:#91a1b3;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s,transform .2s}
 .tool-btn:hover:not(:disabled){background:#ffffff0c;color:#edf4fc;transform:translateY(-1px)}.tool-btn:disabled{opacity:.27;cursor:default}
-.address-shell{height:39px;min-width:0;flex:1;display:flex;align-items:center;gap:9px;padding:0 13px;border:1px solid rgba(196,215,237,.13);border-radius:13px;background:#080e16;transition:border-color .22s,box-shadow .22s,background .22s}
-.address-shell:focus-within{border-color:#7398c0;box-shadow:0 0 0 3px #80b4e51c;background:#0b1420}
+.address-shell{height:39px;min-width:0;flex:1;display:flex;align-items:center;gap:9px;padding:0 13px;border:1px solid rgba(196,215,237,.13);border-radius:13px;background:#17110c;transition:border-color .22s,box-shadow .22s,background .22s}
+.address-shell:focus-within{border-color:#bd8b4d;box-shadow:0 0 0 3px #d7a65b20;background:#21180f}
 .secure-mark{width:15px;height:15px;flex:none;color:#829bb6}
 .address{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#e7eef7;font-size:13px;letter-spacing:.01em}
 .address::placeholder{color:#65768a}
@@ -45,17 +45,17 @@
 .home{position:absolute;inset:0;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:clamp(28px,6vh,70px) 22px 32px;opacity:1;transform:translateY(0);transition:opacity .34s,transform .44s var(--ease);background:radial-gradient(ellipse at 50% 20%,rgba(83,125,169,.10),transparent 42%),transparent}
 .home.leaving{opacity:0;transform:translateY(9px);pointer-events:none}
 .home-inner{width:min(900px,100%);margin:auto;display:flex;flex-direction:column;align-items:center}
-.hero-mark{width:64px;height:76px;display:grid;place-items:center;margin-bottom:22px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 8px 24px #8ab9ed28)}
+.eyebrow{color:#c29b67}.hero-title{color:#f3e4cc}.hero-sub{color:#b19c7e}.launch{background:rgba(48,36,24,.76);border-color:rgba(235,196,137,.12)}.launch:hover{background:#3a2b1b;border-color:#d8ad6b55}.launch-icon{background:#594127;color:#f2d8ae}.section-label{color:#c1a078}.section-note,.search-foot{color:#9b8567}.brand-mark{filter:drop-shadow(0 2px 8px #d3a35b35)}.hero-mark{filter:drop-shadow(0 8px 24px #c58b3c35)}.hero-mark{width:64px;height:76px;display:grid;place-items:center;margin-bottom:22px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 8px 24px #8ab9ed28)}
 .hero-mark svg{width:54px;height:66px}
 .eyebrow{color:#8395aa;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:13px}
 .hero-title{font-size:clamp(34px,5.6vw,57px);line-height:1.03;letter-spacing:-.065em;font-weight:570;text-align:center;margin:0;color:#edf3fa}
 .hero-sub{font-size:14px;line-height:1.6;color:#8494a8;text-align:center;margin:15px 0 31px}
-.search-card{width:min(650px,100%);display:flex;align-items:center;gap:12px;padding:7px 8px 7px 17px;border:1px solid rgba(194,218,243,.16);border-radius:17px;background:linear-gradient(135deg,rgba(26,39,55,.94),rgba(17,27,40,.94));box-shadow:0 14px 45px #0003, inset 0 1px #ffffff09;transition:border-color .25s,box-shadow .25s,transform .25s}
+.search-card{width:min(650px,100%);display:flex;align-items:center;gap:12px;padding:7px 8px 7px 17px;border:1px solid rgba(194,218,243,.16);border-radius:17px;background:linear-gradient(135deg,rgba(54,39,25,.96),rgba(35,27,19,.96));box-shadow:0 14px 45px #0003, inset 0 1px #ffffff09;transition:border-color .25s,box-shadow .25s,transform .25s}
 .search-card:focus-within{border-color:#83a9d0;box-shadow:0 0 0 4px #8ab8e51a,0 18px 48px #0004;transform:translateY(-2px)}
 .search-card svg{width:19px;height:19px;flex:none;color:#829bb5;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
 .search-card input{flex:1;min-width:0;height:42px;border:0;outline:0;background:transparent;color:#f0f5fb;font-size:14px}
 .search-card input::placeholder{color:#7b8b9f}
-.go-btn{height:40px;min-width:43px;padding:0 15px;border:0;border-radius:12px;background:#dceaf8;color:#172536;font-size:12px;font-weight:650;cursor:pointer;transition:transform .2s,background .2s}
+.go-btn{height:40px;min-width:43px;padding:0 15px;border:0;border-radius:12px;background:#e7c48f;color:#30200f;font-size:12px;font-weight:650;cursor:pointer;transition:transform .2s,background .2s}
 .go-btn:hover{background:white;transform:translateY(-1px)}
 .search-foot{width:min(650px,100%);display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:0 3px;color:#64758a;font-size:10px}
 .search-foot kbd{font:inherit;color:#8fa3b9;border:1px solid #ffffff1b;border-radius:5px;padding:3px 6px}
@@ -104,7 +104,7 @@
 </head>
 <body>
 <div class="browser" id="browser">
- <div class="topline"><div class="brand"><svg class="brand-mark" viewBox="0 0 100 120" aria-hidden="true"><path fill="#dceafa" d="M50 3C46 13 45 26 45 39L7 57Q4 60 8 63L45 54L45 83L29 97L29 102L49 96L51 96L71 102L71 97L55 83L55 54L92 63Q96 60 93 57L55 39C55 26 54 13 50 3Z"/></svg><span>Osama</span></div><div class="topline-spacer"></div><span class="top-hint">A quieter way to browse</span></div>
+ <div class="topline"><div class="brand"><svg class="brand-mark" viewBox="0 0 100 120" aria-hidden="true"><path fill="#e6c18a" d="M50 3C46 13 45 26 45 39L7 57Q4 60 8 63L45 54L45 83L29 97L29 102L49 96L51 96L71 102L71 97L55 83L55 54L92 63Q96 60 93 57L55 39C55 26 54 13 50 3Z"/></svg><span>Osama</span></div><div class="topline-spacer"></div><span class="top-hint">Cave network · low signal, high drama</span></div>
  <div class="tabs-row"><div class="tabs" id="tabs"></div><button class="new-tab" id="newTab" title="New tab" aria-label="New tab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
  <div class="toolbar">
   <button class="tool-btn" id="back" title="Back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -116,17 +116,17 @@
  <main class="content" id="content">
   <div class="loading-line" id="loadingLine"></div>
   <section class="home" id="home"><div class="home-inner">
-   <div class="hero-mark"><svg viewBox="0 0 100 120" aria-hidden="true"><path fill="#c9def3" d="M50 3C46 13 45 26 45 39L7 57Q4 60 8 63L45 54L45 83L29 97L29 102L49 96L51 96L71 102L71 97L55 83L55 54L92 63Q96 60 93 57L55 39C55 26 54 13 50 3Z"/></svg></div>
-   <div class="eyebrow">Your browser, cleared for takeoff</div><h1 class="hero-title">Set your course.</h1><p class="hero-sub">A fresh start, every tab.</p>
+   <div class="hero-mark"><svg viewBox="0 0 100 120" aria-hidden="true"><path fill="#e6c18a" d="M50 3C46 13 45 26 45 39L7 57Q4 60 8 63L45 54L45 83L29 97L29 102L49 96L51 96L71 102L71 97L55 83L55 54L92 63Q96 60 93 57L55 39C55 26 54 13 50 3Z"/></svg></div>
+   <div class="eyebrow">Unofficial hideout internet terminal</div><h1 class="hero-title">Welcome to the cave.</h1><p class="hero-sub">Questionable Wi-Fi. Excellent rock formations.</p>
    <form class="search-card" id="searchForm"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="searchInput" autocomplete="off" spellcheck="false" aria-label="Search the web" placeholder="Search anything or type a destination"><button class="go-btn" type="submit">Go ↗</button></form>
-   <div class="search-foot"><span>Search powered by DuckDuckGo</span><span><kbd>Enter</kbd> to go</span></div>
-   <section class="launch-section"><div class="section-top"><span class="section-label">Quick destinations</span><span class="section-note">A few places to begin</span></div><div class="launch-grid">
-    <button class="launch" data-url="https://www.youtube.com"><span class="launch-icon">▶</span><span class="launch-copy"><b>YouTube</b><small>Watch something</small></span></button>
-    <button class="launch" data-url="https://www.wikipedia.org"><span class="launch-icon">W</span><span class="launch-copy"><b>Wikipedia</b><small>Explore a topic</small></span></button>
-    <button class="launch" data-url="https://github.com"><span class="launch-icon">⌘</span><span class="launch-copy"><b>GitHub</b><small>Build something</small></span></button>
-    <button class="launch" data-url="https://www.google.com"><span class="launch-icon">G</span><span class="launch-copy"><b>Google</b><small>Open Google</small></span></button>
+   <div class="search-foot"><span>Search the outside world</span><span><kbd>Enter</kbd> to go</span></div>
+   <section class="launch-section"><div class="section-top"><span class="section-label">Cave wall bookmarks</span><span class="section-note">Definitely not a command center</span></div><div class="launch-grid">
+    <button class="launch" data-url="https://www.youtube.com"><span class="launch-icon">▶</span><span class="launch-copy"><b>YouTube</b><small>Satellite television</small></span></button>
+    <button class="launch" data-url="https://www.wikipedia.org"><span class="launch-icon">W</span><span class="launch-copy"><b>Wikipedia</b><small>Read the dossier</small></span></button>
+    <button class="launch" data-url="https://github.com"><span class="launch-icon">⌘</span><span class="launch-copy"><b>GitHub</b><small>Code from the cave</small></span></button>
+    <button class="launch" data-url="https://www.google.com"><span class="launch-icon">G</span><span class="launch-copy"><b>Google</b><small>Ask the outside world</small></span></button>
    </div></section>
-   <div class="bottom-note"><span></span><span>Private by design. Ready when you are.</span></div>
+   <div class="bottom-note"><span></span><span>Totally normal cave operations. Nothing to see here.</span></div>
   </div></section>
   <iframe class="page-frame" id="pageFrame" title="Web page" referrerpolicy="no-referrer"></iframe>
   <div class="toast" id="toast"></div>
