@@ -156,6 +156,7 @@
  function contextFor(t){return{frame,tabId:t.id,setTitle:s=>{t.title=String(s||'Page');renderTabs()},setAddress:s=>{t.url=s;if(t.id===activeId)address.value=s},showHome:()=>showHome(t)}}
  function updateNav(){const t=current();$('back').disabled=!t||t.index<=0;$('forward').disabled=!t||t.index>=t.history.length-1}
  function activate(id){
+  const previous=current();if(previous&&previous.id!==id&&!previous.isHome)previous.needsRender=true;
   activeId=id;const t=current();if(!t)return;
   address.value=t.url||'';home.classList.toggle('leaving',!t.isHome);frame.classList.toggle('visible',!t.isHome);frame.style.display=t.isHome?'none':'block';home.style.display=t.isHome?'flex':'none';
   if(!t.isHome&&t.url&&t.needsRender){t.needsRender=false;renderUrl(t,true)}
