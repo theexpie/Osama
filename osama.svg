@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1440 900">
-<title>Osama — Flight Deck</title>
-<rect width="1440" height="900" fill="#080d15"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1440 900">
+<title>Osama</title><rect width="1440" height="900" fill="#080d15"/>
 <foreignObject x="0" y="0" width="100%" height="100%">
 <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;overflow:hidden">
 <style><![CDATA[
@@ -98,10 +97,39 @@
  .hero-title{font-size:34px}.hero-sub{margin:8px 0 0;font-size:11px}.search-card,.search-foot,.launch-section{grid-column:2}.search-card{grid-row:1;margin-top:10px}.search-foot{grid-row:2}.launch-section{grid-row:3;margin-top:15px}.section-top{margin-bottom:7px}.launch{padding:7px 9px}.launch-grid{gap:6px}.bottom-note{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Airline-inspired visual treatment; keep the wording ordinary. */
+.topline{background:linear-gradient(90deg,#0a1421,#101e2d 58%,#0a1421);border-bottom-color:rgba(166,198,226,.16)}
+.topline:after{content:"";position:absolute;right:0;top:42px;width:100%;height:1px;background:linear-gradient(90deg,transparent,#d6a85f55,transparent);pointer-events:none}
+.tabs-row{background:linear-gradient(180deg,#101c2a,#0c1520);border-bottom-color:rgba(156,190,220,.22)}
+.tab{border-radius:5px 5px 0 0;letter-spacing:.01em}
+.tab.active{background:linear-gradient(180deg,#20354a,#142438);border-color:#8eafcc35;box-shadow:inset 0 2px #d6a85f}
+.toolbar{background:linear-gradient(180deg,#152437,#0e1927);border-bottom-color:rgba(156,190,220,.22)}
+.address-shell{border-radius:7px;background:#0a1420;border-color:#5d789344}
+.address-shell:focus-within{border-color:#d6a85f;box-shadow:0 0 0 2px #d6a85f24;background:#101e2d}
+.content{background:radial-gradient(ellipse at 50% 5%,#1b3045 0,transparent 52%),#080f19}
+.home{background:linear-gradient(180deg,rgba(11,23,36,.18),rgba(7,14,23,.15)),repeating-linear-gradient(90deg,transparent 0 119px,rgba(153,190,220,.025) 120px),transparent}
+.home-inner{position:relative}
+.home-inner:before{content:"";position:absolute;top:-28px;left:50%;width:min(650px,100%);height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#8eafcc45,transparent)}
+.hero-mark{width:66px;height:66px;margin-bottom:20px;border:1px solid #d6a85f66;border-radius:50%;background:radial-gradient(circle,#d6a85f16,transparent 68%);box-shadow:0 0 0 7px #d6a85f08,0 12px 35px #0005}
+.hero-mark svg{width:39px;height:39px;filter:drop-shadow(0 3px 8px #d6a85f44)}
+.eyebrow{letter-spacing:.16em;color:#a7c3dc}
+.hero-title{letter-spacing:-.055em}
+.search-card{border-radius:9px;background:linear-gradient(180deg,#172a3e,#0f1d2d);border-color:#7898b755;box-shadow:0 16px 40px #0005,inset 0 1px #ffffff12}
+.search-card:focus-within{border-color:#d6a85f;box-shadow:0 0 0 3px #d6a85f20,0 18px 48px #0005}
+.go-btn{border-radius:6px;background:#d6a85f;color:#111923}
+.launch-section{padding-top:15px;border-top:1px solid #7898b733}
+.section-label{color:#a7c3dc}
+.launch{border-radius:7px;background:linear-gradient(180deg,#172a3e,#101d2b);border-color:#7898b733}
+.launch:hover{background:#20364b;border-color:#d6a85f77}
+.launch-icon{border-radius:5px;background:#263e55}
+.bottom-note{letter-spacing:.08em;text-transform:uppercase;color:#718ba4}
+@media(max-width:720px){.hero-mark{width:55px;height:55px}.hero-mark svg{width:34px;height:34px}}
+
 ]]></style>
 
 <div class="browser" id="browser">
- <div class="topline"><div class="brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M5 34.5 27 29 39 7q2-3 5-1l-5 22 17 7q3 1 3 4l-21-1-8 16-4-1 2-16-20 1z" fill="#d6a85f" stroke="#f0cc8a" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Osama</span></div><div class="topline-spacer"></div><span class="top-hint">Flight deck · all systems nominal</span></div>
+ <div class="topline"><div class="brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M5 34.5 27 29 39 7q2-3 5-1l-5 22 17 7q3 1 3 4l-21-1-8 16-4-1 2-16-20 1z" fill="#d6a85f" stroke="#f0cc8a" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Osama</span></div><div class="topline-spacer"></div><span class="top-hint">probably works</span></div>
  <div class="tabs-row"><div class="tabs" id="tabs"></div><button class="new-tab" id="newTab" title="New tab" aria-label="New tab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
  <div class="toolbar">
   <button class="tool-btn" id="back" title="Back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -114,16 +142,16 @@
   <div class="loading-line" id="loadingLine"></div>
   <section class="home" id="home"><div class="home-inner">
    <div class="hero-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M5 34.5 27 29 39 7q2-3 5-1l-5 22 17 7q3 1 3 4l-21-1-8 16-4-1 2-16-20 1z" fill="#d6a85f" stroke="#f0cc8a" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
-   <div class="eyebrow">AVIATION-INSPIRED BROWSER INTERFACE</div><h1 class="hero-title">Clear skies. Open tabs.</h1><p class="hero-sub">Your window to the web. Ready for departure.</p>
-   <form class="search-card" id="searchForm"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="searchInput" autocomplete="off" spellcheck="false" aria-label="Search the web" placeholder="Search the web or enter a destination" /><button class="go-btn" type="submit">Go ↗</button></form>
-   <div class="search-foot"><span>Enter a destination or search the web</span><span><kbd>Enter</kbd> to go</span></div>
-   <section class="launch-section"><div class="section-top"><span class="section-label">Flight plan · quick destinations</span><span class="section-note">Navigation shortcuts</span></div><div class="launch-grid">
-    <button class="launch" data-url="https://www.youtube.com"><span class="launch-icon">▶</span><span class="launch-copy"><b>YouTube</b><small>Video streaming</small></span></button>
-    <button class="launch" data-url="https://www.wikipedia.org"><span class="launch-icon">W</span><span class="launch-copy"><b>Wikipedia</b><small>Reference library</small></span></button>
-    <button class="launch" data-url="https://github.com"><span class="launch-icon">⌘</span><span class="launch-copy"><b>GitHub</b><small>Developer hangar</small></span></button>
-    <button class="launch" data-url="https://www.google.com"><span class="launch-icon">G</span><span class="launch-copy"><b>Google</b><small>Web search</small></span></button>
+   <div class="eyebrow">a browser. on the internet.</div><h1 class="hero-title">Alright, where to?</h1><p class="hero-sub">Pick a site or type literally anything.</p>
+   <form class="search-card" id="searchForm"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="searchInput" autocomplete="off" spellcheck="false" aria-label="Search the web" placeholder="Search or type a website" /><button class="go-btn" type="submit">Go ↗</button></form>
+   <div class="search-foot"><span>Type a website or search for something</span><span><kbd>Enter</kbd> to go</span></div>
+   <section class="launch-section"><div class="section-top"><span class="section-label">Your usual places</span><span class="section-note">Just click one</span></div><div class="launch-grid">
+    <button class="launch" data-url="https://www.youtube.com"><span class="launch-icon">▶</span><span class="launch-copy"><b>YouTube</b><small>Videos</small></span></button>
+    <button class="launch" data-url="https://www.wikipedia.org"><span class="launch-icon">W</span><span class="launch-copy"><b>Wikipedia</b><small>Stuff to read</small></span></button>
+    <button class="launch" data-url="https://github.com"><span class="launch-icon">⌘</span><span class="launch-copy"><b>GitHub</b><small>Code stuff</small></span></button>
+    <button class="launch" data-url="https://www.google.com"><span class="launch-icon">G</span><span class="launch-copy"><b>Google</b><small>Search</small></span></button>
    </div></section>
-   <div class="bottom-note"><span></span><span>SYSTEM STATUS · READY FOR DEPARTURE</span></div>
+   <div class="bottom-note"><span></span><span>Yep, it's working.</span></div>
   </div></section>
   <iframe class="page-frame" id="pageFrame" title="Web page" referrerpolicy="no-referrer"></iframe>
   <div class="toast" id="toast"></div>
