@@ -307,6 +307,26 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 @media(orientation:portrait) and (max-width:1100px) and (pointer:coarse){#rotatePrompt{display:flex}}
 @media(orientation:landscape) and (max-height:650px) and (pointer:coarse){#smartTrackpad{display:flex}}
 
+
+/* Landscape touch fit: keep every desktop surface inside the usable viewport. */
+@media (pointer:coarse) and (orientation:landscape) {
+  #desktop{width:100vw;height:100dvh;overflow:hidden}
+  .window{left:50%!important;top:46%!important;width:min(760px,calc(100vw - 22px))!important;height:min(500px,calc(100dvh - 82px))!important;max-width:calc(100vw - 22px)!important;max-height:calc(100dvh - 82px)!important;min-width:0!important;min-height:0!important}
+  .window.max{left:5px!important;top:31px!important;width:calc(100vw - 10px)!important;height:calc(100dvh - 78px)!important}
+  .winhead{height:36px;min-height:36px;padding:0 8px;gap:7px}
+  .menubar{height:30px;min-height:30px;padding-left:7px;padding-right:7px}
+  .dock-area{max-width:calc(100vw - 150px)!important;left:calc((100vw - 138px)/2)!important;bottom:5px!important;transform:translateX(-50%) scale(.82)!important;transform-origin:bottom center}
+  .control-center,.notification{max-height:calc(100dvh - 42px);overflow:auto}
+}
+#rotatePrompt{inset:auto auto auto 50%;top:max(12px,env(safe-area-inset-top));width:min(290px,calc(100vw - 36px));min-height:0;padding:12px 17px;gap:5px;border:1px solid #ffffff35;border-radius:18px;background:rgba(18,27,40,.82);box-shadow:0 12px 36px #0005;backdrop-filter:blur(24px);transform:translateX(-50%);z-index:99999}
+#rotatePrompt .rotateGlyph{font-size:24px;line-height:1}
+#rotatePrompt strong{font-size:14px}
+#rotatePrompt span:last-child{font-size:11px;color:#d3dce8}
+#smartCursor{position:fixed;left:0;top:0;width:25px;height:32px;z-index:99998;pointer-events:none;display:none;filter:drop-shadow(0 2px 3px #0009);transform:translate(-2px,-2px)}
+#smartCursor svg{width:25px;height:32px;overflow:visible}
+#smartTrackpad{width:132px;height:78px;right:max(9px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));border-radius:17px;gap:5px;z-index:99997}
+@media(pointer:coarse) and (orientation:landscape){#smartCursor{display:block}}
+
 </style>
 </head>
 <body>
@@ -462,7 +482,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <div class="context-menu" id="contextMenu"><button class="menu-item" data-action="new-folder">New Folder</button><button class="menu-item" data-open="finder">Open Finder</button><button class="menu-item" data-open="settings">Change Wallpaper…</button><div class="menu-separator"></div><button class="menu-item" data-action="clean">Sort By Name</button></div>
 <div class="toast" id="toast"></div>
 </div>
-<div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
+<div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartCursor" aria-hidden="true"><svg viewBox="0 0 25 32"><path d="M2 2 L2 25 L8.2 19.2 L12.5 29 L16.2 27.4 L12 17.8 L21 17.4 Z" fill="#fff" stroke="#172334" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
 <script>
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
@@ -724,30 +744,48 @@ window.Desktop={id:'desktop.shell',version:'0.2.0',launch:openApp,notify,apps:ap
 window.addEventListener('desktop:launch',e=>{if(e.detail?.app)openApp(e.detail.app);if(e.detail?.url){openApp('browser');setTimeout(()=>document.querySelector('#browser iframe')?.contentWindow?.postMessage({type:'browser:open-url',url:e.detail.url},'*'),300)}});
 
 
-/* Landscape-only touch mode with smart trackpad */
+/* Landscape-only touch mode with a visible virtual cursor. */
 const isTouchDevice=()=>matchMedia('(pointer:coarse)').matches||/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
 function updateOrientationGate(){
  const portrait=isTouchDevice()&&innerHeight>innerWidth;
  $('#rotatePrompt').style.display=portrait?'flex':'none';
- $('#smartTrackpad').style.display=isTouchDevice()&&innerWidth>innerHeight&&innerHeight<=650?'flex':'none';
+ $('#smartTrackpad').style.display=isTouchDevice()&&innerWidth>innerHeight?'flex':'none';
+ $('#smartCursor').style.display=isTouchDevice()&&innerWidth>innerHeight?'block':'none';
  document.body.style.overflow=portrait?'hidden':'';
 }
 window.addEventListener('resize',updateOrientationGate,{passive:true});
 window.addEventListener('orientationchange',updateOrientationGate,{passive:true});
 updateOrientationGate();
 (function(){
- const pad=$('#smartTrackpad');let last=null,moved=false;
- pad.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture(e.pointerId);last={x:e.clientX,y:e.clientY};moved=false;pad.classList.add('active')});
- pad.addEventListener('pointermove',e=>{
-  if(!last||e.pointerType==='mouse')return;e.preventDefault();
-  const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
-  const x=Math.max(2,Math.min(innerWidth-3,(window.__smartCursorX??innerWidth*.5)+dx*2));
-  const y=Math.max(2,Math.min(innerHeight-3,(window.__smartCursorY??innerHeight*.5)+dy*2));
-  window.__smartCursorX=x;window.__smartCursorY=y;
-  const t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,clientX:x,clientY:y,view:window}));
+ const pad=$('#smartTrackpad'),cursor=$('#smartCursor');
+ let active=null, moved=false, downTarget=null, lastTap=0, startY=0, startX=0, touchCount=0;
+ let x=window.__smartCursorX??innerWidth*.48,y=window.__smartCursorY??innerHeight*.45;
+ const place=()=>{x=Math.max(2,Math.min(innerWidth-3,x));y=Math.max(2,Math.min(innerHeight-3,y));window.__smartCursorX=x;window.__smartCursorY=y;cursor.style.transform='translate('+x+'px,'+y+'px)'};
+ const target=()=>{const el=document.elementFromPoint(x,y);return el===pad||pad.contains(el)||el===cursor?null:el};
+ const mouse=(type,el=target(),buttons=0)=>{if(!el)return;el.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window,clientX:x,clientY:y,button:0,buttons}))};
+ const pointer=(type,el=target(),buttons=0)=>{if(!el)return;try{el.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:77,pointerType:'mouse',isPrimary:true,clientX:x,clientY:y,button:0,buttons}))}catch{}};
+ pad.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture?.(e.pointerId);
+  active={id:e.pointerId,lastX:e.clientX,lastY:e.clientY};moved=false;touchCount=1;startX=e.clientX;startY=e.clientY;
+  pad.classList.add('active');
  });
- function end(){if(!last)return;if(!moved){const x=window.__smartCursorX??innerWidth*.5,y=window.__smartCursorY??innerHeight*.5,t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:x,clientY:y,view:window}))}last=null;pad.classList.remove('active')}
- pad.addEventListener('pointerup',end);pad.addEventListener('pointercancel',end);pad.addEventListener('contextmenu',e=>e.preventDefault());
+ pad.addEventListener('pointermove',e=>{
+  if(!active||e.pointerId!==active.id||e.pointerType==='mouse')return;e.preventDefault();
+  const dx=e.clientX-active.lastX,dy=e.clientY-active.lastY;active.lastX=e.clientX;active.lastY=e.clientY;
+  if(Math.abs(dx)+Math.abs(dy)>1.5)moved=true;
+  x+=dx*2.05;y+=dy*2.05;place();
+  if(moved){const el=target();pointer('pointermove',el,1);mouse('mousemove',el,1)}
+ });
+ function finish(e){
+  if(!active||e.pointerId!==active.id)return;
+  if(!moved){const el=target();if(el){pointer('pointerdown',el,1);mouse('mousedown',el,1);pointer('pointerup',el,0);mouse('mouseup',el,0);mouse('click',el,0)}}
+  else{const el=target();pointer('pointerup',el,0);mouse('mouseup',el,0)}
+  active=null;pad.classList.remove('active');
+ }
+ pad.addEventListener('pointerup',finish);pad.addEventListener('pointercancel',finish);
+ pad.addEventListener('contextmenu',e=>e.preventDefault());
+ pad.addEventListener('wheel',e=>{e.preventDefault();const el=target();if(el)el.dispatchEvent(new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaY:e.deltaY,deltaX:e.deltaX}))},{passive:false});
+ place();
 })();
 
 })();
