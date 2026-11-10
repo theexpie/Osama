@@ -767,6 +767,7 @@ updateOrientationGate();
  pad.addEventListener('pointerdown',e=>{
   if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture?.(e.pointerId);
   active={id:e.pointerId,lastX:e.clientX,lastY:e.clientY};moved=false;touchCount=1;startX=e.clientX;startY=e.clientY;
+  const el=target();downTarget=el;pointer('pointerdown',el,1);mouse('mousedown',el,1);
   pad.classList.add('active');
  });
  pad.addEventListener('pointermove',e=>{
@@ -778,8 +779,7 @@ updateOrientationGate();
  });
  function finish(e){
   if(!active||e.pointerId!==active.id)return;
-  if(!moved){const el=target();if(el){pointer('pointerdown',el,1);mouse('mousedown',el,1);pointer('pointerup',el,0);mouse('mouseup',el,0);mouse('click',el,0)}}
-  else{const el=target();pointer('pointerup',el,0);mouse('mouseup',el,0)}
+  const el=target()||downTarget;pointer('pointerup',el,0);mouse('mouseup',el,0);if(!moved&&el)mouse('click',el,0);downTarget=null;
   active=null;pad.classList.remove('active');
  }
  pad.addEventListener('pointerup',finish);pad.addEventListener('pointercancel',finish);
