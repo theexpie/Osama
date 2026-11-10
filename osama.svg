@@ -333,7 +333,8 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
  #mobileStatusBar i:before{content:"";position:absolute;inset:2px 4px 2px 2px;border-radius:2px;background:white}
  #mobileStatusBar i:after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:6px;background:white}
  #mobileHomeIndicator{position:absolute;z-index:1300;display:block;left:50%;bottom:calc(env(safe-area-inset-bottom) + 7px);transform:translateX(-50%);width:108px;height:5px;border-radius:8px;background:#ffffffd9;box-shadow:0 1px 3px #0002;touch-action:none}
- #mobileRightEdge{position:absolute;z-index:1250;display:block;right:0;top:0;bottom:0;width:22px;background:transparent;touch-action:pan-y}\n #mobileBottomEdge{position:absolute;z-index:1250;display:block;left:0;right:0;bottom:0;height:20px;background:transparent;touch-action:pan-x}
+ #mobileRightEdge{position:absolute;z-index:1250;display:block;right:0;top:0;bottom:0;width:22px;background:transparent;touch-action:pan-y}
+ #mobileBottomEdge{position:absolute;z-index:1250;display:block;left:0;right:0;bottom:0;height:20px;background:transparent;touch-action:pan-x}
  .window{display:none!important;position:absolute!important;inset:0!important;left:0!important;top:0!important;width:100%!important;height:100dvh!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;background:#fff!important;backdrop-filter:none!important}
  .window.open{display:flex!important;animation:mobileAppIn .26s cubic-bezier(.2,.8,.2,1) both}
  @keyframes mobileAppIn{from{opacity:.65;transform:scale(.96)!important}to{opacity:1;transform:scale(1)!important}}
@@ -535,6 +536,19 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 
 
 </div></foreignObject>
+<script type="application/ecmascript"><![CDATA[
+(function(){
+ const root=document.documentElement;
+ function fitViewport(){
+  const w=Math.max(1,window.innerWidth||document.documentElement.clientWidth||1440);
+  const h=Math.max(1,window.innerHeight||document.documentElement.clientHeight||900);
+  root.setAttribute('viewBox','0 0 '+w+' '+h);
+ }
+ fitViewport();
+ window.addEventListener('resize',fitViewport,{passive:true});
+ window.addEventListener('orientationchange',fitViewport,{passive:true});
+})();
+]]></script>
 <script type="application/ecmascript"><![CDATA[
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
@@ -859,6 +873,7 @@ function mobileTimeTick(){
  $('#mobileTime').textContent=t;$('#mobileAppTime').textContent=t;
 }
 mobileTimeTick();setInterval(mobileTimeTick,15000);renderMobileHome();
+if(mobileMode())showMobileHome();
 let mobileGesture=null,currentMobileApp='browser';
 function gestureStart(e){
  if(!mobileMode()||e.pointerType!=='touch')return;
