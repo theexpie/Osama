@@ -480,11 +480,11 @@ $$('.window').forEach(setupWindow);
 applyOfficialDockIcons();
 function setRunning(id){const b=$('.dock-app[data-open="'+id+'"]');if(b&&!b.querySelector('.running')){const d=document.createElement('i');d.className='running';b.appendChild(d)}}
 $$('[data-open]:not(.dock-app)').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openApp(b.dataset.open);closePopovers()}));
-function resetDockMagnification(){$('.dock-app').forEach(b=>{b.style.removeProperty('--dock-scale');b.style.removeProperty('--dock-lift');b.style.removeProperty('--dock-shift');b.classList.remove('magnified')})}
+function resetDockMagnification(){$$('.dock-app').forEach(b=>{b.style.removeProperty('--dock-scale');b.style.removeProperty('--dock-lift');b.style.removeProperty('--dock-shift');b.classList.remove('magnified')})}
 $('#dock').addEventListener('pointermove',e=>{
  if(document.body.classList.contains('no-magnify'))return resetDockMagnification();
  const dock=$('#dock'),x=e.clientX-dock.getBoundingClientRect().left;
- $('.dock-app').forEach(b=>{
+ $$('.dock-app').forEach(b=>{
   const center=b.offsetLeft+b.offsetWidth/2,distance=Math.abs(x-center),influence=Math.max(0,1-distance/130);
   const scale=1+influence*.62,spread=(scale-1)*b.offsetWidth*.86;
   const shift=center<x?-spread:center>x?spread:0;
