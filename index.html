@@ -365,14 +365,14 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
  <button class="dock-app" data-open="browser" data-tip="Browser" aria-label="Browser"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/src/apps/scalable/firefox.svg" alt="" draggable="false"></button>
  <button class="dock-app" data-open="messages" data-tip="Messages" aria-label="Messages"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/org.gnome.Polari.svg" alt="" draggable="false"></button>
  <button class="dock-app" data-open="photos" data-tip="Photos" aria-label="Photos"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/Gnome-Photos.svg" alt="" draggable="false"></button>
- <button class="dock-app" data-open="music" data-tip="Music" aria-label="Music"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/iease-music.svg" alt="" draggable="false"></button>
- <button class="dock-app" data-open="notes" data-tip="Notes" aria-label="Notes"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/indicator-stickynotes.svg" alt="" draggable="false"></button>
+ <button class="dock-app" data-open="music" data-tip="Music" aria-label="Music"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/org.gnome.Music.svg" alt="" draggable="false"></button>
+ <button class="dock-app" data-open="notes" data-tip="Notes" aria-label="Notes"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/org.gnome.Tomboy.svg" alt="" draggable="false"></button>
  <button class="dock-app" data-open="calculator" data-tip="Calculator" aria-label="Calculator"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/calculator.svg" alt="" draggable="false"></button>
  <button class="dock-app" data-open="terminal" data-tip="Terminal" aria-label="Terminal"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/Terminal.svg" alt="" draggable="false"></button>
  <span class="dock-sep"></span>
- <button class="dock-app" data-open="settings" data-tip="System Settings" aria-label="System Settings"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/gnome-system.svg" alt="" draggable="false"></button>
+ <button class="dock-app" data-open="settings" data-tip="System Settings" aria-label="System Settings"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/system-settings.svg" alt="" draggable="false"></button>
  <button class="dock-app" data-open="appstore" data-tip="App Store" aria-label="App Store"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/apps/scalable/com.gnome.Software.svg" alt="" draggable="false"></button>
- <button class="dock-app" data-action="trash" data-tip="Trash" aria-label="Trash"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/places/scalable/gnome-stock-trash.svg" alt="" draggable="false"></button>
+ <button class="dock-app" data-action="trash" data-tip="Trash" aria-label="Trash"><img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/links/places/scalable/emptytrash.svg" alt="" draggable="false"></button>
 </nav></div>
 <!-- overlays -->
 <div class="glass-pop apple-menu" id="appleMenu"><button class="menu-item" data-open="about">About This Mac <kbd></kbd></button><div class="menu-separator"></div><button class="menu-item" data-open="settings">System Settings…</button><button class="menu-item" data-open="appstore">App Store…</button><div class="menu-separator"></div><button class="menu-item" data-action="lock">Lock Screen</button><button class="menu-item" data-action="sleep">Sleep</button><button class="menu-item" data-action="restart">Restart…</button></div>
@@ -413,19 +413,19 @@ launchpad:"links/apps/scalable/com.gnome.Software.svg",
 browser:"src/apps/scalable/firefox.svg",
 messages:"links/apps/scalable/org.gnome.Polari.svg",
 photos:"links/apps/scalable/Gnome-Photos.svg",
-music:"links/apps/scalable/iease-music.svg",
-notes:"links/apps/scalable/indicator-stickynotes.svg",
+music:"links/apps/scalable/org.gnome.Music.svg",
+notes:"links/apps/scalable/org.gnome.Tomboy.svg",
 calculator:"links/apps/scalable/calculator.svg",
 terminal:"links/apps/scalable/Terminal.svg",
-settings:"links/apps/scalable/gnome-system.svg",
+settings:"links/apps/scalable/system-settings.svg",
 appstore:"links/apps/scalable/com.gnome.Software.svg",
-trash:"links/places/scalable/gnome-stock-trash.svg",
+trash:"links/places/scalable/emptytrash.svg",
 folder:"src/places/scalable/folder.svg",
-home:"links/places/scalable/default-user-home.svg",
-doc:"links/mimes/scalable/text-plain.svg",
+home:"links/places/scalable/gnome-home.svg",
+doc:"links/mimes/scalable/gnome-mime-text-plain.svg",
 pdf:"links/mimes/scalable/pdf.svg",
 image:"links/mimes/scalable/image.svg",
-disk:"links/devices/scalable/drive-harddisk.svg"
+disk:"links/mimes/scalable/application-x-raw-disk-image.svg"
 };
 function themeIcon(id,cls="appicon"){
  const path=iconPaths[id]||iconPaths.doc;
