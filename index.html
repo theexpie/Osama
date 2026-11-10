@@ -54,10 +54,10 @@ html.no-glass .menubar,html.no-glass .dock-area,html.no-glass .window,html.no-gl
 /* Dock */
 .dock-area{position:absolute;z-index:90;left:50%;bottom:9px;transform:translateX(-50%);display:flex;align-items:end;max-width:calc(100% - 18px);padding:7px 9px 8px;border-radius:25px;border:1px solid rgba(255,255,255,.48);background:linear-gradient(180deg,rgba(248,251,255,.38),rgba(28,42,59,.48));box-shadow:0 10px 35px #00152e55,inset 0 1px 0 #ffffff88,inset 0 -1px 0 #ffffff18;backdrop-filter:blur(38px) saturate(1.7);-webkit-backdrop-filter:blur(38px) saturate(1.7);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .25s}
 .dock-area.hidden-dock{transform:translate(-50%,130%);opacity:0}
-.dock{display:flex;align-items:end;gap:7px}
-.dock-app{position:relative;width:49px;height:49px;flex:none;border:0;border-radius:14px;background:transparent;padding:0;display:grid;place-items:center;transform-origin:50% 100%;transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s}
-.dock-app .appicon{width:45px;height:45px;display:block;filter:drop-shadow(0 3px 3px #001c3850);transition:filter .18s}
-.dock-app:hover{transform:translateY(-10px) scale(1.13);filter:brightness(1.08)}
+.dock{display:flex;align-items:end;gap:7px;width:max-content}.dock-area::-webkit-scrollbar{display:none}
+.dock-app{position:relative;width:49px;height:49px;will-change:transform;flex:none;border:0;border-radius:14px;background:transparent;padding:0;display:grid;place-items:center;transform-origin:50% 100%;transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s}
+.dock-app .appicon{width:46px;height:46px;display:block;object-fit:contain;filter:drop-shadow(0 3px 3px #001c3850);transition:filter .18s}
+.dock-app:hover{filter:brightness(1.08)}
 .dock-app:active{transform:translateY(-3px) scale(.95)}
 .dock-app:after{content:attr(data-tip);position:absolute;bottom:61px;left:50%;transform:translate(-50%,5px);opacity:0;pointer-events:none;white-space:nowrap;padding:6px 10px;border-radius:8px;background:rgba(30,35,43,.78);border:1px solid #ffffff30;backdrop-filter:blur(18px);font-size:11px;color:white;transition:opacity .16s,transform .16s}
 .dock-app:hover:after{opacity:1;transform:translate(-50%,0)}
@@ -69,7 +69,7 @@ html.no-glass .menubar,html.no-glass .dock-area,html.no-glass .window,html.no-gl
 .window{position:absolute;z-index:15;left:50%;top:50%;width:min(760px,calc(100vw - 38px));height:min(500px,calc(100dvh - 100px));min-width:310px;min-height:220px;border-radius:17px;border:1px solid rgba(255,255,255,.28);overflow:hidden;display:none;flex-direction:column;background:rgba(26,29,34,.83);box-shadow:var(--shadow),inset 0 1px 0 #ffffff25;backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);transform:translate(-50%,-49%) scale(.96);opacity:0;transition:opacity calc(.2s * var(--motion)),transform calc(.24s * var(--motion)) cubic-bezier(.2,.8,.2,1),box-shadow .2s}
 .window.open{display:flex;animation:windowAppear calc(.25s * var(--motion)) cubic-bezier(.18,.72,.2,1) forwards}
 .window.focused{box-shadow:0 28px 90px rgba(0,0,0,.48),inset 0 1px 0 #ffffff38}
-@keyframes windowAppear{to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes windowAppear{to{transform:translate(-50%,-50%) scale(1);opacity:1}}.window.placed.open{animation:windowRestore .18s ease forwards;transform:none}@keyframes windowRestore{from{opacity:.5}to{opacity:1}}
 .window.max{left:9px!important;top:35px!important;width:calc(100% - 18px)!important;height:calc(100% - 82px)!important;transform:none!important;border-radius:13px}
 .window.minimizing{animation:minimizeWindow calc(.22s * var(--motion)) ease-in forwards}
 @keyframes minimizeWindow{to{opacity:0;transform:translate(-50%,55%) scale(.35)}}
@@ -218,7 +218,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .context-menu{position:absolute;z-index:150;min-width:185px;padding:6px;border-radius:11px;background:rgba(36,42,49,.88);border:1px solid #ffffff32;backdrop-filter:blur(35px);box-shadow:0 15px 45px #0007;display:none}
 .context-menu.show{display:block;animation:popIn .13s ease forwards}
-@media(max-width:700px){
+@media(max-width:700px){.dock-area{max-width:calc(100vw - 10px);padding:24px 6px 7px}.dock{gap:3px}.dock-app{width:38px;height:39px}.dock-app .appicon{width:36px;height:36px}
 .menubar{padding:0 8px}.menu-left{gap:7px}.menu-left .menu-extra{display:none}.menu-right{gap:7px}.status-icons{gap:4px}
 .desktop-icons{left:8px;top:42px}.window{width:calc(100vw - 14px)!important;height:calc(100dvh - 94px)!important;min-width:0;min-height:0;border-radius:14px}
 .finder{grid-template-columns:120px minmax(0,1fr)}.finder-side{padding:10px 5px}.finder-content{padding:11px 8px}.finder-grid{grid-template-columns:repeat(auto-fill,minmax(65px,1fr))}
@@ -442,16 +442,57 @@ function applyOfficialDockIcons(){
 }
 function notify(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1900)}
 function bringFront(w){z+=1;w.style.zIndex=z;$$('.window').forEach(x=>x.classList.toggle('focused',x===w));activeApp=w.dataset.title||w.id;$('#activeApp').textContent=activeApp;$$('.dock-app').forEach(b=>b.querySelector('.running')?.remove());const dock=$('.dock-app[data-open="'+w.id+'"]');if(dock){const dot=document.createElement('i');dot.className='running';dock.appendChild(dot)}}
-function openApp(id){if(id==='launchpad'){toggleLaunchpad(true);return}if(id==='about'){notify('Desktop Preview · Tahoe-inspired build');return}let win=$('#'+id);if(!win){return}win.classList.remove('minimizing');win.classList.add('open');bringFront(win);win.style.left=win.style.left||'50%';if(id==='notes')$('#notesText').focus()}
-function closeWin(w){w.classList.remove('open','max','focused');const d=$('.dock-app[data-open="'+w.id+'"]');d?.querySelector('.running')?.remove();if(activeApp===w.dataset.title)$('#activeApp').textContent='Finder'}
-function minimizeWin(w){w.classList.add('minimizing');setTimeout(()=>{w.classList.remove('open','minimizing');},220)}
-function toggleMax(w){if(w.classList.contains('max')){w.classList.remove('max');const old=w.dataset.restore;if(old){const o=JSON.parse(old);w.style.left=o.left;w.style.top=o.top;w.style.width=o.width;w.style.height=o.height}}else{w.dataset.restore=JSON.stringify({left:w.style.left,top:w.style.top,width:w.style.width,height:w.style.height});w.classList.add('max')}bringFront(w)}
-function setupWindow(w){const h=w.querySelector('.winhead');w.querySelector('.close')?.addEventListener('click',()=>closeWin(w));w.querySelector('.minimize')?.addEventListener('click',()=>minimizeWin(w));w.querySelector('.maximize')?.addEventListener('click',()=>toggleMax(w));w.addEventListener('pointerdown',()=>bringFront(w));let drag=null;h?.addEventListener('pointerdown',e=>{if(e.target.closest('button')||w.classList.contains('max'))return;const r=w.getBoundingClientRect();drag={dx:e.clientX-r.left,dy:e.clientY-r.top};h.setPointerCapture(e.pointerId);bringFront(w)});h?.addEventListener('pointermove',e=>{if(!drag)return;const x=Math.max(0,Math.min(innerWidth-w.offsetWidth,e.clientX-drag.dx));const y=Math.max(29,Math.min(innerHeight-70,e.clientY-drag.dy));w.style.left=x+'px';w.style.top=y+'px';w.style.transform='none'});h?.addEventListener('pointerup',()=>drag=null);h?.addEventListener('lostpointercapture',()=>drag=null)}
+function openApp(id){if(id==='launchpad'){toggleLaunchpad(true);return}if(id==='about'){notify('Desktop Preview · Tahoe-inspired build');return}let win=$('#'+id);if(!win){return}win.classList.remove('minimizing');if(win.dataset.placed)win.classList.add('placed');win.classList.add('open');bringFront(win);win.style.left=win.style.left||'50%';if(id==='notes')$('#notesText').focus()}
+function closeWin(w){if(!w)return;w.classList.remove('open','max','focused');const d=$('.dock-app[data-open="'+w.id+'"]');d?.querySelector('.running')?.remove();if(activeApp===w.dataset.title)$('#activeApp').textContent='Finder'}
+function minimizeWin(w){if(!w)return;w.classList.add('minimizing');setTimeout(()=>{w.classList.remove('open','minimizing');},220)}
+function toggleMax(w){if(!w)return;if(w.classList.contains('max')){w.classList.remove('max');const old=w.dataset.restore;if(old){const o=JSON.parse(old);w.style.left=o.left;w.style.top=o.top;w.style.width=o.width;w.style.height=o.height}}else{w.dataset.restore=JSON.stringify({left:w.style.left,top:w.style.top,width:w.style.width,height:w.style.height});w.classList.add('max')}bringFront(w)}
+function setupWindow(w){
+ const h=w.querySelector('.winhead');
+ w.querySelector('.close')?.addEventListener('click',()=>closeWin(w));
+ w.querySelector('.minimize')?.addEventListener('click',()=>minimizeWin(w));
+ w.querySelector('.maximize')?.addEventListener('click',()=>toggleMax(w));
+ w.addEventListener('pointerdown',()=>bringFront(w));
+ if(!w.querySelector('.resize-handle')){
+  ['n','s','e','w','ne','nw','se','sw'].forEach(edge=>{
+   const handle=document.createElement('div');handle.className='resize-handle '+edge;handle.dataset.edge=edge;w.appendChild(handle);
+   let start=null;
+   handle.addEventListener('pointerdown',e=>{if(w.classList.contains('max'))return;e.preventDefault();e.stopPropagation();const r=w.getBoundingClientRect();start={x:e.clientX,y:e.clientY,left:r.left,top:r.top,width:r.width,height:r.height};handle.setPointerCapture(e.pointerId);bringFront(w)});
+   handle.addEventListener('pointermove',e=>{
+    if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y,edge=handle.dataset.edge;
+    let left=start.left,top=start.top,width=start.width,height=start.height;
+    if(edge.includes('e'))width=Math.max(310,start.width+dx);if(edge.includes('s'))height=Math.max(220,start.height+dy);
+    if(edge.includes('w')){width=Math.max(310,start.width-dx);left=start.left+start.width-width}
+    if(edge.includes('n')){height=Math.max(220,start.height-dy);top=start.top+start.height-height}
+    left=Math.max(0,Math.min(left,innerWidth-120));top=Math.max(29,Math.min(top,innerHeight-80));
+    width=Math.min(width,innerWidth-left);height=Math.min(height,innerHeight-top-35);
+    w.style.left=left+'px';w.style.top=top+'px';w.style.width=width+'px';w.style.height=height+'px';w.style.transform='none';w.dataset.placed='1';
+   });
+   handle.addEventListener('pointerup',()=>start=null);handle.addEventListener('lostpointercapture',()=>start=null);
+  });
+ }
+ let drag=null;
+ h?.addEventListener('pointerdown',e=>{if(e.target.closest('button,.winhead-tools')||w.classList.contains('max'))return;const r=w.getBoundingClientRect();drag={dx:e.clientX-r.left,dy:e.clientY-r.top};h.setPointerCapture(e.pointerId);bringFront(w)});
+ h?.addEventListener('pointermove',e=>{if(!drag)return;const x=Math.max(0,Math.min(innerWidth-w.offsetWidth,e.clientX-drag.dx));const y=Math.max(29,Math.min(innerHeight-70,e.clientY-drag.dy));w.style.left=x+'px';w.style.top=y+'px';w.style.transform='none';w.dataset.placed='1'});
+ h?.addEventListener('pointerup',()=>drag=null);h?.addEventListener('lostpointercapture',()=>drag=null);
+ h?.addEventListener('dblclick',e=>{if(!e.target.closest('button,.winhead-tools'))toggleMax(w)});
+}
 $$('.window').forEach(setupWindow);
 applyOfficialDockIcons();
 function setRunning(id){const b=$('.dock-app[data-open="'+id+'"]');if(b&&!b.querySelector('.running')){const d=document.createElement('i');d.className='running';b.appendChild(d)}}
 $$('[data-open]:not(.dock-app)').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openApp(b.dataset.open);closePopovers()}));
-$('#dock').addEventListener('pointermove',e=>{const items=$$('.dock-app');if(document.body.classList.contains('no-magnify'))return;items.forEach(b=>{const r=b.getBoundingClientRect(),dx=Math.abs(e.clientX-(r.left+r.width/2));const scale=1+Math.max(0,(1-dx/92))*.28;b.style.transform='translateY('+(-Math.max(0,(1-dx/92))*7)+'px) scale('+scale+')'})});$('#dock').addEventListener('pointerleave',()=>$$('.dock-app').forEach(b=>b.style.transform=''));$$('.dock-app').forEach(b=>b.addEventListener('click',()=>{b.classList.remove('bounce');void b.offsetWidth;b.classList.add('bounce');if(b.dataset.action==='trash'){notify('Trash is empty.');return}if(b.dataset.open==='launchpad'){toggleLaunchpad(true);return}if(b.dataset.open)openApp(b.dataset.open)}));
+function resetDockMagnification(){$('.dock-app').forEach(b=>{b.style.removeProperty('--dock-scale');b.style.removeProperty('--dock-lift');b.style.removeProperty('--dock-shift');b.classList.remove('magnified')})}
+$('#dock').addEventListener('pointermove',e=>{
+ if(document.body.classList.contains('no-magnify'))return resetDockMagnification();
+ const dock=$('#dock'),x=e.clientX-dock.getBoundingClientRect().left;
+ $('.dock-app').forEach(b=>{
+  const center=b.offsetLeft+b.offsetWidth/2,distance=Math.abs(x-center),influence=Math.max(0,1-distance/130);
+  const scale=1+influence*.62,spread=(scale-1)*b.offsetWidth*.86;
+  const shift=center<x?-spread:center>x?spread:0;
+  b.style.setProperty('--dock-scale',scale.toFixed(3));b.style.setProperty('--dock-lift',(influence*18).toFixed(1)+'px');
+  b.style.setProperty('--dock-shift',shift.toFixed(1)+'px');b.classList.toggle('magnified',influence>.04);
+ });
+});
+$('#dock').addEventListener('pointerleave',resetDockMagnification);$$('.dock-app').forEach(b=>b.addEventListener('click',()=>{b.classList.remove('bounce');void b.offsetWidth;b.classList.add('bounce');if(b.dataset.action==='trash'){notify('Trash is empty.');return}if(b.dataset.open==='launchpad'){toggleLaunchpad(true);return}if(b.dataset.open)openApp(b.dataset.open)}));
 function closePopovers(){['appleMenu','appMenu','controlCenter','notificationCenter','contextMenu'].forEach(id=>$('#'+id).classList.remove('show'))}
 function togglePopover(id){const was=$('#'+id).classList.contains('show');closePopovers();if(!was)$('#'+id).classList.add('show')}
 $('#appleMenuBtn').onclick=()=>togglePopover('appleMenu');$('#ccBtn').onclick=()=>togglePopover('controlCenter');$('#spotBtn').onclick=()=>toggleSpot();$('#clock').onclick=()=>togglePopover('notificationCenter');$('#wifiBtn').onclick=()=>togglePopover('controlCenter');$('#bluetoothBtn').onclick=()=>togglePopover('controlCenter');$('#batteryBtn').onclick=()=>togglePopover('controlCenter');
