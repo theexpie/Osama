@@ -481,6 +481,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartCursor" aria-hidden="true"><svg viewBox="0 0 25 32"><path d="M2 2 L2 25 L8.2 19.2 L12.5 29 L16.2 27.4 L12 17.8 L21 17.4 Z" fill="#fff" stroke="#172334" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
 <script><![CDATA[
 
+
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const getSaved=(key,fallback=null)=>{try{const value=localStorage.getItem(key);return value===null?fallback:value}catch{return fallback}};
@@ -787,9 +788,11 @@ updateOrientationGate();
 
 })();
 
+
 ]]></script>
 
 <script><![CDATA[
+
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const getSaved=(key,fallback=null)=>{try{const value=localStorage.getItem(key);return value===null?fallback:value}catch{return fallback}};
@@ -1095,6 +1098,7 @@ updateOrientationGate();
 })();
 
 })();
+
 ]]></script>
 </div></foreignObject>
 </svg>
