@@ -305,6 +305,26 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 @media(orientation:portrait) and (max-width:1100px) and (pointer:coarse){#rotatePrompt{display:flex}}
 @media(orientation:landscape) and (max-height:650px) and (pointer:coarse){#smartTrackpad{display:flex}}
 
+
+/* Landscape touch fit: keep every desktop surface inside the usable viewport. */
+@media (pointer:coarse) and (orientation:landscape) {
+  #desktop{width:100vw;height:100dvh;overflow:hidden}
+  .window{left:50%!important;top:46%!important;width:min(760px,calc(100vw - 22px))!important;height:min(500px,calc(100dvh - 82px))!important;max-width:calc(100vw - 22px)!important;max-height:calc(100dvh - 82px)!important;min-width:0!important;min-height:0!important}
+  .window.max{left:5px!important;top:31px!important;width:calc(100vw - 10px)!important;height:calc(100dvh - 78px)!important}
+  .winhead{height:36px;min-height:36px;padding:0 8px;gap:7px}
+  .menubar{height:30px;min-height:30px;padding-left:7px;padding-right:7px}
+  .dock-area{max-width:calc(100vw - 150px)!important;left:calc((100vw - 138px)/2)!important;bottom:5px!important;transform:translateX(-50%) scale(.82)!important;transform-origin:bottom center}
+  .control-center,.notification{max-height:calc(100dvh - 42px);overflow:auto}
+}
+#rotatePrompt{inset:auto auto auto 50%;top:max(12px,env(safe-area-inset-top));width:min(290px,calc(100vw - 36px));min-height:0;padding:12px 17px;gap:5px;border:1px solid #ffffff35;border-radius:18px;background:rgba(18,27,40,.82);box-shadow:0 12px 36px #0005;backdrop-filter:blur(24px);transform:translateX(-50%);z-index:99999}
+#rotatePrompt .rotateGlyph{font-size:24px;line-height:1}
+#rotatePrompt strong{font-size:14px}
+#rotatePrompt span:last-child{font-size:11px;color:#d3dce8}
+#smartCursor{position:fixed;left:0;top:0;width:25px;height:32px;z-index:99998;pointer-events:none;display:none;filter:drop-shadow(0 2px 3px #0009);transform:translate(-2px,-2px)}
+#smartCursor svg{width:25px;height:32px;overflow:visible}
+#smartTrackpad{width:132px;height:78px;right:max(9px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));border-radius:17px;gap:5px;z-index:99997}
+@media(pointer:coarse) and (orientation:landscape){#smartCursor{display:block}}
+
 ]]></style>
 
 <div id="desktop" aria-label="Desktop">
@@ -342,7 +362,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 
 <header class="menubar">
  <div class="menu-left">
-  <button class="apple-mark" id="appleMenuBtn" aria-label="Apple menu"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22"><path d="M15.5 11.8c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3-.5 7.4 1.2 9.8.8 1.2 1.7 2.5 2.9 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.3.8 2.2-1.2 3-2.4c1-1.4 1.4-2.7 1.4-2.8 0 0-2.4-.9-2.4-3.9zM12.8 4.5c.7-.9 1.2-2.1 1.1-3.3-1.1.1-2.4.8-3.1 1.7-.7.8-1.3 2-1.1 3.2 1.2.1 2.4-.6 3.1-1.6z"/></svg></button>
+  <button class="apple-mark" id="appleMenuBtn" aria-label="Apple menu"><svg viewBox="0 0 20 22"><path d="M15.5 11.8c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3-.5 7.4 1.2 9.8.8 1.2 1.7 2.5 2.9 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.3.8 2.2-1.2 3-2.4c1-1.4 1.4-2.7 1.4-2.8 0 0-2.4-.9-2.4-3.9zM12.8 4.5c.7-.9 1.2-2.1 1.1-3.3-1.1.1-2.4.8-3.1 1.7-.7.8-1.3 2-1.1 3.2 1.2.1 2.4-.6 3.1-1.6z"/></svg></button>
   <button class="menubtn active-app" id="activeApp">Finder</button>
   <button class="menubtn menu-extra" data-menu="File">File</button>
   <button class="menubtn menu-extra" data-menu="Edit">Edit</button>
@@ -352,11 +372,11 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
   <button class="menubtn menu-extra" data-menu="Help">Help</button>
  </div>
  <div class="menu-right"><span id="clock">Mon, Nov 9  7:37 PM</span><div class="status-icons">
-  <button class="statusbtn" id="wifiBtn" title="Wi-Fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a3.5 3.5 0 0 1 4 0M12 20h.01"/></svg></button>
-  <button class="statusbtn" id="bluetoothBtn" title="Bluetooth"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></button>
-  <button class="statusbtn" id="batteryBtn" title="Battery"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="7" width="17" height="10" rx="2"/><path d="M22 10v4M6 10h10v4H6z"/></svg></button>
-  <button class="statusbtn" id="ccBtn" title="Control Center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="7" r="2.3"/><circle cx="7" cy="17" r="2.3"/><circle cx="17" cy="17" r="2.3"/><path d="M7 4v.7M17 4v.7M7 14v.7M17 14v.7"/></svg></button>
-  <button class="statusbtn" id="spotBtn" title="Spotlight"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button>
+  <button class="statusbtn" id="wifiBtn" title="Wi-Fi"><svg viewBox="0 0 24 24"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a3.5 3.5 0 0 1 4 0M12 20h.01"/></svg></button>
+  <button class="statusbtn" id="bluetoothBtn" title="Bluetooth"><svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></button>
+  <button class="statusbtn" id="batteryBtn" title="Battery"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="17" height="10" rx="2"/><path d="M22 10v4M6 10h10v4H6z"/></svg></button>
+  <button class="statusbtn" id="ccBtn" title="Control Center"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="7" r="2.3"/><circle cx="7" cy="17" r="2.3"/><circle cx="17" cy="17" r="2.3"/><path d="M7 4v.7M17 4v.7M7 14v.7M17 14v.7"/></svg></button>
+  <button class="statusbtn" id="spotBtn" title="Spotlight"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button>
  </div></div>
 </header>
 <div class="desktop-icons">
@@ -365,25 +385,25 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 </div>
 <!-- Applications -->
 <section class="window" id="finder" data-title="Finder" style="width:min(600px,calc(100vw - 28px));height:min(365px,calc(100dvh - 92px));left:50%;top:50%">
- <div class="winhead"><div class="traffic"><button class="red close" title="Close"></button><button class="yellow minimize" title="Minimize"></button><button class="green maximize" title="Zoom"></button></div><div class="wintitle">Files</div><div class="winhead-tools"><button class="round-tool" data-action="finder-search" title="Search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button><button class="round-tool" data-action="finder-menu" title="More"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="19" cy="12" r="1" fill="currentColor"/></svg></button></div></div>
+ <div class="winhead"><div class="traffic"><button class="red close" title="Close"></button><button class="yellow minimize" title="Minimize"></button><button class="green maximize" title="Zoom"></button></div><div class="wintitle">Files</div><div class="winhead-tools"><button class="round-tool" data-action="finder-search" title="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button><button class="round-tool" data-action="finder-menu" title="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="19" cy="12" r="1" fill="currentColor"/></svg></button></div></div>
  <div class="winbody"><div class="finder">
   <aside class="finder-side">
    <div class="side-heading">Favourites</div>
-   <button class="side-link" data-folder="Recents"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>Recents</button>
-   <button class="side-link" data-folder="Starred"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 3 2.6 5.4 6 .9-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.9z"/></svg>Starred</button>
-   <button class="side-link active" data-folder="Home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H4V10M9 20v-6h6v6"/></svg>Home</button>
+   <button class="side-link" data-folder="Recents"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>Recents</button>
+   <button class="side-link" data-folder="Starred"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.4 6 .9-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6-4.3-4.2 6-.9z"/></svg>Starred</button>
+   <button class="side-link active" data-folder="Home"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H4V10M9 20v-6h6v6"/></svg>Home</button>
    <div class="side-heading">Locations</div>
-   <button class="side-link" data-folder="Desktop"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>Desktop</button>
-   <button class="side-link" data-folder="Documents"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6zM14 3v6h5"/></svg>Documents</button>
-   <button class="side-link" data-folder="Downloads"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg>Downloads</button>
-   <button class="side-link" data-folder="Pictures"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m4 18 6-5 4 3 3-4 4 5"/></svg>Pictures</button>
-   <button class="side-link" data-folder="Music"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 8l11-2"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Music</button>
-   <button class="side-link" data-folder="Trash"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m-9 0 1 14h10l1-14M10 11v6m4-6v6"/></svg>Trash</button>
+   <button class="side-link" data-folder="Desktop"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>Desktop</button>
+   <button class="side-link" data-folder="Documents"><svg viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6zM14 3v6h5"/></svg>Documents</button>
+   <button class="side-link" data-folder="Downloads"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg>Downloads</button>
+   <button class="side-link" data-folder="Pictures"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m4 18 6-5 4 3 3-4 4 5"/></svg>Pictures</button>
+   <button class="side-link" data-folder="Music"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 8l11-2"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Music</button>
+   <button class="side-link" data-folder="Trash"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m-9 0 1 14h10l1-14M10 11v6m4-6v6"/></svg>Trash</button>
    <div class="side-heading">Devices</div>
-   <button class="side-link" data-folder="Macintosh HD"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="17" cy="12" r="1"/></svg>Macintosh HD</button>
+   <button class="side-link" data-folder="Macintosh HD"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="17" cy="12" r="1"/></svg>Macintosh HD</button>
   </aside>
   <main class="finder-main">
-   <div class="finder-toolbar"><button class="round-tool" data-action="finder-back" title="Back"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="round-tool" data-action="finder-forward" title="Forward"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button><div class="finder-crumb"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14"><path d="m3 10 9-7 9 7v10H4V10" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><strong id="finderPath">Home</strong></div><input id="finderSearch" class="file-search" placeholder="Filter files…" aria-label="Filter files" /><button class="round-tool" data-action="finder-view" title="Change view"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button class="round-tool" data-action="finder-new" title="New folder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3zM12 10v6m-3-3h6"/></svg></button></div>
+   <div class="finder-toolbar"><button class="round-tool" data-action="finder-back" title="Back"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button class="round-tool" data-action="finder-forward" title="Forward"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button><div class="finder-crumb"><svg viewBox="0 0 24 24" width="14" height="14"><path d="m3 10 9-7 9 7v10H4V10" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><strong id="finderPath">Home</strong></div><input id="finderSearch" class="file-search" placeholder="Filter files…" aria-label="Filter files" /><button class="round-tool" data-action="finder-view" title="Change view"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button class="round-tool" data-action="finder-new" title="New folder"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3zM12 10v6m-3-3h6"/></svg></button></div>
    <div class="finder-content" id="finderContent"><div class="finder-grid" id="finderGrid"></div></div>
    <div class="finder-footer"><span id="finderCount">10 items</span><span>iCloud Drive · On My Mac</span></div>
   </main>
@@ -391,7 +411,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 </section>
 <section class="window" id="filePreview" data-title="Preview" style="width:min(650px,calc(100vw - 28px));height:min(500px,calc(100dvh - 90px));left:calc(50% + 42px);top:calc(50% + 20px)"><div class="winhead"><div class="traffic"><button class="red close"></button><button class="yellow minimize"></button><button class="green maximize"></button></div><div class="wintitle" id="previewTitle">Preview</div></div><div class="winbody" id="previewBody" style="overflow:auto;background:#292b2f"></div></section>
 <section class="window" id="settings" data-title="System Settings" style="width:min(665px,calc(100vw - 28px));height:min(435px,calc(100dvh - 90px));left:calc(50% + 28px);top:calc(50% + 8px)">
- <div class="winhead"><div class="traffic"><button class="red close"></button><button class="yellow minimize"></button><button class="green maximize"></button></div><div class="wintitle">System Settings</div><div class="winhead-tools"><button class="round-tool" data-action="settings-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button></div></div>
+ <div class="winhead"><div class="traffic"><button class="red close"></button><button class="yellow minimize"></button><button class="green maximize"></button></div><div class="wintitle">System Settings</div><div class="winhead-tools"><button class="round-tool" data-action="settings-search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button></div></div>
  <div class="winbody"><div class="settings-app">
   <aside class="settings-side"><input class="settings-search" id="settingsSearch" placeholder="Search settings…" /><button class="settings-nav active" data-settings="Appearance">◐　Appearance</button><button class="settings-nav" data-settings="Wallpaper">▧　Wallpaper</button><button class="settings-nav" data-settings="Dock">▤　Dock</button><button class="settings-nav" data-settings="Desktop &amp; Dock">⌘　Desktop &amp; Dock</button><button class="settings-nav" data-settings="Control Center">◫　Control Center</button><button class="settings-nav" data-settings="Sound">♫　Sound</button><button class="settings-nav" data-settings="Keyboard">⌨　Keyboard</button><button class="settings-nav" data-settings="About">ⓘ　About</button></aside>
   <main class="settings-main" id="settingsMain"></main>
@@ -443,27 +463,332 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <div class="glass-pop app-menu" id="appMenu"><div id="appMenuItems"></div></div>
 <div class="glass-pop control-center" id="controlCenter">
  <div class="cc-top">
-  <button class="cc-tile active" data-toggle="wifi"><span class="cc-symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a3.5 3.5 0 0 1 4 0M12 20h.01"/></svg></span><span><b>Wi-Fi</b><small id="wifiState">Connected</small></span></button>
-  <button class="cc-tile active" data-toggle="bluetooth"><span class="cc-symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></span><span><b>Bluetooth</b><small id="bluetoothState">On</small></span></button>
-  <button class="cc-tile" data-toggle="airdrop"><span class="cc-symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m8 15 4-7 4 7"/></svg></span><span><b>AirDrop</b><small>Contacts Only</small></span></button>
-  <button class="cc-tile active" data-toggle="focus"><span class="cc-symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span><span><b>Focus</b><small id="focusState">Off</small></span></button>
+  <button class="cc-tile active" data-toggle="wifi"><span class="cc-symbol"><svg viewBox="0 0 24 24"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a3.5 3.5 0 0 1 4 0M12 20h.01"/></svg></span><span><b>Wi-Fi</b><small id="wifiState">Connected</small></span></button>
+  <button class="cc-tile active" data-toggle="bluetooth"><span class="cc-symbol"><svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></span><span><b>Bluetooth</b><small id="bluetoothState">On</small></span></button>
+  <button class="cc-tile" data-toggle="airdrop"><span class="cc-symbol"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m8 15 4-7 4 7"/></svg></span><span><b>AirDrop</b><small>Contacts Only</small></span></button>
+  <button class="cc-tile active" data-toggle="focus"><span class="cc-symbol"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span><span><b>Focus</b><small id="focusState">Off</small></span></button>
  </div>
  <div class="cc-slider"><label>Display brightness <span id="brightValue">85%</span></label><input id="brightnessSlider" type="range" min="25" max="100" value="85" /></div>
  <div class="cc-slider"><label>Sound <span id="volumeValue">65%</span></label><input id="volumeSlider" type="range" min="0" max="100" value="65" /></div>
  <div class="cc-bottom"><button class="cc-pill" data-toggle="dark">Dark Mode</button><button class="cc-pill" data-toggle="airplay">Screen Mirroring</button></div>
 </div>
 <div class="glass-pop notification" id="notificationCenter"><div class="notif-date" id="notifDate">Monday, November 9</div><div class="notif-clock" id="notifClock">7:37</div><div class="widget"><strong>Calendar</strong><p>No events today. Enjoy the quiet.</p></div><div class="widget"><strong>Weather</strong><p>Weather isn't connected in this preview.</p></div><div class="widget"><strong>Notifications</strong><p>You're all caught up.</p></div></div>
-<div class="glass-pop spotlight" id="spotlight"><div class="spot-input-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="spotInput" placeholder="Spotlight Search" autocomplete="off" spellcheck="false" /></div><div class="spot-results" id="spotResults"></div></div>
+<div class="glass-pop spotlight" id="spotlight"><div class="spot-input-wrap"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="spotInput" placeholder="Spotlight Search" autocomplete="off" spellcheck="false" /></div><div class="spot-results" id="spotResults"></div></div>
 <div class="launchpad" id="launchpad"><input class="launch-search" id="launchSearch" placeholder="Search" autocomplete="off" /><div class="launch-grid" id="launchGrid"></div></div>
 <div class="file-context" id="fileContext"><button data-file-action="open">Open</button><button data-file-action="rename">Rename</button><button data-file-action="duplicate">Duplicate</button><button data-file-action="trash">Move to Trash</button><button data-file-action="info">Get Info</button></div>
 <div class="context-menu" id="contextMenu"><button class="menu-item" data-action="new-folder">New Folder</button><button class="menu-item" data-open="finder">Open Finder</button><button class="menu-item" data-open="settings">Change Wallpaper…</button><div class="menu-separator"></div><button class="menu-item" data-action="clean">Sort By Name</button></div>
 <div class="toast" id="toast"></div>
 </div>
-<div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
+<div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartCursor" aria-hidden="true"><svg viewBox="0 0 25 32"><path d="M2 2 L2 25 L8.2 19.2 L12.5 29 L16.2 27.4 L12 17.8 L21 17.4 Z" fill="#fff" stroke="#172334" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
+<script>
+(()=> {
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const getSaved=(key,fallback=null)=>{try{const value=localStorage.getItem(key);return value===null?fallback:value}catch{return fallback}};
+const saveValue=(key,value)=>{try{localStorage.setItem(key,value);return true}catch{return false}};
+const removeSaved=key=>{try{localStorage.removeItem(key)}catch{}};
+window.addEventListener('error',e=>{const toast=document.querySelector('#toast');if(toast){toast.textContent='Interface error: '+(e.message||'unknown');toast.classList.add('show')}});
+window.addEventListener('unhandledrejection',e=>{const toast=document.querySelector('#toast');if(toast){toast.textContent='Action failed: '+String(e.reason||'unknown');toast.classList.add('show')}});
+const apps=[['finder','Finder','finder'],['launchpad','Launchpad','launchpad'],['browser','Browser','browser'],['messages','Messages','messages'],['photos','Photos','photos'],['music','Music','music'],['notes','Notes','notes'],['calculator','Calculator','calculator'],['terminal','Terminal','terminal'],['settings','System Settings','settings'],['appstore','App Store','appstore']];
+let z=20,activeApp='Finder',finderPath='Home',finderHistory=[],finderForward=[],selectedFile=null,calcCurrent='0',calcFirst=null,calcOp=null,calcFresh=false;
+const defaultStore={Home:[['Desktop','folder'],['Documents','folder'],['Downloads','folder'],['MacTahoe-gtk-theme','folder'],['MacTahoe-icon-theme','folder'],['Music','folder'],['Pictures','folder'],['Public','folder'],['snap','folder'],['Templates','folder'],['Videos','folder'],['.cache','folder'],['.config','folder'],['.local','folder'],['.ssh','folder'],['.themes','folder'],['instructions.txt','doc'],['.bash_history','doc'],['.bashrc','doc'],['.profile','doc']],Desktop:[['Screenshot.png','image'],['Design Notes.txt','doc']], 'MacTahoe-gtk-theme':[['README.md','doc'],['wallpaper','folder']], 'MacTahoe-icon-theme':[['README.md','doc'],['src','folder'],['links','folder']], wallpaper:[['MacTahoe-day.jpeg','image'],['MacTahoe-night.jpeg','image']], src:[['apps','folder'],['places','folder']], links:[['apps','folder'],['places','folder']], apps:[['scalable','folder']], places:[['scalable','folder']], scalable:[],Documents:[['Project Brief.txt','doc'],['Ideas.txt','doc'],['Read me.pdf','pdf']],Downloads:[['Installer.dmg','disk'],['Wallpaper.jpg','image']],Pictures:[['Tahoe Wallpaper.jpg','image'],['IMG_2048.png','image']],Music:[['Favorites.m3u','doc']],Public:[],Templates:[],Videos:[],Applications:[['Browser.app','app'],['System Settings.app','app'],['Notes.app','app']],Recents:[['Project Brief.txt','doc'],['Tahoe Wallpaper.jpg','image'],['Installer.dmg','disk']],Starred:[['Design Notes.txt','doc'],['Tahoe Wallpaper.jpg','image']],Trash:[], 'Macintosh HD':[['Applications','folder'],['System','folder'],['Users','folder']]};
+const store=(()=>{try{const saved=JSON.parse(getSaved('desktop-files','null'));return saved&amp;&amp;typeof saved==='object'&amp;&amp;!Array.isArray(saved)?Object.assign(defaultStore,saved):defaultStore}catch{return defaultStore}})();
+const saveFileStore=()=>saveValue('desktop-files',JSON.stringify(store));
+const THEME="assets/icons/";
+const iconPaths={
+finder:"finder.svg",launchpad:"app-store.svg",browser:"browser.svg",messages:"messages.svg",
+photos:"photos.svg",music:"music.svg",notes:"notes.svg",calculator:"calculator.svg",
+terminal:"terminal.svg",settings:"settings.svg",appstore:"app-store.svg",trash:"trash.svg",
+folder:"folder.svg",home:"home.svg",doc:"document.svg",pdf:"pdf.svg",image:"image.svg",disk:"disk.svg"
+};
+function themeIcon(id,cls="appicon"){
+ const path=iconPaths[id]||iconPaths.doc;
+ return '<img class="'+cls+'" src="'+THEME+path+'" alt="" draggable="false" loading="eager" onerror="this.onerror=null;this.src=\'assets/icons/folder.svg\'" />';
+}
+const folderSvg=()=>themeIcon("folder","folder-art");
+const docSvg=(kind="doc")=>themeIcon(kind==="pdf"?"pdf":kind==="image"?"image":kind==="disk"?"disk":"doc","doc-art");
+function appIcon(id){return themeIcon(id,"appicon")}
+function applyOfficialDockIcons(){
+ $$(".dock-app").forEach(b=>{
+  const id=b.dataset.open||b.dataset.action;
+  if(!id)return;
+  b.innerHTML=themeIcon(id,"appicon");
+ });
+}
+function notify(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1900)}
+function bringFront(w){z+=1;w.style.zIndex=z;$$('.window').forEach(x=>x.classList.toggle('focused',x===w));activeApp=w.dataset.title||w.id;$('#activeApp').textContent=activeApp;$$('.dock-app').forEach(b=>b.querySelector('.running')?.remove());const dock=$('.dock-app[data-open="'+w.id+'"]');if(dock){const dot=document.createElement('i');dot.className='running';dock.appendChild(dot)}}
+function openApp(id){if(id==='launchpad'){toggleLaunchpad(true);return}if(id==='about'){notify('Desktop Preview · Tahoe-inspired build');return}let win=$('#'+id);if(!win){return}win.classList.remove('minimizing');if(win.dataset.placed)win.classList.add('placed');win.classList.add('open');bringFront(win);win.style.left=win.style.left||'50%';if(id==='notes')$('#notesText').focus()}
+function closeWin(w){if(!w)return;w.classList.remove('open','max','focused');const d=$('.dock-app[data-open="'+w.id+'"]');d?.querySelector('.running')?.remove();if(w.id==='finder')setRunning('finder');if(activeApp===w.dataset.title)$('#activeApp').textContent='Finder'}
+function minimizeWin(w){if(!w)return;w.classList.add('minimizing');setTimeout(()=>{w.classList.remove('open','minimizing');},220)}
+function toggleMax(w){if(!w)return;if(w.classList.contains('max')){w.classList.remove('max');const old=w.dataset.restore;if(old){const o=JSON.parse(old);w.style.left=o.left;w.style.top=o.top;w.style.width=o.width;w.style.height=o.height}}else{w.dataset.restore=JSON.stringify({left:w.style.left,top:w.style.top,width:w.style.width,height:w.style.height});w.classList.add('max')}bringFront(w)}
+function setupWindow(w){
+ const h=w.querySelector('.winhead');
+ w.querySelector('.close')?.addEventListener('click',()=>closeWin(w));
+ w.querySelector('.minimize')?.addEventListener('click',()=>minimizeWin(w));
+ w.querySelector('.maximize')?.addEventListener('click',()=>toggleMax(w));
+ w.addEventListener('pointerdown',()=>bringFront(w));
+ if(!w.querySelector('.resize-handle')){
+  ['n','s','e','w','ne','nw','se','sw'].forEach(edge=>{
+   const handle=document.createElement('div');handle.className='resize-handle '+edge;handle.dataset.edge=edge;w.appendChild(handle);
+   let start=null;
+   handle.addEventListener('pointerdown',e=>{if(w.classList.contains('max'))return;e.preventDefault();e.stopPropagation();const r=w.getBoundingClientRect();start={x:e.clientX,y:e.clientY,left:r.left,top:r.top,width:r.width,height:r.height};handle.setPointerCapture(e.pointerId);bringFront(w)});
+   handle.addEventListener('pointermove',e=>{
+    if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y,edge=handle.dataset.edge;
+    let left=start.left,top=start.top,width=start.width,height=start.height;
+    if(edge.includes('e'))width=Math.max(310,start.width+dx);if(edge.includes('s'))height=Math.max(220,start.height+dy);
+    if(edge.includes('w')){width=Math.max(310,start.width-dx);left=start.left+start.width-width}
+    if(edge.includes('n')){height=Math.max(220,start.height-dy);top=start.top+start.height-height}
+    left=Math.max(0,Math.min(left,innerWidth-120));top=Math.max(29,Math.min(top,innerHeight-80));
+    width=Math.min(width,innerWidth-left);height=Math.min(height,innerHeight-top-35);
+    w.style.left=left+'px';w.style.top=top+'px';w.style.width=width+'px';w.style.height=height+'px';w.style.transform='none';w.dataset.placed='1';
+   });
+   handle.addEventListener('pointerup',()=>start=null);handle.addEventListener('lostpointercapture',()=>start=null);
+  });
+ }
+ let drag=null;
+ h?.addEventListener('pointerdown',e=>{if(e.target.closest('button,.winhead-tools')||w.classList.contains('max'))return;const r=w.getBoundingClientRect();drag={dx:e.clientX-r.left,dy:e.clientY-r.top};h.setPointerCapture(e.pointerId);bringFront(w)});
+ h?.addEventListener('pointermove',e=>{if(!drag)return;const x=Math.max(0,Math.min(innerWidth-w.offsetWidth,e.clientX-drag.dx));const y=Math.max(29,Math.min(innerHeight-70,e.clientY-drag.dy));w.style.left=x+'px';w.style.top=y+'px';w.style.transform='none';w.dataset.placed='1'});
+ h?.addEventListener('pointerup',()=>drag=null);h?.addEventListener('lostpointercapture',()=>drag=null);
+ h?.addEventListener('dblclick',e=>{if(!e.target.closest('button,.winhead-tools'))toggleMax(w)});
+}
+$$('.window').forEach(setupWindow);
+applyOfficialDockIcons();
+function setRunning(id){const b=$('.dock-app[data-open="'+id+'"]');if(b&amp;&amp;!b.querySelector('.running')){const d=document.createElement('i');d.className='running';b.appendChild(d)}}
+setRunning('finder');
+$$('[data-open]:not(.dock-app)').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openApp(b.dataset.open);closePopovers()}));
+function resetDockMagnification(){$$('.dock-app').forEach(b=>{b.style.removeProperty('--dock-scale');b.style.removeProperty('--dock-lift');b.style.removeProperty('--dock-shift');b.classList.remove('magnified')})}
+$('#dock').addEventListener('pointermove',e=>{
+ if(document.body.classList.contains('no-magnify'))return resetDockMagnification();
+ const dock=$('#dock'),x=e.clientX-dock.getBoundingClientRect().left;
+ $$('.dock-app').forEach(b=>{
+  const center=b.offsetLeft+b.offsetWidth/2,distance=Math.abs(x-center),influence=Math.max(0,1-distance/130);
+  const scale=1+influence*.28,spread=(scale-1)*b.offsetWidth*.82,shift=center<x?-spread:center>x?spread:0;
+  b.style.setProperty('--dock-scale',scale.toFixed(3));
+  b.style.setProperty('--dock-lift',(-influence*10).toFixed(1)+'px');
+  b.style.setProperty('--dock-shift',shift.toFixed(1)+'px');
+  b.classList.toggle('magnified',influence>.04);
+ });
+});
+$('#dock').addEventListener('pointerleave',resetDockMagnification);$$('.dock-app').forEach(b=>b.addEventListener('click',()=>{b.classList.remove('bounce');void b.offsetWidth;b.classList.add('bounce');if(b.dataset.action==='trash'){notify('Trash is empty.');return}if(b.dataset.open==='launchpad'){toggleLaunchpad(true);return}if(b.dataset.open)openApp(b.dataset.open)}));
+function closePopovers(){['appleMenu','appMenu','controlCenter','notificationCenter','contextMenu'].forEach(id=>$('#'+id).classList.remove('show'))}
+function togglePopover(id){const was=$('#'+id).classList.contains('show');closePopovers();if(!was)$('#'+id).classList.add('show')}
+$('#appleMenuBtn').onclick=()=>togglePopover('appleMenu');$('#ccBtn').onclick=()=>togglePopover('controlCenter');$('#spotBtn').onclick=()=>toggleSpot();$('#clock').onclick=()=>togglePopover('notificationCenter');$('#wifiBtn').onclick=()=>togglePopover('controlCenter');$('#bluetoothBtn').onclick=()=>togglePopover('controlCenter');$('#batteryBtn').onclick=()=>togglePopover('controlCenter');
+const menuLayouts={File:[['New Finder Window','⌘N',()=>openApp('finder')],['New Folder','⇧⌘N',()=>newFolder()],['Close Window','⌘W',()=>closeWin($('.window.focused'))]],Edit:[['Undo','⌘Z',()=>notify('Nothing to undo.')],['Cut','⌘X',()=>document.execCommand('cut')],['Copy','⌘C',()=>document.execCommand('copy')],['Paste','⌘V',()=>document.execCommand('paste')]],View:[['Show Toolbar','',()=>notify('Toolbar is visible.')],['Enter Full Screen','⌃⌘F',()=>toggleMax($('.window.focused')||$('#finder'))]],Go:[['Home','⇧⌘H',()=>navigateFolder('Home')],['Documents','',()=>navigateFolder('Documents')],['Downloads','',()=>navigateFolder('Downloads')]],Window:[['Minimize','⌘M',()=>minimizeWin($('.window.focused'))],['Bring All to Front','',()=>$$('.window.open').forEach(bringFront)]],Help:[['Desktop Help','',()=>notify('This is a desktop preview.')],['About','',()=>openApp('about')]]};
+$$('[data-menu]').forEach(b=>b.onclick=()=>{const id=$('#appMenu');$('#appMenuItems').innerHTML=(menuLayouts[b.dataset.menu]||[]).map((x,i)=>'<button class="menu-item" data-menucmd="'+i+'">'+x[0]+'<kbd>'+x[1]+'</kbd></button>').join('');$('#appMenuItems').querySelectorAll('[data-menucmd]').forEach((x,i)=>x.onclick=()=>{menuLayouts[b.dataset.menu][i][2]();closePopovers()});id.style.left=b.getBoundingClientRect().left+'px';togglePopover('appMenu')});
+/* Finder file model */
+function renderFinder(){
+ const arr=store[finderPath]||[];$('#finderPath').textContent=finderPath;$('#finderGrid').innerHTML='';
+ if(!arr.length)$('#finderGrid').innerHTML='<div class="finder-empty">This folder is empty.</div>';
+ arr.forEach(([name,type])=>{
+  const isFolder=type==='folder'||(!type),el=document.createElement('button');
+  el.className='file-card';el.type='button';el.draggable=true;
+  el.innerHTML=(isFolder?folderSvg():docSvg(type))+'<span class="file-name"></span>';
+  el.querySelector('.file-name').textContent=name;el.dataset.file=name;el.dataset.kind=type||'folder';
+  el.addEventListener('click',()=>{selectedFile=name;$$('.file-card').forEach(x=>x.classList.toggle('selected',x===el))});
+  el.addEventListener('dblclick',()=>{selectedFile=name;if(isFolder||store[name]){store[name]=store[name]||[];navigateFolder(name)}else if(name.endsWith('.app'))openApp(name.toLowerCase().includes('browser')?'browser':'settings');else openFilePreview(name,type)});
+  el.addEventListener('contextmenu',e=>{e.preventDefault();selectedFile=name;$$('.file-card').forEach(x=>x.classList.toggle('selected',x===el));const menu=$('#fileContext');menu.style.left=Math.min(innerWidth-180,e.clientX)+'px';menu.style.top=Math.min(innerHeight-190,e.clientY)+'px';menu.classList.add('show')});
+  el.addEventListener('dragstart',e=>{selectedFile=name;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',JSON.stringify({fromPath:finderPath,name}))});
+  el.addEventListener('dragend',()=>$$('.file-card').forEach(x=>x.classList.remove('dragging','drop-target')));
+  el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drop-target');e.dataTransfer.dropEffect='move'});
+  el.addEventListener('dragleave',()=>el.classList.remove('drop-target'));
+  el.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();el.classList.remove('drop-target');const data=parseDraggedFile(e);if(data)moveFileItem(data.fromPath,data.name,finderPath,name)});
+  $('#finderGrid').appendChild(el);
+ });
+ $('#finderCount').textContent=arr.length+' items';
+ $$('.side-link').forEach(b=>b.classList.toggle('active',b.dataset.folder===finderPath));
+ if($('#finderSearch')?.value)$('#finderSearch').dispatchEvent(new Event('input'));
+}
+function navigateFolder(path){if(path!==finderPath){finderHistory.push(finderPath);finderForward=[]}finderPath=path;selectedFile=null;if($('#finderSearch'))$('#finderSearch').value='';renderFinder()}
+function openFilePreview(name,type){
+ $('#previewTitle').textContent=name;const target=$('#previewBody');target.innerHTML='';
+ if(type==='image'){const card=document.createElement('div');card.style.cssText='height:100%;min-height:280px;display:grid;place-items:center;background:linear-gradient(140deg,#9bc9df,#1756a9,#081a4b);color:white;font-size:13px';card.textContent=name;target.appendChild(card)}
+ else{const sheet=document.createElement('div');sheet.style.cssText='max-width:680px;margin:26px auto;padding:32px;background:#f8f7f3;color:#232323;min-height:70%;box-shadow:0 4px 20px #0005;font:14px/1.6 Georgia,serif';const heading=document.createElement('h2');heading.textContent=name;const p=document.createElement('p');p.textContent='This is a preview of a sample file in the desktop demo.';const p2=document.createElement('p');p2.textContent='Connect a real filesystem to work with actual files.';sheet.append(heading,p,p2);target.appendChild(sheet)}
+ openApp('filePreview');
+}
+function selectedItem(){return (store[finderPath]||[]).find(x=>x[0]===selectedFile)}
+function renameSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ const next=prompt('Rename',item[0]);if(!next||next.trim()===item[0])return;
+ if((store[finderPath]||[]).some(x=>x[0]===next.trim()))return notify('That name is already in use.');
+ const old=item[0],sub=store[old];item[0]=next.trim();if(sub)store[item[0]]=sub;
+ selectedFile=item[0];saveFileStore();renderFinder();
+}
+function duplicateSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ let copy=item[0]+' copy',n=2;while((store[finderPath]||[]).some(x=>x[0]===copy))copy=item[0]+' copy '+n++;
+ store[finderPath].push([copy,item[1]]);if(item[1]==='folder')store[copy]=[];
+ saveFileStore();renderFinder();notify('Duplicate created');
+}
+function trashSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ store.Trash=store.Trash||[];store.Trash.push(item.slice());store[finderPath]=store[finderPath].filter(x=>x!==item);
+ selectedFile=null;saveFileStore();renderFinder();notify('Moved to Trash');
+}
+function parseDraggedFile(e){
+ try{const raw=e.dataTransfer?.getData('text/plain');if(!raw)return null;const value=JSON.parse(raw);return value&amp;&amp;value.fromPath&amp;&amp;value.name?value:null}catch{return null}
+}
+function moveFileItem(fromPath,name,targetPath,targetName=null){
+ const source=store[fromPath];if(!Array.isArray(source))return;
+ const sourceIndex=source.findIndex(x=>x[0]===name);if(sourceIndex<0)return;
+ const item=source[sourceIndex];let destinationPath=targetPath;
+ const targetEntry=targetName?(store[targetPath]||[]).find(x=>x[0]===targetName):null;
+ if(targetEntry&amp;&amp;targetEntry[1]==='folder'&amp;&amp;targetName!==name){destinationPath=targetName;targetName=null}
+ const destination=store[destinationPath]||(store[destinationPath]=[]);
+ if(destinationPath===fromPath&amp;&amp;!targetName){
+  source.splice(sourceIndex,1);source.push(item);
+ }else if(destinationPath===fromPath&amp;&amp;targetName){
+  if(targetName===name)return;
+  source.splice(sourceIndex,1);const before=source.findIndex(x=>x[0]===targetName);
+  source.splice(before<0?source.length:before,0,item);
+ }else{
+  if(destination.some(x=>x[0]===name))return notify('That folder already has an item with that name.');
+  source.splice(sourceIndex,1);destination.push(item);
+ }
+ selectedFile=name;saveFileStore();renderFinder();notify('Moved '+name);
+}
+function openSelected(){const item=selectedItem();if(!item)return notify('Select a file first.');if(item[1]==='folder'){store[item[0]]=store[item[0]]||[];navigateFolder(item[0])}else if(item[0].endsWith('.app'))openApp(item[0].toLowerCase().includes('browser')?'browser':'settings');else openFilePreview(item[0],item[1])}
+function newFolder(){const name='Untitled Folder';store[finderPath]=store[finderPath]||[];let n=name,i=2;while(store[finderPath].some(x=>x[0]===n))n=name+' '+i++;store[finderPath].push([n,'folder']);store[n]=[];saveFileStore();renderFinder();notify('Folder created')}
+$$('[data-folder]').forEach(b=>b.onclick=()=>navigateFolder(b.dataset.folder));
+$$('.side-link').forEach(link=>{
+ link.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';link.classList.add('drop-target')});
+ link.addEventListener('dragleave',()=>link.classList.remove('drop-target'));
+ link.addEventListener('drop',e=>{e.preventDefault();link.classList.remove('drop-target');const data=parseDraggedFile(e);if(data)moveFileItem(data.fromPath,data.name,link.dataset.folder)});
+});
+$('#finderGrid').addEventListener('dragover',e=>{if(!e.target.closest('.file-card')){e.preventDefault();e.dataTransfer.dropEffect='move'}});
+$('#finderGrid').addEventListener('drop',e=>{if(e.target.closest('.file-card'))return;const data=parseDraggedFile(e);if(data){e.preventDefault();moveFileItem(data.fromPath,data.name,finderPath)}});
+
+$$('[data-action="finder-back"]').forEach(b=>b.onclick=()=>{if(finderHistory.length){finderForward.push(finderPath);finderPath=finderHistory.pop();renderFinder()}});
+$$('[data-action="finder-forward"]').forEach(b=>b.onclick=()=>{if(finderForward.length){finderHistory.push(finderPath);finderPath=finderForward.pop();renderFinder()}});
+$$('[data-action="finder-new"]').forEach(b=>b.onclick=newFolder);
+$$('[data-action="finder-view"]').forEach(b=>b.onclick=()=>{$('#finderGrid').style.gridTemplateColumns=$('#finderGrid').style.gridTemplateColumns?'':'1fr';notify('View changed')});
+$$('[data-action="finder-search"]').forEach(b=>b.onclick=()=>{$('#finderSearch').classList.toggle('visible');if($('#finderSearch').classList.contains('visible'))$('#finderSearch').focus();else{$('#finderSearch').value='';renderFinder()}});
+$('#finderSearch').addEventListener('input',e=>$$('.file-card').forEach(x=>x.style.display=x.textContent.toLowerCase().includes(e.target.value.toLowerCase())?'':'none'));
+$('[data-action="finder-menu"]').forEach(b=>b.onclick=()=>{const menu=$('#fileContext'),r=b.getBoundingClientRect();menu.style.left=Math.min(innerWidth-180,r.left)+'px';menu.style.top=Math.min(innerHeight-190,r.bottom+6)+'px';menu.classList.add('show')});
+renderFinder();
+$('#fileContext').addEventListener('click',e=>{const b=e.target.closest('[data-file-action]');if(!b)return;$('#fileContext').classList.remove('show');const action=b.dataset.fileAction;if(action==='open')openSelected();if(action==='rename')renameSelected();if(action==='duplicate')duplicateSelected();if(action==='trash')trashSelected();if(action==='info'){const item=selectedItem();if(item)notify(item[0]+' · '+item[1])}});
+$('#finder').addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;if(e.key==='Enter')openSelected();if(e.key==='F2')renameSelected();if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();trashSelected()}if(e.key==='Escape'){$$('.file-card').forEach(x=>x.classList.remove('selected'));selectedFile=null}});
+/* Settings */
+function settingPage(name){$$('.settings-nav').forEach(b=>b.classList.toggle('active',b.dataset.settings===name));let content='';
+if(name==='Appearance')content='<h2>Appearance</h2><p class="sub">Choose how your desktop looks.</p><div class="settings-section">Appearance</div><div class="setting-row"><div>Light / Dark<small>Change the overall appearance</small></div><select id="themeSelect" class="choice"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Auto</option></select></div><div class="setting-row"><div>Accent colour<small>Used for highlights and controls</small></div><input id="accentColor" type="color" value="#68aefb" style="width:40px;height:27px;border:0;background:none" /></div><div class="setting-row"><div>Liquid Glass<small>Translucent panels and background blur</small></div><button class="toggle on" data-setting-toggle="glass"></button></div><div class="setting-row"><div>Reduce motion<small>Use fewer transitions and effects</small></div><button class="toggle" data-setting-toggle="motion"></button></div>';
+if(name==='Wallpaper')content='<h2>Wallpaper</h2><p class="sub">Pick a desktop look.</p><div class="settings-section">Desktop Pictures</div><div class="wallpaper-choices"><button class="wall-choice active" data-wall="tahoe" aria-label="Tahoe blue"></button><button class="wall-choice" data-wall="sunset" aria-label="Sunset"></button><button class="wall-choice" data-wall="forest" aria-label="Forest"></button></div><div class="setting-row"><div>Dynamic wallpaper<small>Wallpaper subtly shifts over time</small></div><button class="toggle on" data-setting-toggle="dynamic"></button></div>';
+if(name==='Dock')content='<h2>Dock</h2><p class="sub">Change the way the Dock behaves.</p><div class="setting-row"><div>Size<small>Adjust Dock icon size</small></div><input id="dockSize" type="range" min="34" max="62" value="49" /></div><div class="setting-row"><div>Magnification<small>Enlarge icons when you move over them</small></div><button class="toggle on" data-setting-toggle="magnify"></button></div><div class="setting-row"><div>Automatically hide and show the Dock</div><button class="toggle" data-setting-toggle="autohide"></button></div>';
+if(name==='Desktop &amp; Dock')content='<h2>Desktop &amp; Dock</h2><p class="sub">Set up your desktop space.</p><div class="setting-row"><div>Show desktop icons<small>Keep Home and Browser on the desktop</small></div><button class="toggle on" data-setting-toggle="desktopicons"></button></div><div class="setting-row"><div>Click wallpaper to show desktop<small>Minimize windows when clicking an empty area</small></div><button class="toggle" data-setting-toggle="showdesktop"></button></div>';
+if(name==='Control Center')content='<h2>Control Center</h2><p class="sub">Choose what appears in the menu bar.</p><div class="setting-row"><div>Wi-Fi<small>Show in menu bar</small></div><button class="toggle on" data-setting-toggle="wifi"></button></div><div class="setting-row"><div>Bluetooth<small>Show in menu bar</small></div><button class="toggle on" data-setting-toggle="bluetooth"></button></div><div class="setting-row"><div>Battery<small>Show in menu bar</small></div><button class="toggle on" data-setting-toggle="battery"></button></div>';
+if(name==='Sound')content='<h2>Sound</h2><p class="sub">Set output volume.</p><div class="setting-row"><div>Output volume</div><input id="soundSize" type="range" min="0" max="100" value="65" /></div><div class="setting-row"><div>Play feedback sounds<small>Interface sounds are simulated in this preview</small></div><button class="toggle on" data-setting-toggle="sounds"></button></div>';
+if(name==='Keyboard')content='<h2>Keyboard</h2><p class="sub">Keyboard shortcuts.</p><div class="setting-row"><div>Spotlight</div><kbd>⌘ Space</kbd></div><div class="setting-row"><div>Launchpad</div><kbd>F4</kbd></div><div class="setting-row"><div>Close window</div><kbd>⌘ W</kbd></div><div class="setting-row"><div>New Finder window</div><kbd>⌘ N</kbd></div>';
+if(name==='About')content='<h2>About This Mac</h2><p class="sub">A Tahoe-inspired desktop experiment.</p><div style="display:flex;gap:17px;align-items:center;margin:26px 0">'+appIcon('finder')+'<div><strong style="font-size:16px">Desktop</strong><div style="font-size:11px;color:#abb4bf;margin-top:4px">Version 0.2 · Preview build</div></div></div><div class="setting-row"><div>Processor</div><span>Browser-based</span></div><div class="setting-row"><div>Memory</div><span>Managed by your browser</span></div><div class="setting-row"><div>Display</div><span>'+innerWidth+' × '+innerHeight+'</span></div>';
+$('#settingsMain').innerHTML=content;
+$$('[data-setting-toggle]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');const key=b.dataset.settingToggle;if(key==='motion')document.documentElement.style.setProperty('--motion',b.classList.contains('on')?'0':'1');if(key==='dynamic')$('#desktop').classList.toggle('static-wallpaper',!b.classList.contains('on'));if(key==='showdesktop')$('#desktop').classList.toggle('click-show-desktop',b.classList.contains('on'));if(key==='glass')document.documentElement.classList.toggle('no-glass',!b.classList.contains('on'));if(key==='autohide')$('#dockArea').classList.toggle('hidden-dock',b.classList.contains('on'));if(key==='desktopicons')$('.desktop-icons').style.display=b.classList.contains('on')?'grid':'none';if(key==='magnify')document.body.classList.toggle('no-magnify',!b.classList.contains('on'))});
+$('#themeSelect')?.addEventListener('change',e=>{document.documentElement.dataset.theme=e.target.value;setWallpaper($('#desktop').dataset.wall||'tahoe')});
+$('#accentColor')?.addEventListener('input',e=>document.documentElement.style.setProperty('--accent',e.target.value));
+$('#dockSize')?.addEventListener('input',e=>$$('.dock-app').forEach(b=>{b.style.width=e.target.value+'px';b.style.height=e.target.value+'px'}));
+$('#soundSize')?.addEventListener('input',e=>{$('#volumeSlider').value=e.target.value;$('#volumeValue').textContent=e.target.value+'%'});
+$$('[data-wall]').forEach(b=>b.onclick=()=>{setWallpaper(b.dataset.wall);$$('[data-wall]').forEach(x=>x.classList.toggle('active',x===b))});
+}
+function setWallpaper(w){const d=$('#desktop');d.dataset.wall=w;if(w==='sunset'){d.style.background='radial-gradient(ellipse at 75% 20%,#ffc999,transparent 42%),radial-gradient(ellipse at 20% 90%,#e8798d,transparent 48%),linear-gradient(140deg,#ffdaa7,#a55a91 55%,#26245a)'}else if(w==='forest'){d.style.background='radial-gradient(ellipse at 75% 12%,#9ad7b4,transparent 45%),radial-gradient(ellipse at 15% 90%,#2d7c75,transparent 50%),linear-gradient(140deg,#c3d9bc,#2b777d 52%,#102c47)'}else{const url=document.documentElement.dataset.theme==='dark'?'https://raw.githubusercontent.com/vinceliuice/MacTahoe-gtk-theme/main/wallpaper/MacTahoe-night.jpeg':'https://raw.githubusercontent.com/vinceliuice/MacTahoe-gtk-theme/main/wallpaper/MacTahoe-day.jpeg';d.style.background='url(\"'+url+'\") center / cover no-repeat'}}
+$$('[data-settings]').forEach(b=>b.onclick=()=>settingPage(b.dataset.settings));$('#settingsSearch').addEventListener('input',e=>{$$('.settings-nav').forEach(b=>b.style.display=b.textContent.toLowerCase().includes(e.target.value.toLowerCase())?'flex':'none')});settingPage('Appearance');
+$('[data-action="settings-search"]').forEach(b=>b.onclick=()=>$('#settingsSearch').focus());
+/* Launchpad and Spotlight */
+function toggleLaunchpad(force){const l=$('#launchpad');const show=force===true?!l.classList.contains('show'):force===false?false:!l.classList.contains('show');l.classList.toggle('show',show);if(show){$('#launchSearch').value='';$('#launchSearch').focus();renderLaunch('')}else $('#launchSearch').blur()}
+function renderLaunch(q){$('#launchGrid').innerHTML=apps.filter(a=>(a[1]+' '+a[0]).toLowerCase().includes(q.toLowerCase())).map(a=>'<button class="launch-app" data-open="'+a[0]+'">'+appIcon(a[0])+'<span>'+a[1]+'</span></button>').join('')}
+$('#launchSearch').addEventListener('input',e=>renderLaunch(e.target.value));$('#launchGrid').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openApp(b.dataset.open);toggleLaunchpad(false)}});
+function toggleSpot(){const s=$('#spotlight'),show=!s.classList.contains('show');closePopovers();$('#launchpad').classList.remove('show');s.classList.toggle('show',show);if(show){$('#spotInput').value='';$('#spotInput').focus();$('#spotResults').style.display='none'}}
+function searchResults(q){const hits=apps.filter(a=>(a[0]+' '+a[1]).toLowerCase().includes(q.toLowerCase()));$('#spotResults').innerHTML=hits.map(a=>'<button class="spot-result" data-open="'+a[0]+'">'+appIcon(a[0])+'<span>'+a[1]+'</span></button>').join('')||'<div style="padding:12px;color:#b8c2ce;font-size:11px">No results</div>';$('#spotResults').style.display='block'}
+$('#spotInput').addEventListener('input',e=>searchResults(e.target.value));$('#spotInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const b=$('#spotResults [data-open]');if(b)openApp(b.dataset.open);$('#spotlight').classList.remove('show')}});
+$('#spotResults').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openApp(b.dataset.open);$('#spotlight').classList.remove('show')}});
+renderLaunch('');
+/* Control center */
+$$('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const key=b.dataset.toggle;if(key==='dark'){document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';setWallpaper($('#desktop').dataset.wall||'tahoe');b.classList.toggle('active');return}b.classList.toggle('active');const state=b.classList.contains('active')?'On':'Off';if(key==='wifi')$('#wifiState').textContent=state;if(key==='bluetooth')$('#bluetoothState').textContent=state;if(key==='focus')$('#focusState').textContent=state}));
+$('#brightnessSlider').addEventListener('input',e=>{const n=+e.target.value;$('#brightValue').textContent=n+'%';$('#brightness').style.opacity=((100-n)/100*.68).toFixed(2)});
+$('#volumeSlider').addEventListener('input',e=>$('#volumeValue').textContent=e.target.value+'%');
+/* Messages demo */
+const defaultThreads={Maya:[['them','Hey! Are we still on for later?'],['me','Yeah, see you soon.'],['them','Perfect!']],Alex:[['them','I sent over the new design.'],['me','That looks great!']],Jordan:[['them','Sent a photo'],['them','Hope you like it.']]};
+const messageThreads=(()=>{try{const saved=JSON.parse(getSaved('desktop-message-threads','null'));return saved&amp;&amp;typeof saved==='object'?saved:defaultThreads}catch{return defaultThreads}})();
+let currentContact='Maya';
+function renderMessages(){const hist=$('#messageHistory');hist.innerHTML='';(messageThreads[currentContact]||[]).forEach(([who,txt])=>{const b=document.createElement('div');b.className='bubble'+(who==='me'?' me':'');b.textContent=txt;hist.appendChild(b)});$('#messageName').textContent=currentContact;hist.scrollTop=hist.scrollHeight;$$('.contact').forEach(b=>b.classList.toggle('active',b.dataset.contact===currentContact))}
+$('#contactList').addEventListener('click',e=>{const b=e.target.closest('[data-contact]');if(b){currentContact=b.dataset.contact;renderMessages()}});
+$('#contactSearch').addEventListener('input',e=>{$$('.contact').forEach(b=>b.style.display=b.dataset.contact.toLowerCase().includes(e.target.value.toLowerCase())?'flex':'none')});
+$('#messageCompose').addEventListener('submit',e=>{e.preventDefault();const v=$('#messageInput').value.trim();if(!v)return;messageThreads[currentContact]=messageThreads[currentContact]||[];messageThreads[currentContact].push(['me',v]);saveValue('desktop-message-threads',JSON.stringify(messageThreads));$('#messageInput').value='';renderMessages()});
+renderMessages();
+/* Notes persistence */
+$('#notesText').value=getSaved('desktop-notes','')||'';$('#notesText').addEventListener('input',()=>{saveValue('desktop-notes',$('#notesText').value);$('#notesSaved').textContent='Saving…';clearTimeout(window.notesTimer);window.notesTimer=setTimeout(()=>$('#notesSaved').textContent='Saved',500)});
+$$('[data-action="notes-new"]').forEach(b=>b.onclick=()=>{$('#notesText').value='';removeSaved('desktop-notes');$('#notesSaved').textContent='New note'});
+/* Calculator */
+function calcPress(k){if(k==='AC'){calcCurrent='0';calcFirst=null;calcOp=null;calcFresh=false}else if(k==='±'){calcCurrent=String(-Number(calcCurrent))}else if(k==='%'){calcCurrent=String(Number(calcCurrent)/100)}else if(['+','-','*','/'].includes(k)){calcFirst=Number(calcCurrent);calcOp=k;calcFresh=true}else if(k==='='){if(calcOp!==null&amp;&amp;calcFirst!==null){const n=Number(calcCurrent);let res=calcOp==='+'?calcFirst+n:calcOp==='-'?calcFirst-n:calcOp==='*'?calcFirst*n:calcFirst/n;calcCurrent=String(Number.isFinite(res)?Number(res.toPrecision(10)):'Error');calcOp=null;calcFirst=null;calcFresh=true}}else if(k==='.'){if(calcFresh){calcCurrent='0.';calcFresh=false}else if(!calcCurrent.includes('.'))calcCurrent+='.'}else{if(calcFresh){calcCurrent=k;calcFresh=false}else calcCurrent=calcCurrent==='0'?k:calcCurrent+k}$('#calcDisplay').textContent=calcCurrent}
+$$('[data-calc]').forEach(b=>b.onclick=()=>calcPress(b.dataset.calc));
+/* Terminal */
+$('#terminalInput').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const v=e.target.value.trim();const out=$('.terminal-output');let answer='';if(v==='help')answer='Available commands: help, ls, date, whoami, clear, open <app>';else if(v==='ls')answer='Applications  Desktop  Documents  Downloads  Music  Pictures';else if(v==='date')answer=new Date().toString();else if(v==='whoami')answer='user';else if(v==='clear'){out.textContent='';e.target.value='';return}else if(v.startsWith('open ')){const q=v.slice(5).toLowerCase();const app=apps.find(a=>a[0].includes(q)||a[1].toLowerCase().includes(q));if(app){openApp(app[0]);answer='Opening '+app[1]}else answer='App not found: '+q}else if(v)answer='zsh: command not found: '+v;out.textContent+='\nuser@tahoe ~ % '+v+'\n'+answer;e.target.value='';$('#terminalBody').scrollTop=$('#terminalBody').scrollHeight});
+/* App Store */
+const storeApps=[['Browser','browser','Browse the web.'],['Notes','notes','A place for quick thoughts.'],['Music','music','Your music library.'],['Calculator','calculator','A simple calculator.'],['Terminal','terminal','Command line tools.'],['Photos','photos','Your photo library.']];
+$('#storeGrid').innerHTML=storeApps.map(a=>'<div class="store-tile">'+appIcon(a[1])+'<span><strong style="font-size:11px">'+a[0]+'</strong><small style="display:block;color:#777;font-size:9px;margin-top:3px">'+a[2]+'</small></span><button data-open="'+a[1]+'">Open</button></div>').join('');$('#storeGrid').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openApp(b.dataset.open)});
+/* Menubar, time, shortcuts, context menu */
+function tick(){const d=new Date();const time=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});const date=d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});$('#clock').textContent=date+'  '+time;$('#notifDate').textContent=d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});$('#notifClock').textContent=time}
+tick();setInterval(tick,15000);
+document.addEventListener('keydown',e=>{const mod=e.metaKey||e.ctrlKey;if(mod&amp;&amp;e.code==='Space'){e.preventDefault();toggleSpot()}if(e.key==='F4'){e.preventDefault();toggleLaunchpad()}if(mod&amp;&amp;e.key.toLowerCase()==='n'){e.preventDefault();openApp('finder')}if(mod&amp;&amp;e.key.toLowerCase()==='w'){const w=$('.window.focused');if(w)closeWin(w)}if(e.key==='Escape'){closePopovers();$('#spotlight').classList.remove('show');$('#launchpad').classList.remove('show');$('#contextMenu').classList.remove('show');$('#fileContext').classList.remove('show')}});
+$('#desktop').addEventListener('click',e=>{if(!$('#desktop').classList.contains('click-show-desktop')||e.target.closest('.window,.menubar,.dock-area,.glass-pop,.launchpad'))return;$$('.window.open').forEach(w=>minimizeWin(w))});
+$('#desktop').addEventListener('contextmenu',e=>{if(e.target.closest('.window,.menubar,.dock-area'))return;e.preventDefault();const m=$('#contextMenu');m.style.left=Math.min(e.clientX,innerWidth-200)+'px';m.style.top=Math.min(e.clientY,innerHeight-180)+'px';m.classList.add('show')});
+$$('[data-action="new-folder"]').forEach(b=>b.onclick=()=>{openApp('finder');newFolder();$('#contextMenu').classList.remove('show')});
+$$('[data-action="clean"]').forEach(b=>b.onclick=()=>{$('#contextMenu').classList.remove('show');notify('Desktop sorted')});
+$$('[data-action="lock"]').forEach(b=>b.onclick=()=>notify('Lock Screen is a preview action.'));
+$$('[data-action="sleep"],[data-action="restart"]').forEach(b=>b.onclick=()=>notify('Power controls are simulated in this preview.'));
+document.addEventListener('pointerdown',e=>{
+ if(!e.target.closest('.glass-pop,.statusbtn,.apple-mark,.menubtn')&amp;&amp;!e.target.closest('#clock'))closePopovers();
+ if(!e.target.closest('#contextMenu'))$('#contextMenu').classList.remove('show');
+ if(!e.target.closest('#fileContext,.file-card,[data-action="finder-menu"]'))$('#fileContext').classList.remove('show');
+});
+$('#dockArea').addEventListener('pointerenter',()=>$('#dockArea').classList.remove('hidden-dock'));document.addEventListener('pointermove',e=>{if(e.clientY>innerHeight-4)$('#dockArea').classList.remove('hidden-dock')});
+window.addEventListener('resize',()=>{$$('.window').forEach(w=>{if(!w.classList.contains('max')){const r=w.getBoundingClientRect();if(r.right>innerWidth)w.style.left=Math.max(0,innerWidth-w.offsetWidth)+'px';if(r.bottom>innerHeight)w.style.top=Math.max(30,innerHeight-w.offsetHeight-50)+'px'}})});
+window.Desktop={id:'desktop.shell',version:'0.2.0',launch:openApp,notify,apps:apps.map(a=>({id:a[0],name:a[1]})),get activeApp(){return activeApp}};
+window.addEventListener('desktop:launch',e=>{if(e.detail?.app)openApp(e.detail.app);if(e.detail?.url){openApp('browser');setTimeout(()=>document.querySelector('#browser iframe')?.contentWindow?.postMessage({type:'browser:open-url',url:e.detail.url},'*'),300)}});
 
 
-</div></foreignObject>
-<script type="application/ecmascript"><![CDATA[
+/* Landscape-only touch mode with a visible virtual cursor. */
+const isTouchDevice=()=>matchMedia('(pointer:coarse)').matches||/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+function updateOrientationGate(){
+ const portrait=isTouchDevice()&amp;&amp;innerHeight>innerWidth;
+ $('#rotatePrompt').style.display=portrait?'flex':'none';
+ $('#smartTrackpad').style.display=isTouchDevice()&amp;&amp;innerWidth>innerHeight?'flex':'none';
+ $('#smartCursor').style.display=isTouchDevice()&amp;&amp;innerWidth>innerHeight?'block':'none';
+ document.body.style.overflow=portrait?'hidden':'';
+}
+window.addEventListener('resize',updateOrientationGate,{passive:true});
+window.addEventListener('orientationchange',updateOrientationGate,{passive:true});
+updateOrientationGate();
+(function(){
+ const pad=$('#smartTrackpad'),cursor=$('#smartCursor');
+ let active=null, moved=false, downTarget=null, lastTap=0, startY=0, startX=0, touchCount=0;
+ let x=window.__smartCursorX??innerWidth*.48,y=window.__smartCursorY??innerHeight*.45;
+ const place=()=>{x=Math.max(2,Math.min(innerWidth-3,x));y=Math.max(2,Math.min(innerHeight-3,y));window.__smartCursorX=x;window.__smartCursorY=y;cursor.style.transform='translate('+x+'px,'+y+'px)'};
+ const target=()=>{const el=document.elementFromPoint(x,y);return el===pad||pad.contains(el)||el===cursor?null:el};
+ const mouse=(type,el=target(),buttons=0)=>{if(!el)return;el.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window,clientX:x,clientY:y,button:0,buttons}))};
+ const pointer=(type,el=target(),buttons=0)=>{if(!el)return;try{el.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:77,pointerType:'mouse',isPrimary:true,clientX:x,clientY:y,button:0,buttons}))}catch{}};
+ pad.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture?.(e.pointerId);
+  active={id:e.pointerId,lastX:e.clientX,lastY:e.clientY};moved=false;touchCount=1;startX=e.clientX;startY=e.clientY;
+  pad.classList.add('active');
+ });
+ pad.addEventListener('pointermove',e=>{
+  if(!active||e.pointerId!==active.id||e.pointerType==='mouse')return;e.preventDefault();
+  const dx=e.clientX-active.lastX,dy=e.clientY-active.lastY;active.lastX=e.clientX;active.lastY=e.clientY;
+  if(Math.abs(dx)+Math.abs(dy)>1.5)moved=true;
+  x+=dx*2.05;y+=dy*2.05;place();
+  if(moved){const el=target();pointer('pointermove',el,1);mouse('mousemove',el,1)}
+ });
+ function finish(e){
+  if(!active||e.pointerId!==active.id)return;
+  if(!moved){const el=target();if(el){pointer('pointerdown',el,1);mouse('mousedown',el,1);pointer('pointerup',el,0);mouse('mouseup',el,0);mouse('click',el,0)}}
+  else{const el=target();pointer('pointerup',el,0);mouse('mouseup',el,0)}
+  active=null;pad.classList.remove('active');
+ }
+ pad.addEventListener('pointerup',finish);pad.addEventListener('pointercancel',finish);
+ pad.addEventListener('contextmenu',e=>e.preventDefault());
+ pad.addEventListener('wheel',e=>{e.preventDefault();const el=target();if(el)el.dispatchEvent(new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaY:e.deltaY,deltaX:e.deltaX}))},{passive:false});
+ place();
+})();
+
+})();
+</script>
+
+<script><![CDATA[
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const getSaved=(key,fallback=null)=>{try{const value=localStorage.getItem(key);return value===null?fallback:value}catch{return fallback}};
@@ -724,32 +1049,52 @@ window.Desktop={id:'desktop.shell',version:'0.2.0',launch:openApp,notify,apps:ap
 window.addEventListener('desktop:launch',e=>{if(e.detail?.app)openApp(e.detail.app);if(e.detail?.url){openApp('browser');setTimeout(()=>document.querySelector('#browser iframe')?.contentWindow?.postMessage({type:'browser:open-url',url:e.detail.url},'*'),300)}});
 
 
-/* Landscape-only touch mode with smart trackpad */
+/* Landscape-only touch mode with a visible virtual cursor. */
 const isTouchDevice=()=>matchMedia('(pointer:coarse)').matches||/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
 function updateOrientationGate(){
  const portrait=isTouchDevice()&&innerHeight>innerWidth;
  $('#rotatePrompt').style.display=portrait?'flex':'none';
- $('#smartTrackpad').style.display=isTouchDevice()&&innerWidth>innerHeight&&innerHeight<=650?'flex':'none';
+ $('#smartTrackpad').style.display=isTouchDevice()&&innerWidth>innerHeight?'flex':'none';
+ $('#smartCursor').style.display=isTouchDevice()&&innerWidth>innerHeight?'block':'none';
  document.body.style.overflow=portrait?'hidden':'';
 }
 window.addEventListener('resize',updateOrientationGate,{passive:true});
 window.addEventListener('orientationchange',updateOrientationGate,{passive:true});
 updateOrientationGate();
 (function(){
- const pad=$('#smartTrackpad');let last=null,moved=false;
- pad.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture(e.pointerId);last={x:e.clientX,y:e.clientY};moved=false;pad.classList.add('active')});
- pad.addEventListener('pointermove',e=>{
-  if(!last||e.pointerType==='mouse')return;e.preventDefault();
-  const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
-  const x=Math.max(2,Math.min(innerWidth-3,(window.__smartCursorX??innerWidth*.5)+dx*2));
-  const y=Math.max(2,Math.min(innerHeight-3,(window.__smartCursorY??innerHeight*.5)+dy*2));
-  window.__smartCursorX=x;window.__smartCursorY=y;
-  const t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,clientX:x,clientY:y,view:window}));
+ const pad=$('#smartTrackpad'),cursor=$('#smartCursor');
+ let active=null, moved=false, downTarget=null, lastTap=0, startY=0, startX=0, touchCount=0;
+ let x=window.__smartCursorX??innerWidth*.48,y=window.__smartCursorY??innerHeight*.45;
+ const place=()=>{x=Math.max(2,Math.min(innerWidth-3,x));y=Math.max(2,Math.min(innerHeight-3,y));window.__smartCursorX=x;window.__smartCursorY=y;cursor.style.transform='translate('+x+'px,'+y+'px)'};
+ const target=()=>{const el=document.elementFromPoint(x,y);return el===pad||pad.contains(el)||el===cursor?null:el};
+ const mouse=(type,el=target(),buttons=0)=>{if(!el)return;el.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,view:window,clientX:x,clientY:y,button:0,buttons}))};
+ const pointer=(type,el=target(),buttons=0)=>{if(!el)return;try{el.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:77,pointerType:'mouse',isPrimary:true,clientX:x,clientY:y,button:0,buttons}))}catch{}};
+ pad.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture?.(e.pointerId);
+  active={id:e.pointerId,lastX:e.clientX,lastY:e.clientY};moved=false;touchCount=1;startX=e.clientX;startY=e.clientY;
+  pad.classList.add('active');
  });
- function end(){if(!last)return;if(!moved){const x=window.__smartCursorX??innerWidth*.5,y=window.__smartCursorY??innerHeight*.5,t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:x,clientY:y,view:window}))}last=null;pad.classList.remove('active')}
- pad.addEventListener('pointerup',end);pad.addEventListener('pointercancel',end);pad.addEventListener('contextmenu',e=>e.preventDefault());
+ pad.addEventListener('pointermove',e=>{
+  if(!active||e.pointerId!==active.id||e.pointerType==='mouse')return;e.preventDefault();
+  const dx=e.clientX-active.lastX,dy=e.clientY-active.lastY;active.lastX=e.clientX;active.lastY=e.clientY;
+  if(Math.abs(dx)+Math.abs(dy)>1.5)moved=true;
+  x+=dx*2.05;y+=dy*2.05;place();
+  if(moved){const el=target();pointer('pointermove',el,1);mouse('mousemove',el,1)}
+ });
+ function finish(e){
+  if(!active||e.pointerId!==active.id)return;
+  if(!moved){const el=target();if(el){pointer('pointerdown',el,1);mouse('mousedown',el,1);pointer('pointerup',el,0);mouse('mouseup',el,0);mouse('click',el,0)}}
+  else{const el=target();pointer('pointerup',el,0);mouse('mouseup',el,0)}
+  active=null;pad.classList.remove('active');
+ }
+ pad.addEventListener('pointerup',finish);pad.addEventListener('pointercancel',finish);
+ pad.addEventListener('contextmenu',e=>e.preventDefault());
+ pad.addEventListener('wheel',e=>{e.preventDefault();const el=target();if(el)el.dispatchEvent(new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaY:e.deltaY,deltaX:e.deltaX}))},{passive:false});
+ place();
 })();
 
 })();
 ]]></script>
+</div>
+</foreignObject>
 </svg>
