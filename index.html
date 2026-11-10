@@ -234,9 +234,9 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 .dock-area{width:max-content;max-width:calc(100vw - 16px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:28px 10px 8px;overscroll-behavior-x:contain;touch-action:pan-x}
 .dock-area::-webkit-scrollbar{display:none}
 .dock{width:max-content;gap:7px}
-.dock-app{will-change:transform;z-index:0;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s;transform:translate3d(var(--dock-shift,0px),calc(var(--dock-lift,0px) * -1),0) scale(var(--dock-scale,1))}
+.dock-app{will-change:transform;z-index:0;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s;transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(var(--dock-scale,1))}
 .dock-app.magnified{z-index:3;filter:brightness(1.08)}
-.dock-app:hover{transform:translate3d(var(--dock-shift,0px),calc(var(--dock-lift,0px) * -1),0) scale(var(--dock-scale,1))}
+.dock-app:hover{transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(var(--dock-scale,1))}
 .dock-app .appicon{width:46px;height:46px;object-fit:contain}
 .dock-app img.appicon{overflow:visible}
 .window{resize:none}
@@ -276,6 +276,20 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 .file-card.dragging{opacity:.35;transform:scale(.96)}
 .file-card.drop-target{background:rgba(71,143,226,.28)!important;border-color:rgba(142,194,255,.75)!important;box-shadow:inset 0 0 0 1px rgba(142,194,255,.35)}
 .side-link.drop-target{background:rgba(71,143,226,.42)!important;outline:1px solid rgba(142,194,255,.55)}
+
+/* Final Dock layout: anchored bar, bounded width, magnification only on icons. */
+#dockArea{position:absolute!important;left:50%!important;right:auto!important;bottom:10px!important;width:max-content!important;max-width:calc(100vw - 24px)!important;display:flex!important;align-items:flex-end!important;justify-content:flex-start!important;box-sizing:border-box!important;overflow-x:auto!important;overflow-y:hidden!important;padding:25px 16px 9px!important;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;transform:translateX(-50%);z-index:90}
+#dockArea::-webkit-scrollbar{display:none}
+#dockArea.hidden-dock{transform:translate(-50%,130%)!important;opacity:0}
+#dock{display:flex!important;flex-wrap:nowrap!important;align-items:flex-end!important;width:max-content!important;min-width:max-content!important;gap:7px!important}
+#dock .dock-app{flex:0 0 49px!important;width:49px!important;height:49px!important;transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(var(--dock-scale,1))!important;transform-origin:50% 100%!important}
+#dock .dock-app:hover{transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(var(--dock-scale,1))!important}
+#dock .dock-app:active{transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(calc(var(--dock-scale,1) * .96))!important}
+#dock .dock-app .appicon{width:46px!important;height:46px!important;max-width:none;object-fit:contain}
+#dock .dock-sep{flex:0 0 1px!important}
+@media(max-width:700px){#dockArea{left:50%!important;right:auto!important;bottom:7px!important;width:max-content!important;max-width:calc(100vw - 14px)!important;padding:23px 13px 8px!important}#dock{gap:4px!important}#dock .dock-app{flex-basis:42px!important;width:42px!important;height:43px!important}#dock .dock-app .appicon{width:39px!important;height:39px!important}#dock .dock-sep{height:31px!important;margin-left:1px;margin-right:1px}}
+@media(max-height:520px){#dockArea{bottom:5px!important;padding-top:23px!important;padding-bottom:6px!important}#dock .dock-app{height:39px!important;flex-basis:39px!important;width:39px!important}#dock .dock-app .appicon{width:36px!important;height:36px!important}}
+
 </style>
 </head>
 <body>
@@ -481,9 +495,9 @@ $('#dock').addEventListener('pointermove',e=>{
  const dock=$('#dock'),x=e.clientX-dock.getBoundingClientRect().left;
  $$('.dock-app').forEach(b=>{
   const center=b.offsetLeft+b.offsetWidth/2,distance=Math.abs(x-center),influence=Math.max(0,1-distance/130);
-  const scale=1+influence*.62,spread=(scale-1)*b.offsetWidth*.86,shift=center<x?-spread:center>x?spread:0;
+  const scale=1+influence*.28,spread=(scale-1)*b.offsetWidth*.82,shift=center<x?-spread:center>x?spread:0;
   b.style.setProperty('--dock-scale',scale.toFixed(3));
-  b.style.setProperty('--dock-lift',(-influence*18).toFixed(1)+'px');
+  b.style.setProperty('--dock-lift',(-influence*10).toFixed(1)+'px');
   b.style.setProperty('--dock-shift',shift.toFixed(1)+'px');
   b.classList.toggle('magnified',influence>.04);
  });
