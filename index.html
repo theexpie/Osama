@@ -55,7 +55,7 @@ html.no-glass .menubar,html.no-glass .dock-area,html.no-glass .window,html.no-gl
 .dock-area{position:absolute;z-index:90;left:50%;bottom:9px;transform:translateX(-50%);display:flex;align-items:end;width:max-content;max-width:calc(100vw - 14px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;padding:27px 9px 8px;border-radius:25px;border:1px solid rgba(255,255,255,.48);background:linear-gradient(180deg,rgba(248,251,255,.38),rgba(28,42,59,.48));box-shadow:0 10px 35px #00152e55,inset 0 1px 0 #ffffff88,inset 0 -1px 0 #ffffff18;backdrop-filter:blur(38px) saturate(1.7);-webkit-backdrop-filter:blur(38px) saturate(1.7);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .25s}
 .dock-area.hidden-dock{transform:translate(-50%,130%);opacity:0}
 .dock{display:flex;align-items:end;gap:7px;width:max-content;min-width:max-content}.dock-area::-webkit-scrollbar{display:none}.dock-area::-webkit-scrollbar{display:none}
-.dock-app{position:relative;width:49px;height:49px;will-change:transform;transform:translate3d(var(--dock-shift,0px),calc(var(--dock-lift,0px) * -1),0) scale(var(--dock-scale,1));flex:none;border:0;border-radius:14px;background:transparent;padding:0;display:grid;place-items:center;transform-origin:50% 100%;transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s}
+.dock-app{position:relative;width:49px;height:49px;will-change:transform;transform:translate3d(var(--dock-shift,0px),var(--dock-lift,0px),0) scale(var(--dock-scale,1));flex:none;border:0;border-radius:14px;background:transparent;padding:0;display:grid;place-items:center;transform-origin:50% 100%;transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .2s}
 .dock-app .appicon{width:46px;height:46px;display:block;object-fit:contain;filter:drop-shadow(0 3px 3px #001c3850);transition:filter .18s}
 .dock-app:hover{filter:brightness(1.08)}
 .dock-app:active{transform:translateY(-3px) scale(.95)}
@@ -271,6 +271,11 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 }
 
 .file-search.visible{display:block}
+
+.file-card{touch-action:manipulation}
+.file-card.dragging{opacity:.35;transform:scale(.96)}
+.file-card.drop-target{background:rgba(71,143,226,.28)!important;border-color:rgba(142,194,255,.75)!important;box-shadow:inset 0 0 0 1px rgba(142,194,255,.35)}
+.side-link.drop-target{background:rgba(71,143,226,.42)!important;outline:1px solid rgba(142,194,255,.55)}
 </style>
 </head>
 <body>
@@ -404,8 +409,10 @@ const removeSaved=key=>{try{localStorage.removeItem(key)}catch{}};
 window.addEventListener('error',e=>{const toast=document.querySelector('#toast');if(toast){toast.textContent='Interface error: '+(e.message||'unknown');toast.classList.add('show')}});
 window.addEventListener('unhandledrejection',e=>{const toast=document.querySelector('#toast');if(toast){toast.textContent='Action failed: '+String(e.reason||'unknown');toast.classList.add('show')}});
 const apps=[['finder','Finder','finder'],['launchpad','Launchpad','launchpad'],['browser','Browser','browser'],['messages','Messages','messages'],['photos','Photos','photos'],['music','Music','music'],['notes','Notes','notes'],['calculator','Calculator','calculator'],['terminal','Terminal','terminal'],['settings','System Settings','settings'],['appstore','App Store','appstore']];
-let z=20,activeApp='Desktop',finderPath='Home',finderHistory=[],finderForward=[],selectedFile=null,calcCurrent='0',calcFirst=null,calcOp=null,calcFresh=false;
-const store={Home:[['Desktop','folder'],['Documents','folder'],['Downloads','folder'],['MacTahoe-gtk-theme','folder'],['MacTahoe-icon-theme','folder'],['Music','folder'],['Pictures','folder'],['Public','folder'],['snap','folder'],['Templates','folder'],['Videos','folder'],['.cache','folder'],['.config','folder'],['.local','folder'],['.ssh','folder'],['.themes','folder'],['instructions.txt','doc'],['.bash_history','doc'],['.bashrc','doc'],['.profile','doc']],Desktop:[['Screenshot.png','image'],['Design Notes.txt','doc']], 'MacTahoe-gtk-theme':[['README.md','doc'],['wallpaper','folder']], 'MacTahoe-icon-theme':[['README.md','doc'],['src','folder'],['links','folder']], wallpaper:[['MacTahoe-day.jpeg','image'],['MacTahoe-night.jpeg','image']], src:[['apps','folder'],['places','folder']], links:[['apps','folder'],['places','folder']], apps:[['scalable','folder']], places:[['scalable','folder']], scalable:[],Documents:[['Project Brief.txt','doc'],['Ideas.txt','doc'],['Read me.pdf','pdf']],Downloads:[['Installer.dmg','disk'],['Wallpaper.jpg','image']],Pictures:[['Tahoe Wallpaper.jpg','image'],['IMG_2048.png','image']],Music:[['Favorites.m3u','doc']],Public:[],Templates:[],Videos:[],Applications:[['Browser.app','app'],['System Settings.app','app'],['Notes.app','app']],Recents:[['Project Brief.txt','doc'],['Tahoe Wallpaper.jpg','image'],['Installer.dmg','disk']],Starred:[['Design Notes.txt','doc'],['Tahoe Wallpaper.jpg','image']],Trash:[], 'Macintosh HD':[['Applications','folder'],['System','folder'],['Users','folder']]};
+let z=20,activeApp='Finder',finderPath='Home',finderHistory=[],finderForward=[],selectedFile=null,calcCurrent='0',calcFirst=null,calcOp=null,calcFresh=false;
+const defaultStore={Home:[['Desktop','folder'],['Documents','folder'],['Downloads','folder'],['MacTahoe-gtk-theme','folder'],['MacTahoe-icon-theme','folder'],['Music','folder'],['Pictures','folder'],['Public','folder'],['snap','folder'],['Templates','folder'],['Videos','folder'],['.cache','folder'],['.config','folder'],['.local','folder'],['.ssh','folder'],['.themes','folder'],['instructions.txt','doc'],['.bash_history','doc'],['.bashrc','doc'],['.profile','doc']],Desktop:[['Screenshot.png','image'],['Design Notes.txt','doc']], 'MacTahoe-gtk-theme':[['README.md','doc'],['wallpaper','folder']], 'MacTahoe-icon-theme':[['README.md','doc'],['src','folder'],['links','folder']], wallpaper:[['MacTahoe-day.jpeg','image'],['MacTahoe-night.jpeg','image']], src:[['apps','folder'],['places','folder']], links:[['apps','folder'],['places','folder']], apps:[['scalable','folder']], places:[['scalable','folder']], scalable:[],Documents:[['Project Brief.txt','doc'],['Ideas.txt','doc'],['Read me.pdf','pdf']],Downloads:[['Installer.dmg','disk'],['Wallpaper.jpg','image']],Pictures:[['Tahoe Wallpaper.jpg','image'],['IMG_2048.png','image']],Music:[['Favorites.m3u','doc']],Public:[],Templates:[],Videos:[],Applications:[['Browser.app','app'],['System Settings.app','app'],['Notes.app','app']],Recents:[['Project Brief.txt','doc'],['Tahoe Wallpaper.jpg','image'],['Installer.dmg','disk']],Starred:[['Design Notes.txt','doc'],['Tahoe Wallpaper.jpg','image']],Trash:[], 'Macintosh HD':[['Applications','folder'],['System','folder'],['Users','folder']]};
+const store=(()=>{try{const saved=JSON.parse(getSaved('desktop-files','null'));return saved&&typeof saved==='object'&&!Array.isArray(saved)?Object.assign(defaultStore,saved):defaultStore}catch{return defaultStore}})();
+const saveFileStore=()=>saveValue('desktop-files',JSON.stringify(store));
 const THEME="assets/icons/";
 const iconPaths={
 finder:"finder.svg",launchpad:"app-store.svg",browser:"browser.svg",messages:"messages.svg",
@@ -430,7 +437,7 @@ function applyOfficialDockIcons(){
 function notify(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1900)}
 function bringFront(w){z+=1;w.style.zIndex=z;$$('.window').forEach(x=>x.classList.toggle('focused',x===w));activeApp=w.dataset.title||w.id;$('#activeApp').textContent=activeApp;$$('.dock-app').forEach(b=>b.querySelector('.running')?.remove());const dock=$('.dock-app[data-open="'+w.id+'"]');if(dock){const dot=document.createElement('i');dot.className='running';dock.appendChild(dot)}}
 function openApp(id){if(id==='launchpad'){toggleLaunchpad(true);return}if(id==='about'){notify('Desktop Preview · Tahoe-inspired build');return}let win=$('#'+id);if(!win){return}win.classList.remove('minimizing');if(win.dataset.placed)win.classList.add('placed');win.classList.add('open');bringFront(win);win.style.left=win.style.left||'50%';if(id==='notes')$('#notesText').focus()}
-function closeWin(w){if(!w)return;w.classList.remove('open','max','focused');const d=$('.dock-app[data-open="'+w.id+'"]');d?.querySelector('.running')?.remove();if(activeApp===w.dataset.title)$('#activeApp').textContent='Finder'}
+function closeWin(w){if(!w)return;w.classList.remove('open','max','focused');const d=$('.dock-app[data-open="'+w.id+'"]');d?.querySelector('.running')?.remove();if(w.id==='finder')setRunning('finder');if(activeApp===w.dataset.title)$('#activeApp').textContent='Finder'}
 function minimizeWin(w){if(!w)return;w.classList.add('minimizing');setTimeout(()=>{w.classList.remove('open','minimizing');},220)}
 function toggleMax(w){if(!w)return;if(w.classList.contains('max')){w.classList.remove('max');const old=w.dataset.restore;if(old){const o=JSON.parse(old);w.style.left=o.left;w.style.top=o.top;w.style.width=o.width;w.style.height=o.height}}else{w.dataset.restore=JSON.stringify({left:w.style.left,top:w.style.top,width:w.style.width,height:w.style.height});w.classList.add('max')}bringFront(w)}
 function setupWindow(w){
@@ -466,6 +473,7 @@ function setupWindow(w){
 $$('.window').forEach(setupWindow);
 applyOfficialDockIcons();
 function setRunning(id){const b=$('.dock-app[data-open="'+id+'"]');if(b&&!b.querySelector('.running')){const d=document.createElement('i');d.className='running';b.appendChild(d)}}
+setRunning('finder');
 $$('[data-open]:not(.dock-app)').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openApp(b.dataset.open);closePopovers()}));
 function resetDockMagnification(){$$('.dock-app').forEach(b=>{b.style.removeProperty('--dock-scale');b.style.removeProperty('--dock-lift');b.style.removeProperty('--dock-shift');b.classList.remove('magnified')})}
 $('#dock').addEventListener('pointermove',e=>{
@@ -475,7 +483,7 @@ $('#dock').addEventListener('pointermove',e=>{
   const center=b.offsetLeft+b.offsetWidth/2,distance=Math.abs(x-center),influence=Math.max(0,1-distance/130);
   const scale=1+influence*.62,spread=(scale-1)*b.offsetWidth*.86,shift=center<x?-spread:center>x?spread:0;
   b.style.setProperty('--dock-scale',scale.toFixed(3));
-  b.style.setProperty('--dock-lift',(influence*18).toFixed(1)+'px');
+  b.style.setProperty('--dock-lift',(-influence*18).toFixed(1)+'px');
   b.style.setProperty('--dock-shift',shift.toFixed(1)+'px');
   b.classList.toggle('magnified',influence>.04);
  });
@@ -491,14 +499,22 @@ function renderFinder(){
  const arr=store[finderPath]||[];$('#finderPath').textContent=finderPath;$('#finderGrid').innerHTML='';
  if(!arr.length)$('#finderGrid').innerHTML='<div class="finder-empty">This folder is empty.</div>';
  arr.forEach(([name,type])=>{
-  const isFolder=type==='folder'||(!type),el=document.createElement('button');el.className='file-card';el.type='button';
-  el.innerHTML=(isFolder?folderSvg():docSvg(type))+'<span class="file-name"></span>';el.querySelector('.file-name').textContent=name;el.dataset.file=name;el.dataset.kind=type||'folder';
+  const isFolder=type==='folder'||(!type),el=document.createElement('button');
+  el.className='file-card';el.type='button';el.draggable=true;
+  el.innerHTML=(isFolder?folderSvg():docSvg(type))+'<span class="file-name"></span>';
+  el.querySelector('.file-name').textContent=name;el.dataset.file=name;el.dataset.kind=type||'folder';
   el.addEventListener('click',()=>{selectedFile=name;$$('.file-card').forEach(x=>x.classList.toggle('selected',x===el))});
   el.addEventListener('dblclick',()=>{selectedFile=name;if(isFolder||store[name]){store[name]=store[name]||[];navigateFolder(name)}else if(name.endsWith('.app'))openApp(name.toLowerCase().includes('browser')?'browser':'settings');else openFilePreview(name,type)});
-  el.addEventListener('contextmenu',e=>{e.preventDefault();selectedFile=name;$$('.file-card').forEach(x=>x.classList.toggle('selected',x===el));const m=$('#fileContext');m.style.left=Math.min(innerWidth-180,e.clientX)+'px';m.style.top=Math.min(innerHeight-190,e.clientY)+'px';m.classList.add('show')});
+  el.addEventListener('contextmenu',e=>{e.preventDefault();selectedFile=name;$$('.file-card').forEach(x=>x.classList.toggle('selected',x===el));const menu=$('#fileContext');menu.style.left=Math.min(innerWidth-180,e.clientX)+'px';menu.style.top=Math.min(innerHeight-190,e.clientY)+'px';menu.classList.add('show')});
+  el.addEventListener('dragstart',e=>{selectedFile=name;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',JSON.stringify({fromPath:finderPath,name}))});
+  el.addEventListener('dragend',()=>$$('.file-card').forEach(x=>x.classList.remove('dragging','drop-target')));
+  el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drop-target');e.dataTransfer.dropEffect='move'});
+  el.addEventListener('dragleave',()=>el.classList.remove('drop-target'));
+  el.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();el.classList.remove('drop-target');const data=parseDraggedFile(e);if(data)moveFileItem(data.fromPath,data.name,finderPath,name)});
   $('#finderGrid').appendChild(el);
  });
- $('#finderCount').textContent=arr.length+' items';$$('.side-link').forEach(b=>b.classList.toggle('active',b.dataset.folder===finderPath));
+ $('#finderCount').textContent=arr.length+' items';
+ $$('.side-link').forEach(b=>b.classList.toggle('active',b.dataset.folder===finderPath));
  if($('#finderSearch')?.value)$('#finderSearch').dispatchEvent(new Event('input'));
 }
 function navigateFolder(path){if(path!==finderPath){finderHistory.push(finderPath);finderForward=[]}finderPath=path;selectedFile=null;if($('#finderSearch'))$('#finderSearch').value='';renderFinder()}
@@ -509,19 +525,64 @@ function openFilePreview(name,type){
  openApp('filePreview');
 }
 function selectedItem(){return (store[finderPath]||[]).find(x=>x[0]===selectedFile)}
-function renameSelected(){const item=selectedItem();if(!item)return notify('Select a file first.');const next=prompt('Rename',item[0]);if(!next||next.trim()===item[0])return;if((store[finderPath]||[]).some(x=>x[0]===next.trim()))return notify('That name is already in use.');const old=item[0],sub=store[old];item[0]=next.trim();if(sub)store[item[0]]=sub;selectedFile=item[0];renderFinder()}
-function duplicateSelected(){const item=selectedItem();if(!item)return notify('Select a file first.');let copy=item[0]+' copy',n=2;while((store[finderPath]||[]).some(x=>x[0]===copy))copy=item[0]+' copy '+n++;store[finderPath].push([copy,item[1]]);if(item[1]==='folder')store[copy]=[];renderFinder();notify('Duplicate created')}
-function trashSelected(){const item=selectedItem();if(!item)return notify('Select a file first.');store.Trash=store.Trash||[];store.Trash.push(item.slice());store[finderPath]=store[finderPath].filter(x=>x!==item);selectedFile=null;renderFinder();notify('Moved to Trash')}
+function renameSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ const next=prompt('Rename',item[0]);if(!next||next.trim()===item[0])return;
+ if((store[finderPath]||[]).some(x=>x[0]===next.trim()))return notify('That name is already in use.');
+ const old=item[0],sub=store[old];item[0]=next.trim();if(sub)store[item[0]]=sub;
+ selectedFile=item[0];saveFileStore();renderFinder();
+}
+function duplicateSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ let copy=item[0]+' copy',n=2;while((store[finderPath]||[]).some(x=>x[0]===copy))copy=item[0]+' copy '+n++;
+ store[finderPath].push([copy,item[1]]);if(item[1]==='folder')store[copy]=[];
+ saveFileStore();renderFinder();notify('Duplicate created');
+}
+function trashSelected(){
+ const item=selectedItem();if(!item)return notify('Select a file first.');
+ store.Trash=store.Trash||[];store.Trash.push(item.slice());store[finderPath]=store[finderPath].filter(x=>x!==item);
+ selectedFile=null;saveFileStore();renderFinder();notify('Moved to Trash');
+}
+function parseDraggedFile(e){
+ try{const raw=e.dataTransfer?.getData('text/plain');if(!raw)return null;const value=JSON.parse(raw);return value&&value.fromPath&&value.name?value:null}catch{return null}
+}
+function moveFileItem(fromPath,name,targetPath,targetName=null){
+ const source=store[fromPath];if(!Array.isArray(source))return;
+ const sourceIndex=source.findIndex(x=>x[0]===name);if(sourceIndex<0)return;
+ const item=source[sourceIndex];let destinationPath=targetPath;
+ const targetEntry=targetName?(store[targetPath]||[]).find(x=>x[0]===targetName):null;
+ if(targetEntry&&targetEntry[1]==='folder'&&targetName!==name){destinationPath=targetName;targetName=null}
+ const destination=store[destinationPath]||(store[destinationPath]=[]);
+ if(destinationPath===fromPath&&!targetName){
+  source.splice(sourceIndex,1);source.push(item);
+ }else if(destinationPath===fromPath&&targetName){
+  if(targetName===name)return;
+  source.splice(sourceIndex,1);const before=source.findIndex(x=>x[0]===targetName);
+  source.splice(before<0?source.length:before,0,item);
+ }else{
+  if(destination.some(x=>x[0]===name))return notify('That folder already has an item with that name.');
+  source.splice(sourceIndex,1);destination.push(item);
+ }
+ selectedFile=name;saveFileStore();renderFinder();notify('Moved '+name);
+}
 function openSelected(){const item=selectedItem();if(!item)return notify('Select a file first.');if(item[1]==='folder'){store[item[0]]=store[item[0]]||[];navigateFolder(item[0])}else if(item[0].endsWith('.app'))openApp(item[0].toLowerCase().includes('browser')?'browser':'settings');else openFilePreview(item[0],item[1])}
-function newFolder(){const name='Untitled Folder';store[finderPath]=store[finderPath]||[];let n=name,i=2;while(store[finderPath].some(x=>x[0]===n))n=name+' '+i++;store[finderPath].push([n,'folder']);store[n]=[];renderFinder();notify('Folder created')}
+function newFolder(){const name='Untitled Folder';store[finderPath]=store[finderPath]||[];let n=name,i=2;while(store[finderPath].some(x=>x[0]===n))n=name+' '+i++;store[finderPath].push([n,'folder']);store[n]=[];saveFileStore();renderFinder();notify('Folder created')}
 $$('[data-folder]').forEach(b=>b.onclick=()=>navigateFolder(b.dataset.folder));
+$$('.side-link').forEach(link=>{
+ link.addEventListener('dragover',e=>{if(parseDraggedFile(e)){e.preventDefault();e.dataTransfer.dropEffect='move';link.classList.add('drop-target')}});
+ link.addEventListener('dragleave',()=>link.classList.remove('drop-target'));
+ link.addEventListener('drop',e=>{e.preventDefault();link.classList.remove('drop-target');const data=parseDraggedFile(e);if(data)moveFileItem(data.fromPath,data.name,link.dataset.folder)});
+});
+$('#finderGrid').addEventListener('dragover',e=>{if(!e.target.closest('.file-card')&&parseDraggedFile(e)){e.preventDefault();e.dataTransfer.dropEffect='move'}});
+$('#finderGrid').addEventListener('drop',e=>{if(e.target.closest('.file-card'))return;const data=parseDraggedFile(e);if(data){e.preventDefault();moveFileItem(data.fromPath,data.name,finderPath)}});
+
 $$('[data-action="finder-back"]').forEach(b=>b.onclick=()=>{if(finderHistory.length){finderForward.push(finderPath);finderPath=finderHistory.pop();renderFinder()}});
 $$('[data-action="finder-forward"]').forEach(b=>b.onclick=()=>{if(finderForward.length){finderHistory.push(finderPath);finderPath=finderForward.pop();renderFinder()}});
 $$('[data-action="finder-new"]').forEach(b=>b.onclick=newFolder);
 $$('[data-action="finder-view"]').forEach(b=>b.onclick=()=>{$('#finderGrid').style.gridTemplateColumns=$('#finderGrid').style.gridTemplateColumns?'':'1fr';notify('View changed')});
 $$('[data-action="finder-search"]').forEach(b=>b.onclick=()=>{$('#finderSearch').classList.toggle('visible');if($('#finderSearch').classList.contains('visible'))$('#finderSearch').focus();else{$('#finderSearch').value='';renderFinder()}});
 $('#finderSearch').addEventListener('input',e=>$$('.file-card').forEach(x=>x.style.display=x.textContent.toLowerCase().includes(e.target.value.toLowerCase())?'':'none'));
-$$('[data-action="finder-menu"]').forEach(b=>b.onclick=()=>notify('Finder options'));
+$('[data-action="finder-menu"]').forEach(b=>b.onclick=()=>{const menu=$('#fileContext'),r=b.getBoundingClientRect();menu.style.left=Math.min(innerWidth-180,r.left)+'px';menu.style.top=Math.min(innerHeight-190,r.bottom+6)+'px';menu.classList.add('show')});
 renderFinder();
 $('#fileContext').addEventListener('click',e=>{const b=e.target.closest('[data-file-action]');if(!b)return;$('#fileContext').classList.remove('show');const action=b.dataset.fileAction;if(action==='open')openSelected();if(action==='rename')renameSelected();if(action==='duplicate')duplicateSelected();if(action==='trash')trashSelected();if(action==='info'){const item=selectedItem();if(item)notify(item[0]+' · '+item[1])}});
 $('#finder').addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;if(e.key==='Enter')openSelected();if(e.key==='F2')renameSelected();if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();trashSelected()}if(e.key==='Escape'){$$('.file-card').forEach(x=>x.classList.remove('selected'));selectedFile=null}});
@@ -545,6 +606,7 @@ $$('[data-wall]').forEach(b=>b.onclick=()=>{setWallpaper(b.dataset.wall);$$('[da
 }
 function setWallpaper(w){const d=$('#desktop');d.dataset.wall=w;if(w==='sunset'){d.style.background='radial-gradient(ellipse at 75% 20%,#ffc999,transparent 42%),radial-gradient(ellipse at 20% 90%,#e8798d,transparent 48%),linear-gradient(140deg,#ffdaa7,#a55a91 55%,#26245a)'}else if(w==='forest'){d.style.background='radial-gradient(ellipse at 75% 12%,#9ad7b4,transparent 45%),radial-gradient(ellipse at 15% 90%,#2d7c75,transparent 50%),linear-gradient(140deg,#c3d9bc,#2b777d 52%,#102c47)'}else{const url=document.documentElement.dataset.theme==='dark'?'https://raw.githubusercontent.com/vinceliuice/MacTahoe-gtk-theme/main/wallpaper/MacTahoe-night.jpeg':'https://raw.githubusercontent.com/vinceliuice/MacTahoe-gtk-theme/main/wallpaper/MacTahoe-day.jpeg';d.style.background='url(\"'+url+'\") center / cover no-repeat'}}
 $$('[data-settings]').forEach(b=>b.onclick=()=>settingPage(b.dataset.settings));$('#settingsSearch').addEventListener('input',e=>{$$('.settings-nav').forEach(b=>b.style.display=b.textContent.toLowerCase().includes(e.target.value.toLowerCase())?'flex':'none')});settingPage('Appearance');
+$('[data-action="settings-search"]').forEach(b=>b.onclick=()=>$('#settingsSearch').focus());
 /* Launchpad and Spotlight */
 function toggleLaunchpad(force){const l=$('#launchpad');const show=force===true?!l.classList.contains('show'):force===false?false:!l.classList.contains('show');l.classList.toggle('show',show);if(show){$('#launchSearch').value='';$('#launchSearch').focus();renderLaunch('')}else $('#launchSearch').blur()}
 function renderLaunch(q){$('#launchGrid').innerHTML=apps.filter(a=>(a[1]+' '+a[0]).toLowerCase().includes(q.toLowerCase())).map(a=>'<button class="launch-app" data-open="'+a[0]+'">'+appIcon(a[0])+'<span>'+a[1]+'</span></button>').join('')}
