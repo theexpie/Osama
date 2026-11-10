@@ -1,0 +1,41 @@
+# Desktop
+
+A browser-based desktop environment prototype inspired by the macOS Tahoe visual language and the Linux MacTahoe theme projects.
+
+## Run
+
+Open `index.html` on a modern desktop browser. The SVG entrypoint is `osama.svg`; it embeds the same desktop interface for direct viewing in browsers that support SVG `foreignObject` and scripting.
+
+## Included in this preview
+
+- Tahoe-style desktop wallpaper with day/night variants
+- Translucent menu bar, system status area, Dock and popovers
+- Dock magnification, icon bounce, running indicators and window animations
+- Finder-style file manager with sidebar, folder navigation, search, new-folder action and view toggle
+- System Settings with appearance, wallpaper, Dock, desktop, Control Center, sound and keyboard sections
+- Launchpad and Spotlight-style app search
+- Control Center with Wi-Fi, Bluetooth, Focus, brightness, volume, Dark Mode and screen-mirroring toggles
+- Notification Center widgets and live clock
+- Browser, Notes, Calculator, Terminal, App Store, Music and Photos windows
+- Draggable, focusable, minimizable, maximizable and resizable app windows
+- Keyboard shortcuts: `Ctrl/⌘ + Space` for search, `F4` for Launchpad, `Ctrl/⌘ + N` for Finder, and `Ctrl/⌘ + W` to close the focused window
+
+## What it is
+
+This is a desktop UI prototype that runs inside a web browser. File contents, connectivity, power, sound and other hardware-level operations are simulated; it is not a bootable operating system or a replacement for a Linux desktop session.
+
+## Theme references and assets
+
+The visual direction references [MacTahoe GTK Theme](https://github.com/vinceliuice/MacTahoe-gtk-theme) and [MacTahoe Icon Theme](https://github.com/vinceliuice/MacTahoe-icon-theme).
+
+The day/night wallpaper images are loaded from the MacTahoe GTK Theme repository. The folder and Firefox SVG icons are loaded from the MacTahoe Icon Theme repository. Their upstream license texts are included under `LICENSES/`. Other app glyphs in this prototype are custom inline SVG drawings.
+
+- GTK theme and wallpaper source: MIT, see [LICENSES/MacTahoe-gtk-MIT.txt](LICENSES/MacTahoe-gtk-MIT.txt)
+- Icon source: GPL-3.0, see [LICENSES/MacTahoe-icon-GPL-3.0.txt](LICENSES/MacTahoe-icon-GPL-3.0.txt)
+
+## Project structure
+
+- `index.html` — main desktop shell
+- `osama.svg` — SVG-hosted copy of the desktop shell
+- `browser.html` — Browser app loaded inside its desktop window
+- `LICENSES/` — upstream theme license texts
