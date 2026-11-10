@@ -645,14 +645,18 @@ $('#storeGrid').innerHTML=storeApps.map(a=>'<div class="store-tile">'+appIcon(a[
 /* Menubar, time, shortcuts, context menu */
 function tick(){const d=new Date();const time=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});const date=d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});$('#clock').textContent=date+'  '+time;$('#notifDate').textContent=d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});$('#notifClock').textContent=time}
 tick();setInterval(tick,15000);
-document.addEventListener('keydown',e=>{const mod=e.metaKey||e.ctrlKey;if(mod&&e.code==='Space'){e.preventDefault();toggleSpot()}if(e.key==='F4'){e.preventDefault();toggleLaunchpad()}if(mod&&e.key.toLowerCase()==='n'){e.preventDefault();openApp('finder')}if(mod&&e.key.toLowerCase()==='w'){const w=$('.window.focused');if(w)closeWin(w)}if(e.key==='Escape'){closePopovers();$('#spotlight').classList.remove('show');$('#launchpad').classList.remove('show');$('#contextMenu').classList.remove('show')}});
+document.addEventListener('keydown',e=>{const mod=e.metaKey||e.ctrlKey;if(mod&&e.code==='Space'){e.preventDefault();toggleSpot()}if(e.key==='F4'){e.preventDefault();toggleLaunchpad()}if(mod&&e.key.toLowerCase()==='n'){e.preventDefault();openApp('finder')}if(mod&&e.key.toLowerCase()==='w'){const w=$('.window.focused');if(w)closeWin(w)}if(e.key==='Escape'){closePopovers();$('#spotlight').classList.remove('show');$('#launchpad').classList.remove('show');$('#contextMenu').classList.remove('show');$('#fileContext').classList.remove('show')}});
 $('#desktop').addEventListener('click',e=>{if(!$('#desktop').classList.contains('click-show-desktop')||e.target.closest('.window,.menubar,.dock-area,.glass-pop,.launchpad'))return;$$('.window.open').forEach(w=>minimizeWin(w))});
 $('#desktop').addEventListener('contextmenu',e=>{if(e.target.closest('.window,.menubar,.dock-area'))return;e.preventDefault();const m=$('#contextMenu');m.style.left=Math.min(e.clientX,innerWidth-200)+'px';m.style.top=Math.min(e.clientY,innerHeight-180)+'px';m.classList.add('show')});
 $$('[data-action="new-folder"]').forEach(b=>b.onclick=()=>{openApp('finder');newFolder();$('#contextMenu').classList.remove('show')});
 $$('[data-action="clean"]').forEach(b=>b.onclick=()=>{$('#contextMenu').classList.remove('show');notify('Desktop sorted')});
 $$('[data-action="lock"]').forEach(b=>b.onclick=()=>notify('Lock Screen is a preview action.'));
 $$('[data-action="sleep"],[data-action="restart"]').forEach(b=>b.onclick=()=>notify('Power controls are simulated in this preview.'));
-document.addEventListener('pointerdown',e=>{if(!e.target.closest('.glass-pop,.statusbtn,.apple-mark,.menubtn')&&!e.target.closest('#clock'))closePopovers();if(!e.target.closest('#contextMenu'))$('#contextMenu').classList.remove('show')});
+document.addEventListener('pointerdown',e=>{
+ if(!e.target.closest('.glass-pop,.statusbtn,.apple-mark,.menubtn')&&!e.target.closest('#clock'))closePopovers();
+ if(!e.target.closest('#contextMenu'))$('#contextMenu').classList.remove('show');
+ if(!e.target.closest('#fileContext,.file-card,[data-action="finder-menu"]'))$('#fileContext').classList.remove('show');
+});
 $('#dockArea').addEventListener('pointerenter',()=>$('#dockArea').classList.remove('hidden-dock'));document.addEventListener('pointermove',e=>{if(e.clientY>innerHeight-4)$('#dockArea').classList.remove('hidden-dock')});
 window.addEventListener('resize',()=>{$$('.window').forEach(w=>{if(!w.classList.contains('max')){const r=w.getBoundingClientRect();if(r.right>innerWidth)w.style.left=Math.max(0,innerWidth-w.offsetWidth)+'px';if(r.bottom>innerHeight)w.style.top=Math.max(30,innerHeight-w.offsetHeight-50)+'px'}})});
 window.Desktop={id:'desktop.shell',version:'0.2.0',launch:openApp,notify,apps:apps.map(a=>({id:a[0],name:a[1]})),get activeApp(){return activeApp}};
