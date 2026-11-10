@@ -873,8 +873,8 @@ function mobileTimeTick(){
  $('#mobileTime').textContent=t;$('#mobileAppTime').textContent=t;
 }
 mobileTimeTick();setInterval(mobileTimeTick,15000);renderMobileHome();
-if(mobileMode())showMobileHome();
 let mobileGesture=null,currentMobileApp='browser';
+if(mobileMode())showMobileHome();
 function gestureStart(e){
  if(!mobileMode()||e.pointerType!=='touch')return;
  mobileGesture={x:e.clientX,y:e.clientY};
