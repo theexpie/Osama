@@ -569,11 +569,11 @@ function openSelected(){const item=selectedItem();if(!item)return notify('Select
 function newFolder(){const name='Untitled Folder';store[finderPath]=store[finderPath]||[];let n=name,i=2;while(store[finderPath].some(x=>x[0]===n))n=name+' '+i++;store[finderPath].push([n,'folder']);store[n]=[];saveFileStore();renderFinder();notify('Folder created')}
 $$('[data-folder]').forEach(b=>b.onclick=()=>navigateFolder(b.dataset.folder));
 $$('.side-link').forEach(link=>{
- link.addEventListener('dragover',e=>{if(parseDraggedFile(e)){e.preventDefault();e.dataTransfer.dropEffect='move';link.classList.add('drop-target')}});
+ link.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';link.classList.add('drop-target')});
  link.addEventListener('dragleave',()=>link.classList.remove('drop-target'));
  link.addEventListener('drop',e=>{e.preventDefault();link.classList.remove('drop-target');const data=parseDraggedFile(e);if(data)moveFileItem(data.fromPath,data.name,link.dataset.folder)});
 });
-$('#finderGrid').addEventListener('dragover',e=>{if(!e.target.closest('.file-card')&&parseDraggedFile(e)){e.preventDefault();e.dataTransfer.dropEffect='move'}});
+$('#finderGrid').addEventListener('dragover',e=>{if(!e.target.closest('.file-card')){e.preventDefault();e.dataTransfer.dropEffect='move'}});
 $('#finderGrid').addEventListener('drop',e=>{if(e.target.closest('.file-card'))return;const data=parseDraggedFile(e);if(data){e.preventDefault();moveFileItem(data.fromPath,data.name,finderPath)}});
 
 $$('[data-action="finder-back"]').forEach(b=>b.onclick=()=>{if(finderHistory.length){finderForward.push(finderPath);finderPath=finderHistory.pop();renderFinder()}});
