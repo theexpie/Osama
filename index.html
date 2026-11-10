@@ -103,7 +103,7 @@ html.no-glass .menubar,html.no-glass .dock-area,html.no-glass .window,html.no-gl
 .file-card{min-width:0;min-height:78px;border:1px solid transparent;border-radius:8px;background:transparent;padding:8px 3px 5px;display:flex;align-items:center;flex-direction:column;gap:6px;color:#e5e6e9;font-size:10px;text-align:center}
 .file-card:hover,.file-card.selected{background:#ffffff12;border-color:#ffffff16}
 .file-card .folder-art{width:40px;height:36px}
-.file-card .doc-art{width:31px;height:37px;filter:drop-shadow(0 3px 3px #0005)}
+.file-card .doc-art{width:34px;height:38px;filter:drop-shadow(0 3px 3px #0005)}
 .file-card span{max-width:100%;overflow-wrap:anywhere}
 .finder-empty{color:#aeb3ba;text-align:center;padding:70px 10px;font-size:12px}
 .finder-footer{height:24px;flex:none;border-top:1px solid #ffffff0c;display:flex;align-items:center;justify-content:space-between;padding:0 13px;color:#9da3aa;font-size:10px}
@@ -229,6 +229,47 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 }
 @media(max-height:520px){.dock-area{bottom:3px;padding:3px 5px}.dock-app{width:38px;height:38px}.dock-app .appicon{width:35px;height:35px}.window{height:calc(100dvh - 64px)!important}.launch-grid{margin-top:17px;gap:8px 12px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* Desktop interaction corrections */
+.dock-area{width:max-content;max-width:calc(100vw - 16px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:28px 10px 8px;overscroll-behavior-x:contain;touch-action:pan-x}
+.dock-area::-webkit-scrollbar{display:none}
+.dock{width:max-content;gap:7px}
+.dock-app{will-change:transform;z-index:0;transition:transform .16s cubic-bezier(.2,.8,.2,1),filter .16s;transform:translate3d(var(--dock-shift,0px),calc(var(--dock-lift,0px) * -1),0) scale(var(--dock-scale,1))}
+.dock-app.magnified{z-index:3;filter:brightness(1.08)}
+.dock-app:hover{transform:translate3d(var(--dock-shift,0px),calc(var(--dock-lift,0px) * -1),0) scale(var(--dock-scale,1))}
+.dock-app .appicon{width:46px;height:46px;object-fit:contain}
+.dock-app img.appicon{overflow:visible}
+.window{resize:none}
+.resize-handle{position:absolute;z-index:20;touch-action:none}
+.resize-handle.n,.resize-handle.s{left:9px;right:9px;height:7px;cursor:ns-resize}
+.resize-handle.n{top:0}.resize-handle.s{bottom:0}
+.resize-handle.e,.resize-handle.w{top:9px;bottom:9px;width:7px;cursor:ew-resize}
+.resize-handle.e{right:0}.resize-handle.w{left:0}
+.resize-handle.ne,.resize-handle.nw,.resize-handle.se,.resize-handle.sw{width:13px;height:13px}
+.resize-handle.ne{right:0;top:0;cursor:nesw-resize}.resize-handle.nw{left:0;top:0;cursor:nwse-resize}
+.resize-handle.se{right:0;bottom:0;cursor:nwse-resize}.resize-handle.sw{left:0;bottom:0;cursor:nesw-resize}
+.window.max .resize-handle{display:none}
+.file-card{cursor:default}
+.file-card .file-name{max-width:100%;overflow-wrap:anywhere;user-select:none}
+.file-card.selected{background:rgba(74,142,225,.28)!important;border-color:rgba(119,174,246,.38)!important}
+.file-card:focus-visible{outline:2px solid #80baff;outline-offset:-2px}
+.file-context{position:absolute;z-index:170;min-width:165px;padding:6px;border:1px solid #ffffff32;border-radius:10px;background:rgba(37,43,51,.94);backdrop-filter:blur(28px);box-shadow:0 12px 38px #0008;display:none}
+.file-context.show{display:block;animation:popIn .13s ease forwards}
+.file-context button{display:block;width:100%;padding:8px 9px;text-align:left;border:0;border-radius:6px;background:transparent;color:#fff;font-size:11px}
+.file-context button:hover{background:#ffffff1c}
+.file-search{width:min(220px,45%);height:26px;border:1px solid #ffffff24;border-radius:7px;background:#ffffff12;color:#fff;padding:0 8px;font-size:11px}
+.folder-art,.doc-art{object-fit:contain}
+@media(max-width:620px){
+ .dock-area{max-width:calc(100vw - 12px);padding:25px 7px 7px}
+ .dock{gap:4px}
+ .dock-app{width:39px;height:41px}
+ .dock-app .appicon{width:37px;height:37px}
+ .dock-sep{margin-left:1px;margin-right:1px}
+ .window{min-width:0}
+ .finder{grid-template-columns:112px minmax(0,1fr)}
+ .file-card{min-height:70px}
+}
+
 </style>
 </head>
 <body>
@@ -255,10 +296,10 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 </header>
 <div class="desktop-icons">
  <button class="desktop-icon" data-open="finder"><img class="folder-art" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/src/places/scalable/folder.svg" alt=""><span>Home</span></button>
- <button class="desktop-icon" data-open="browser"><svg class="disk-art" viewBox="0 0 48 40"><circle cx="24" cy="20" r="17" fill="#f2a045"/><path d="M24 3a17 17 0 0 0 0 34c-4-4-7-9-7-16s3-14 7-18z" fill="#e65356"/><path d="M7 14h34M8 27h32" stroke="#8a4bb1" stroke-width="5"/><circle cx="24" cy="20" r="7" fill="#f8d77a" stroke="#fff" stroke-width="1.5"/></svg><span>Browser</span></button>
+ <button class="desktop-icon" data-open="browser"><img class="disk-art" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/src/apps/scalable/firefox.svg" alt="" draggable="false"><span>Browser</span></button>
 </div>
 <!-- Applications -->
-<section class="window open focused" id="finder" data-title="Finder" style="width:min(600px,calc(100vw - 28px));height:min(365px,calc(100dvh - 92px));left:50%;top:50%">
+<section class="window" id="finder" data-title="Finder" style="width:min(600px,calc(100vw - 28px));height:min(365px,calc(100dvh - 92px));left:50%;top:50%">
  <div class="winhead"><div class="traffic"><button class="red close" title="Close"></button><button class="yellow minimize" title="Minimize"></button><button class="green maximize" title="Zoom"></button></div><div class="wintitle">Files</div><div class="winhead-tools"><button class="round-tool" data-action="finder-search" title="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button><button class="round-tool" data-action="finder-menu" title="More"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="19" cy="12" r="1" fill="currentColor"/></svg></button></div></div>
  <div class="winbody"><div class="finder">
   <aside class="finder-side">
@@ -348,6 +389,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <div class="glass-pop notification" id="notificationCenter"><div class="notif-date" id="notifDate">Monday, November 9</div><div class="notif-clock" id="notifClock">7:37</div><div class="widget"><strong>Calendar</strong><p>No events today. Enjoy the quiet.</p></div><div class="widget"><strong>Weather</strong><p>Weather isn't connected in this preview.</p></div><div class="widget"><strong>Notifications</strong><p>You're all caught up.</p></div></div>
 <div class="glass-pop spotlight" id="spotlight"><div class="spot-input-wrap"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="spotInput" placeholder="Spotlight Search" autocomplete="off" spellcheck="false"></div><div class="spot-results" id="spotResults"></div></div>
 <div class="launchpad" id="launchpad"><input class="launch-search" id="launchSearch" placeholder="Search" autocomplete="off"><div class="launch-grid" id="launchGrid"></div></div>
+<div class="file-context" id="fileContext"><button data-file-action="open">Open</button><button data-file-action="rename">Rename</button><button data-file-action="duplicate">Duplicate</button><button data-file-action="trash">Move to Trash</button><button data-file-action="info">Get Info</button></div>
 <div class="context-menu" id="contextMenu"><button class="menu-item" data-action="new-folder">New Folder</button><button class="menu-item" data-open="finder">Open Finder</button><button class="menu-item" data-open="settings">Change Wallpaper…</button><div class="menu-separator"></div><button class="menu-item" data-action="clean">Sort By Name</button></div>
 <div class="toast" id="toast"></div>
 </div>
@@ -355,23 +397,44 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const apps=[['finder','Finder','finder'],['launchpad','Launchpad','launchpad'],['browser','Browser','browser'],['messages','Messages','messages'],['photos','Photos','photos'],['music','Music','music'],['notes','Notes','notes'],['calculator','Calculator','calculator'],['terminal','Terminal','terminal'],['settings','System Settings','settings'],['appstore','App Store','appstore']];
-let z=20,activeApp='Finder',finderPath='Home',finderHistory=['Home'],finderForward=[],selectedFile=null,calcCurrent='0',calcFirst=null,calcOp=null,calcFresh=false;
+let z=20,activeApp='Desktop',finderPath='Home',finderHistory=[],finderForward=[],selectedFile=null,calcCurrent='0',calcFirst=null,calcOp=null,calcFresh=false;
 const store={Home:[['Desktop','folder'],['Documents','folder'],['Downloads','folder'],['MacTahoe-gtk-theme','folder'],['MacTahoe-icon-theme','folder'],['Music','folder'],['Pictures','folder'],['Public','folder'],['snap','folder'],['Templates','folder'],['Videos','folder'],['.cache','folder'],['.config','folder'],['.local','folder'],['.ssh','folder'],['.themes','folder'],['instructions.txt','doc'],['.bash_history','doc'],['.bashrc','doc'],['.profile','doc']],Desktop:[['Screenshot.png','image'],['Design Notes.txt','doc']],Documents:[['Project Brief.txt','doc'],['Ideas.txt','doc'],['Read me.pdf','pdf']],Downloads:[['Installer.dmg','disk'],['Wallpaper.jpg','image']],Pictures:[['Tahoe Wallpaper.jpg','image'],['IMG_2048.png','image']],Music:[['Favorites.m3u','doc']],Public:[],Templates:[],Videos:[],Applications:[['Browser.app','app'],['System Settings.app','app'],['Notes.app','app']],Recents:[['Project Brief.txt','doc'],['Tahoe Wallpaper.jpg','image'],['Installer.dmg','disk']],Starred:[['Design Notes.txt','doc'],['Tahoe Wallpaper.jpg','image']],Trash:[], 'Macintosh HD':[['Applications','folder'],['System','folder'],['Users','folder']]};
-const folderSvg=(blue=true)=>'<img class="folder-art" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/src/places/scalable/folder.svg" alt="">';
-const docSvg=(kind='doc')=>'<svg class="doc-art" viewBox="0 0 36 44"><path d="M5 1h17l9 9v32H5z" fill="'+(kind==='pdf'?'#f4e6e5':'#e8edf2')+'" stroke="#c4ccd4"/><path d="M22 1v9h9" fill="#c6d3df"/><path d="M10 18h16M10 23h16M10 28h12" stroke="'+(kind==='pdf'?'#d66b63':'#9faeba')+'" stroke-width="1.5"/></svg>';
-function appIcon(id){if(id==='browser')return '<img class="appicon" src="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/src/apps/scalable/firefox.svg" alt="">';const svg={
-finder:'<svg viewBox="0 0 64 64"><defs><linearGradient id="fi" x2="0" y2="1"><stop stop-color="#b6eeff"/><stop offset="1" stop-color="#269de2"/></linearGradient></defs><rect x="3" y="4" width="58" height="56" rx="15" fill="url(#fi)"/><path d="M32 5v54" stroke="#ffffff9a"/><path d="M12 24c4-5 9-7 16-5M38 19c6-2 11 0 14 4M16 42c5 4 12 4 16 1 5 4 11 3 16-1" fill="none" stroke="#265b82" stroke-width="2.5" stroke-linecap="round"/></svg>',
-launchpad:'<svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="15" fill="#549ee2"/><g fill="#fff"><circle cx="21" cy="20" r="5"/><circle cx="32" cy="20" r="5"/><circle cx="43" cy="20" r="5"/><circle cx="21" cy="33" r="5"/><circle cx="32" cy="33" r="5"/><circle cx="43" cy="33" r="5"/><circle cx="21" cy="46" r="5"/><circle cx="32" cy="46" r="5"/><circle cx="43" cy="46" r="5"/></g></svg>',
-browser:'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#ed9747"/><path d="M32 3A29 29 0 0 0 6 45l24-13z" fill="#e64e5c"/><path d="M6 45a29 29 0 0 0 52-4L32 32z" fill="#7f55b7"/><path d="M58 41A29 29 0 0 0 32 3l-2 29z" fill="#e9c05a"/><circle cx="32" cy="32" r="13" fill="#f8edcf"/><circle cx="32" cy="32" r="9" fill="#6a9bbd"/></svg>',
-messages:'<svg viewBox="0 0 64 64"><rect x="3" y="4" width="58" height="56" rx="15" fill="#34c85a"/><path d="M13 30c0-10 8-17 19-17s19 7 19 17-8 17-19 17c-3 0-6-.5-8-1.5L14 51l2-10c-2-3-3-7-3-11z" fill="#fff"/></svg>',
-photos:'<svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="15" fill="#f8f8fb"/><g transform="translate(32 32)"><path d="M0-22C13-25 18-11 8 0H0z" fill="#ef6559"/><path d="M8 0C21 8 15 22 0 18v-18z" fill="#f3ad50"/><path d="M0 18C-13 25-20 11-8 0H0z" fill="#54bd7b"/><path d="M-8 0C-21-8-15-22 0-18v18z" fill="#4b9bea"/></g></svg>',
-music:'<svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="15" fill="#df477a"/><path d="M40 14v28a8 8 0 1 1-5-7V20l17-4v22a8 8 0 1 1-5-7V12z" fill="white"/></svg>',
-notes:'<svg viewBox="0 0 64 64"><rect x="5" y="4" width="54" height="56" rx="10" fill="#fff5cf"/><path d="M5 17h54" stroke="#f3b847" stroke-width="10"/><path d="M15 30h34M15 38h34M15 46h24" stroke="#c4bca1" stroke-width="2.5" stroke-linecap="round"/></svg>',
-calculator:'<svg viewBox="0 0 64 64"><rect x="7" y="3" width="50" height="58" rx="11" fill="#4d5058"/><rect x="14" y="10" width="36" height="12" rx="3" fill="#c6e5d2"/><g fill="#e1e3e8"><circle cx="19" cy="31" r="4"/><circle cx="32" cy="31" r="4"/><circle cx="45" cy="31" r="4"/><circle cx="19" cy="43" r="4"/><circle cx="32" cy="43" r="4"/><circle cx="45" cy="43" r="4"/><circle cx="19" cy="54" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="45" cy="54" r="4"/></g></svg>',
-terminal:'<svg viewBox="0 0 64 64"><rect x="3" y="4" width="58" height="56" rx="12" fill="#252e3d" stroke="#ffffff55"/><path d="m14 23 9 8-9 8M28 40h15" fill="none" stroke="#d7e9e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-settings:'<svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="15" fill="#5598ce"/><path d="m32 12 4 2 4-1 3 5 4 2v5l3 4-3 4v5l-5 3-2 4h-6l-4 3-4-3h-5l-3-5-4-2v-5l-3-4 3-4v-5l5-3 2-4h6z" fill="#dcecf5" stroke="#fff"/><circle cx="32" cy="31" r="8" fill="#537d9e" stroke="#fff" stroke-width="2"/></svg>',
-appstore:'<svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="15" fill="#2497e6"/><path d="m20 46 23-31M15 36h35M25 17l20 30" stroke="white" stroke-width="4.5" stroke-linecap="round"/></svg>'
-};return '<svg class="appicon" viewBox="0 0 64 64" aria-hidden="true">'+(svg[id]||svg.settings).replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')+'</svg>'}
+const THEME="https://raw.githubusercontent.com/vinceliuice/MacTahoe-icon-theme/main/";
+const iconPaths={
+finder:"links/apps/scalable/org.gnome.nautilus.svg",
+launchpad:"links/apps/scalable/com.gnome.Software.svg",
+browser:"src/apps/scalable/firefox.svg",
+messages:"links/apps/scalable/org.gnome.Polari.svg",
+photos:"links/apps/scalable/Gnome-Photos.svg",
+music:"links/apps/scalable/iease-music.svg",
+notes:"links/apps/scalable/indicator-stickynotes.svg",
+calculator:"links/apps/scalable/calculator.svg",
+terminal:"links/apps/scalable/Terminal.svg",
+settings:"links/apps/scalable/gnome-system.svg",
+appstore:"links/apps/scalable/com.gnome.Software.svg",
+trash:"links/places/scalable/gnome-stock-trash.svg",
+folder:"src/places/scalable/folder.svg",
+home:"links/places/scalable/default-user-home.svg",
+doc:"links/mimes/scalable/text-plain.svg",
+pdf:"links/mimes/scalable/pdf.svg",
+image:"links/mimes/scalable/image.svg",
+disk:"links/devices/scalable/drive-harddisk.svg"
+};
+function themeIcon(id,cls="appicon"){
+ const path=iconPaths[id]||iconPaths.doc;
+ const fallback=id==="browser"?"src/apps/scalable/firefox.svg":id==="folder"?"src/places/scalable/folder.svg":"src/places/scalable/folder.svg";
+ return '<img class="'+cls+'" src="'+THEME+path+'" alt="" draggable="false" loading="eager" onerror="this.onerror=null;this.src=\''+THEME+fallback+'\'">';
+}
+const folderSvg=()=>themeIcon("folder","folder-art");
+const docSvg=(kind="doc")=>themeIcon(kind==="pdf"?"pdf":kind==="image"?"image":kind==="disk"?"disk":"doc","doc-art");
+function appIcon(id){return themeIcon(id,"appicon")}
+function applyOfficialDockIcons(){
+ $$(".dock-app").forEach(b=>{
+  const id=b.dataset.open||b.dataset.action;
+  if(!id)return;
+  b.innerHTML=themeIcon(id,"appicon");
+ });
+}
 function notify(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1900)}
 function bringFront(w){z+=1;w.style.zIndex=z;$$('.window').forEach(x=>x.classList.toggle('focused',x===w));activeApp=w.dataset.title||w.id;$('#activeApp').textContent=activeApp;$$('.dock-app').forEach(b=>b.querySelector('.running')?.remove());const dock=$('.dock-app[data-open="'+w.id+'"]');if(dock){const dot=document.createElement('i');dot.className='running';dock.appendChild(dot)}}
 function openApp(id){if(id==='launchpad'){toggleLaunchpad(true);return}if(id==='about'){notify('Desktop Preview · Tahoe-inspired build');return}let win=$('#'+id);if(!win){return}win.classList.remove('minimizing');win.classList.add('open');bringFront(win);win.style.left=win.style.left||'50%';if(id==='notes')$('#notesText').focus()}
@@ -399,7 +462,7 @@ $$('[data-action="finder-new"]').forEach(b=>b.onclick=newFolder);
 $$('[data-action="finder-view"]').forEach(b=>b.onclick=()=>{$('#finderGrid').style.gridTemplateColumns=$('#finderGrid').style.gridTemplateColumns?'':'1fr';notify('View changed')});
 $$('[data-action="finder-search"]').forEach(b=>b.onclick=()=>{const q=prompt('Search this folder');if(q){$$('.file-card').forEach(x=>x.style.display=x.textContent.toLowerCase().includes(q.toLowerCase())?'':'none')}});
 $$('[data-action="finder-menu"]').forEach(b=>b.onclick=()=>notify('Finder options'));
-renderFinder();setRunning('finder');
+renderFinder();
 /* Settings */
 function settingPage(name){$$('.settings-nav').forEach(b=>b.classList.toggle('active',b.dataset.settings===name));let content='';
 if(name==='Appearance')content='<h2>Appearance</h2><p class="sub">Choose how your desktop looks.</p><div class="settings-section">Appearance</div><div class="setting-row"><div>Light / Dark<small>Change the overall appearance</small></div><select id="themeSelect" class="choice"><option value="dark">Dark</option><option value="light">Light</option><option value="auto">Auto</option></select></div><div class="setting-row"><div>Accent colour<small>Used for highlights and controls</small></div><input id="accentColor" type="color" value="#68aefb" style="width:40px;height:27px;border:0;background:none"></div><div class="setting-row"><div>Liquid Glass<small>Translucent panels and background blur</small></div><button class="toggle on" data-setting-toggle="glass"></button></div><div class="setting-row"><div>Reduce motion<small>Use fewer transitions and effects</small></div><button class="toggle" data-setting-toggle="motion"></button></div>';
