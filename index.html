@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#182b40">
 <title>Desktop</title>
 <style>
+
 :root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:#f7f8fb;background:#071a32;font-synthesis:none;--text:#f7f8fb;--muted:#c3cad4;--glass:rgba(25,31,40,.62);--glass2:rgba(27,32,40,.88);--glass3:rgba(255,255,255,.1);--stroke:rgba(255,255,255,.22);--accent:#68aefb;--shadow:0 26px 80px rgba(0,0,0,.42);--bar:rgba(28,43,58,.43);--panel:rgba(32,37,45,.88);--motion:1}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
@@ -293,93 +294,18 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 
 /* Mobile: iOS-like home screen and edge-swipe app switcher */
 #mobileHome,#mobileSwitcher,#mobileStatusBar,#mobileHomeIndicator,#mobileRightEdge,#mobileBottomEdge{display:none}
-@media(max-width:700px), (max-width:1100px) and (min-height:700px), (max-width:950px) and (max-height:500px){
- html,body{height:100%;height:100dvh;overscroll-behavior:none}
- #desktop{height:100dvh;background:#b99c9d!important;background-image:none!important}
- #desktop:before{inset:-10%;opacity:1;filter:blur(34px);background:
-  radial-gradient(ellipse 70% 38% at 14% 9%,#e3c6a1 0%,transparent 70%),
-  radial-gradient(ellipse 55% 44% at 82% 12%,#96577d 0%,transparent 72%),
-  radial-gradient(ellipse 65% 42% at 45% 54%,#d8b58d 0%,transparent 74%),
-  radial-gradient(ellipse 54% 34% at 24% 84%,#a36b85 0%,transparent 70%),
-  linear-gradient(145deg,#c8a99b,#d9c49b 54%,#a35e82)!important}
- #desktop:after{background:linear-gradient(180deg,#3a1e3210,transparent 35%,#452c3a16)}
- .menubar,.desktop-icons,.dock-area{display:none!important}
- #mobileHome{position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 66px) 7.2vw calc(env(safe-area-inset-bottom) + 14px);opacity:1;visibility:visible;transition:opacity .24s,transform .32s cubic-bezier(.2,.8,.2,1)}
- #mobileHome.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:scale(.97)}
- .mobile-wallpaper{position:absolute;inset:-2%;z-index:-1;background:
-  radial-gradient(ellipse at 16% 14%,#e8c99e 0 14%,transparent 45%),
-  radial-gradient(ellipse at 84% 20%,#985c83 0 12%,transparent 42%),
-  radial-gradient(ellipse at 49% 55%,#d4b48e 0 18%,transparent 56%),
-  radial-gradient(ellipse at 18% 86%,#9e6682 0 8%,transparent 35%),
-  linear-gradient(145deg,#c9a99c 0%,#dfc89e 50%,#a65c81 100%);filter:blur(12px) saturate(1.04)}
- .mobile-status{position:absolute;top:calc(env(safe-area-inset-top) + 10px);left:9.2vw;right:8vw;display:flex;align-items:center;gap:8px;font-size:clamp(17px,5.4vw,25px);font-weight:650;letter-spacing:-.6px;color:white;text-shadow:0 1px 5px #422b3455}
- .mobile-silent{font-size:.9em;opacity:.9}
- .mobile-status-right{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:.88em}
- .mobile-signal{font-size:.62em;letter-spacing:-2px}
- .mobile-battery{width:27px;height:14px;border:1.7px solid #fff;border-radius:4px;position:relative;padding:2px}
- .mobile-battery:after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:6px;background:#fff;border-radius:0 2px 2px 0}
- .mobile-battery i{display:block;width:82%;height:100%;border-radius:2px;background:#fff}
- .mobile-app-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:min-content;column-gap:clamp(7px,3.2vw,20px);row-gap:clamp(20px,4.3vh,38px);align-content:start;width:100%}
- .mobile-app{min-width:0;display:flex;align-items:center;flex-direction:column;gap:7px;padding:0;border:0;background:transparent;color:#fff;text-shadow:0 1px 4px #503b3e66;touch-action:manipulation}
- .mobile-app img{width:min(18vw,78px);height:min(18vw,78px);object-fit:contain;filter:drop-shadow(0 4px 6px #543b3b20);transition:transform .16s}
- .mobile-app:active img{transform:scale(.91)}
- .mobile-app span{font-size:clamp(11px,3.3vw,14px);font-weight:500;line-height:1.1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
- .mobile-search{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom) + 132px);transform:translateX(-50%);border:0;border-radius:30px;padding:9px 19px;background:#7f645b55;color:#fff;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);font-size:14px;font-weight:550;display:flex;align-items:center;gap:8px}
- .mobile-search span{font-size:22px;line-height:14px}
- .mobile-dock{position:absolute;left:3.5vw;right:3.5vw;bottom:calc(env(safe-area-inset-bottom) + 15px);height:91px;border-radius:31px;padding:12px 13px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;gap:clamp(8px,3vw,18px);background:linear-gradient(115deg,#fff5,#fff2 48%,#f4ed9b55);border:1px solid #ffffff4d;box-shadow:0 10px 32px #543d3d22,inset 0 1px #ffffff7a;backdrop-filter:blur(34px) saturate(1.5);-webkit-backdrop-filter:blur(34px) saturate(1.5)}
- .mobile-dock .mobile-app img{width:min(16.5vw,68px);height:min(16.5vw,68px)}
- .mobile-dock .mobile-app span{display:none}
- #mobileStatusBar{position:absolute;z-index:1100;top:calc(env(safe-area-inset-top) + 10px);left:9vw;right:8vw;height:29px;align-items:center;justify-content:space-between;color:white;font-size:clamp(16px,5vw,23px);font-weight:650;text-shadow:0 1px 5px #0004;pointer-events:none}
- #mobileStatusBar>div{display:flex;align-items:center;gap:6px}
- #mobileStatusBar i{display:block;width:26px;height:14px;border:1.6px solid white;border-radius:4px;position:relative}
- #mobileStatusBar i:before{content:"";position:absolute;inset:2px 4px 2px 2px;border-radius:2px;background:white}
- #mobileStatusBar i:after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:6px;background:white}
- #mobileHomeIndicator{position:absolute;z-index:1300;display:block;left:50%;bottom:calc(env(safe-area-inset-bottom) + 7px);transform:translateX(-50%);width:108px;height:5px;border-radius:8px;background:#ffffffd9;box-shadow:0 1px 3px #0002;touch-action:none}
- #mobileRightEdge{position:absolute;z-index:1250;display:block;right:0;top:0;bottom:0;width:22px;background:transparent;touch-action:pan-y}
- #mobileBottomEdge{position:absolute;z-index:1250;display:block;left:0;right:0;bottom:0;height:20px;background:transparent;touch-action:pan-x}
- .window{display:none!important;position:absolute!important;inset:0!important;left:0!important;top:0!important;width:100%!important;height:100dvh!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;background:#fff!important;backdrop-filter:none!important}
- .window.open{display:flex!important;animation:mobileAppIn .26s cubic-bezier(.2,.8,.2,1) both}
- @keyframes mobileAppIn{from{opacity:.65;transform:scale(.96)!important}to{opacity:1;transform:scale(1)!important}}
- .window .winhead{display:none!important}
- .window .winbody{height:100%;min-height:0;flex:1;border-radius:0;padding-top:calc(env(safe-area-inset-top) + 45px)}
- #browser .winbody{padding-top:env(safe-area-inset-top);background:#fff}
- #browser .browser-embed{width:100%;height:100%;background:#fff}
- #finder .finder{grid-template-columns:112px minmax(0,1fr)}
- #finder .finder-side{padding-top:14px}
- #finder .finder-content{padding:12px 7px}
- #finder .finder-grid{grid-template-columns:repeat(auto-fill,minmax(66px,1fr))}
- #settings .settings-app{grid-template-columns:112px minmax(0,1fr)}
- #settings .settings-main{padding:15px 12px}
- #messages .messages-app{grid-template-columns:108px minmax(0,1fr)}
- #mobileSwitcher{position:absolute;inset:0;z-index:1200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top) + 60px) 0 calc(env(safe-area-inset-bottom) + 65px);background:#08090cf2;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s}
- #mobileSwitcher.show{opacity:1;visibility:visible;pointer-events:auto}
- .switcher-blurs{position:absolute;inset:0;overflow:hidden;filter:blur(35px);opacity:.52}
- .switcher-blurs i{position:absolute;width:35vw;height:30vh;border-radius:50%;background:#16733b;left:-10%;top:13%}
- .switcher-blurs i:nth-child(2){background:#2767a8;left:72%;top:42%}
- .switcher-blurs i:nth-child(3){background:#8c2848;left:8%;top:70%}
- .switcher-blurs i:nth-child(4){background:#b8a15c;left:76%;top:10%}
- .switcher-card-wrap{position:relative;width:min(72vw,340px);height:min(70vh,660px);display:flex;flex-direction:column;gap:14px}
- .switcher-app-title{height:32px;display:flex;align-items:center;gap:12px;padding-left:3px;color:#fff;font-size:18px}
- .switcher-app-title img{width:31px;height:31px;object-fit:contain;border-radius:9px}
- .switcher-card{flex:1;min-height:0;width:100%;padding:0;border:0;border-radius:38px;background:#fff;overflow:hidden;box-shadow:0 20px 70px #0008;transition:transform .18s}
- .switcher-card:active{transform:scale(.985)}
- .switcher-preview{height:100%;position:relative;background:#fff}
- .switcher-preview-page{position:absolute;inset:0;background:linear-gradient(#fff,#fff)}
- .switcher-preview-toolbar{position:absolute;left:7%;right:7%;bottom:4.5%;height:54px;display:flex;align-items:center;justify-content:space-around;gap:8px;padding:0 10px;border-radius:32px;background:#fff;box-shadow:0 8px 35px #0001;color:#171717;font-size:20px}
- .switcher-preview-toolbar b{flex:1;text-align:center;font-size:14px;font-weight:600}
- .switcher-hint{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 25px);font-size:12px;color:#ffffff8a}
- #mobileSwitcher .switcher-app-title img{background:#ffffff20}
-}
-@media(max-width:950px) and (max-height:500px){
- #mobileHome{padding:calc(env(safe-area-inset-top) + 42px) 5vw calc(env(safe-area-inset-bottom) + 12px)}
- .mobile-app-grid{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-flow:row;row-gap:10px;column-gap:12px}
- .mobile-app img{width:min(11vw,58px);height:min(11vw,58px)}
- .mobile-app span{font-size:11px}
- .mobile-search{bottom:calc(env(safe-area-inset-bottom) + 88px)}
- .mobile-dock{height:68px;left:18vw;right:18vw;bottom:calc(env(safe-area-inset-bottom) + 7px);padding:6px}
- .mobile-dock .mobile-app img{width:48px;height:48px}
- .switcher-card-wrap{height:72vh;width:min(44vw,360px)}
-}
+
+
+
+
+#rotatePrompt{display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:28px;background:#101722ed;backdrop-filter:blur(28px);color:white;text-align:center;font:500 16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#rotatePrompt strong{font-size:22px}.rotateGlyph{font-size:54px;animation:rotateNudge 2s ease-in-out infinite}@keyframes rotateNudge{50%{transform:rotate(90deg)}}
+#smartTrackpad{display:none;position:fixed;z-index:99990;right:16px;bottom:16px;width:150px;height:96px;border:1px solid #ffffff70;border-radius:20px;background:linear-gradient(145deg,#ffffff50,#ffffff19);box-shadow:0 12px 35px #0004,inset 0 1px #fff8;backdrop-filter:blur(25px) saturate(1.5);-webkit-backdrop-filter:blur(25px) saturate(1.5);touch-action:none;user-select:none;-webkit-user-select:none;color:white;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.trackpad-mark{width:30px;height:22px;border:1.5px solid #ffffffc9;border-radius:7px;position:relative}.trackpad-mark:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1px solid #ffffff80}
+#smartTrackpad span:last-child{font:500 11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#smartTrackpad.active{transform:scale(.97);background:#ffffff55}
+@media(orientation:portrait) and (max-width:1100px) and (pointer:coarse){#rotatePrompt{display:flex}}
+@media(orientation:landscape) and (max-height:650px) and (pointer:coarse){#smartTrackpad{display:flex}}
 
 </style>
 </head>
@@ -536,6 +462,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <div class="context-menu" id="contextMenu"><button class="menu-item" data-action="new-folder">New Folder</button><button class="menu-item" data-open="finder">Open Finder</button><button class="menu-item" data-open="settings">Change Wallpaper…</button><div class="menu-separator"></div><button class="menu-item" data-action="clean">Sort By Name</button></div>
 <div class="toast" id="toast"></div>
 </div>
+<div id="rotatePrompt" role="status"><span class="rotateGlyph">▱</span><strong>Rotate your device</strong><span>Browser OS is designed for landscape.</span></div><div id="smartTrackpad" aria-label="Smart trackpad"><span class="trackpad-mark"></span><span>Trackpad</span></div>
 <script>
 (()=> {
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
@@ -796,87 +723,32 @@ window.addEventListener('resize',()=>{$$('.window').forEach(w=>{if(!w.classList.
 window.Desktop={id:'desktop.shell',version:'0.2.0',launch:openApp,notify,apps:apps.map(a=>({id:a[0],name:a[1]})),get activeApp(){return activeApp}};
 window.addEventListener('desktop:launch',e=>{if(e.detail?.app)openApp(e.detail.app);if(e.detail?.url){openApp('browser');setTimeout(()=>document.querySelector('#browser iframe')?.contentWindow?.postMessage({type:'browser:open-url',url:e.detail.url},'*'),300)}});
 
-/* Mobile home screen, app launch and right-edge app switcher */
-const mobileMode=()=>/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent)||matchMedia('(pointer:coarse), (max-width:700px), (max-width:1100px) and (min-height:700px), (max-width:950px) and (max-height:500px)').matches||(screen.width<=700)||(innerWidth<=1100&&innerHeight>=700&&innerHeight>innerWidth*1.15);
-function renderMobileHome(){
- const grid=$('#mobileAppGrid');
- grid.innerHTML=apps.filter(a=>a[0]!=='launchpad').map(a=>'<button class="mobile-app" data-open="'+a[0]+'">'+appIcon(a[2])+'<span>'+a[1]+'</span></button>').join('');
- $$('#mobileDock .mobile-app').forEach(b=>{const id=b.dataset.open;b.innerHTML=appIcon(id)+'<span>'+({messages:'Messages',appstore:'App Store',browser:'Browser',settings:'Settings'}[id]||id)+'</span>'});
+
+/* Landscape-only touch mode with smart trackpad */
+const isTouchDevice=()=>matchMedia('(pointer:coarse)').matches||/iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+function updateOrientationGate(){
+ const portrait=isTouchDevice()&&innerHeight>innerWidth;
+ $('#rotatePrompt').style.display=portrait?'flex':'none';
+ $('#smartTrackpad').style.display=isTouchDevice()&&innerWidth>innerHeight&&innerHeight<=650?'flex':'none';
+ document.body.style.overflow=portrait?'hidden':'';
 }
-function showMobileHome(){
- if(!mobileMode())return;
- currentMobileApp=null;
- $$('.window').forEach(w=>w.classList.remove('open','focused','minimizing'));
- $('#mobileSwitcher').classList.remove('show');
- $('#mobileHome').classList.remove('hidden');
- $('#mobileStatusBar').style.display='none';
- activeApp='Home';$('#activeApp').textContent='Home';
-}
-function showMobileSwitcher(){
- if(!mobileMode())return;
- const active=$$('.window.open').slice(-1)[0];
- currentMobileApp=active?.id||currentMobileApp||'browser';
- const app=apps.find(a=>a[0]===currentMobileApp)||apps.find(a=>a[0]==='browser');
- $('#switcherAppIcon').src='assets/icons/'+({finder:'finder.svg',browser:'browser.svg',messages:'messages.svg',photos:'photos.svg',music:'music.svg',notes:'notes.svg',calculator:'calculator.svg',terminal:'terminal.svg',settings:'settings.svg',appstore:'app-store.svg'}[app[0]]||'browser.svg');
- $('#switcherAppName').textContent=app[1];
- $('#mobileHome').classList.add('hidden');
- $('#mobileSwitcher').classList.add('show');
- $('#mobileStatusBar').style.display='flex';
-}
-const desktopOpenApp=openApp;
-openApp=function(id){
- if(mobileMode()){
-  if(id==='launchpad'){showMobileHome();return}
-  if(id==='about'){notify('About this device');return}
-  currentMobileApp=id;
-  $('#mobileSwitcher').classList.remove('show');
-  $('#mobileHome').classList.add('hidden');
-  $('#mobileStatusBar').style.display='flex';
-  $$('.window').forEach(w=>{if(w.id!==id)w.classList.remove('open','focused')});
-  const win=$('#'+id);if(!win)return;
-  win.classList.remove('minimizing');win.classList.add('open');bringFront(win);
-  if(id==='notes')$('#notesText').focus();
-  return;
- }
- desktopOpenApp(id);
-};
-const desktopCloseWin=closeWin;
-closeWin=function(w){
- if(mobileMode()){showMobileHome();return}
- desktopCloseWin(w);
-};
-const desktopMinimizeWin=minimizeWin;
-minimizeWin=function(w){
- if(mobileMode()){showMobileHome();return}
- desktopMinimizeWin(w);
-};
-$('#mobileAppGrid').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openApp(b.dataset.open)});
-$('#mobileDock').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openApp(b.dataset.open)});
-$('#mobileSearch').addEventListener('click',()=>toggleSpot());
-$('#switcherBrowser').addEventListener('click',()=>openApp(currentMobileApp||'browser'));
-$('#mobileHomeIndicator').addEventListener('click',showMobileHome);
-function mobileTimeTick(){
- const t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
- $('#mobileTime').textContent=t;$('#mobileAppTime').textContent=t;
-}
-mobileTimeTick();setInterval(mobileTimeTick,15000);renderMobileHome();
-let mobileGesture=null,currentMobileApp='browser';
-if(mobileMode())showMobileHome();
-function gestureStart(e){
- if(!mobileMode()||e.pointerType!=='touch')return;
- mobileGesture={x:e.clientX,y:e.clientY};
-}
-function gestureEnd(e){
- if(!mobileGesture||!mobileMode())return;
- const dx=e.clientX-mobileGesture.x,dy=e.clientY-mobileGesture.y,start=mobileGesture;mobileGesture=null;
- if(start.x>innerWidth-35&&dx<-65&&Math.abs(dx)>Math.abs(dy)*1.15){showMobileSwitcher();return}
- if(start.y>innerHeight-75&&dy<-65&&Math.abs(dy)>Math.abs(dx)*1.1){showMobileHome();return}
- if($('#mobileSwitcher').classList.contains('show')&&((dy<-70&&Math.abs(dy)>Math.abs(dx))||dx>90)){showMobileHome()}
-}
-document.addEventListener('pointerdown',gestureStart,{passive:true});
-document.addEventListener('pointerup',gestureEnd,{passive:true});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobileMode()){showMobileHome()}});
-window.addEventListener('orientationchange',()=>{if(mobileMode()){$('#mobileHome').classList.remove('hidden');$('#mobileSwitcher').classList.remove('show')}});
+window.addEventListener('resize',updateOrientationGate,{passive:true});
+window.addEventListener('orientationchange',updateOrientationGate,{passive:true});
+updateOrientationGate();
+(function(){
+ const pad=$('#smartTrackpad');let last=null,moved=false;
+ pad.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;e.preventDefault();pad.setPointerCapture(e.pointerId);last={x:e.clientX,y:e.clientY};moved=false;pad.classList.add('active')});
+ pad.addEventListener('pointermove',e=>{
+  if(!last||e.pointerType==='mouse')return;e.preventDefault();
+  const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
+  const x=Math.max(2,Math.min(innerWidth-3,(window.__smartCursorX??innerWidth*.5)+dx*2));
+  const y=Math.max(2,Math.min(innerHeight-3,(window.__smartCursorY??innerHeight*.5)+dy*2));
+  window.__smartCursorX=x;window.__smartCursorY=y;
+  const t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,clientX:x,clientY:y,view:window}));
+ });
+ function end(){if(!last)return;if(!moved){const x=window.__smartCursorX??innerWidth*.5,y=window.__smartCursorY??innerHeight*.5,t=document.elementFromPoint(x,y);if(t)t.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:x,clientY:y,view:window}))}last=null;pad.classList.remove('active')}
+ pad.addEventListener('pointerup',end);pad.addEventListener('pointercancel',end);pad.addEventListener('contextmenu',e=>e.preventDefault());
+})();
 
 })();
 </script>
