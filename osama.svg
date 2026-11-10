@@ -813,7 +813,7 @@ function showMobileHome(){
 }
 function showMobileSwitcher(){
  if(!mobileMode())return;
- const active=$('.window.open').slice(-1)[0];
+ const active=$$('.window.open').slice(-1)[0];
  currentMobileApp=active?.id||currentMobileApp||'browser';
  const app=apps.find(a=>a[0]===currentMobileApp)||apps.find(a=>a[0]==='browser');
  $('#switcherAppIcon').src='assets/icons/'+({finder:'finder.svg',browser:'browser.svg',messages:'messages.svg',photos:'photos.svg',music:'music.svg',notes:'notes.svg',calculator:'calculator.svg',terminal:'terminal.svg',settings:'settings.svg',appstore:'app-store.svg'}[app[0]]||'browser.svg');
