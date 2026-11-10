@@ -10,13 +10,13 @@ Open `index.html` on a modern desktop browser. The SVG entrypoint is `osama.svg`
 
 - Tahoe-style desktop wallpaper with day/night variants
 - Translucent menu bar, system status area, Dock and popovers
-- Dock magnification, icon bounce, running indicators and window animations
-- Finder-style file manager with sidebar, folder navigation, search, new-folder action and view toggle
+- Dock magnification, icon bounce, running indicators, animated popovers and window transitions
+- Finder-style file manager with a populated Home directory, sidebar, folder navigation, search, new-folder action and view toggle
 - System Settings with appearance, wallpaper, Dock, desktop, Control Center, sound and keyboard sections
 - Launchpad and Spotlight-style app search
 - Control Center with Wi-Fi, Bluetooth, Focus, brightness, volume, Dark Mode and screen-mirroring toggles
 - Notification Center widgets and live clock
-- Browser, Notes, Calculator, Terminal, App Store, Music and Photos windows
+- Browser, Messages, Notes, Calculator, Terminal, App Store, Music and Photos windows
 - Draggable, focusable, minimizable, maximizable and resizable app windows
 - Keyboard shortcuts: `Ctrl/⌘ + Space` for search, `F4` for Launchpad, `Ctrl/⌘ + N` for Finder, and `Ctrl/⌘ + W` to close the focused window
 
