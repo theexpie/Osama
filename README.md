@@ -17,7 +17,7 @@ Open `index.html` on a modern desktop browser. The SVG entrypoint is `osama.svg`
 - Control Center with Wi-Fi, Bluetooth, Focus, brightness, volume, Dark Mode and screen-mirroring toggles
 - Notification Center widgets and live clock
 - Browser, Messages, Notes, Calculator, Terminal, App Store, Music and Photos windows
-- Draggable, focusable, minimizable, maximizable and resizable app windows
+- Draggable, focusable, minimizable and maximizable app windows
 - Keyboard shortcuts: `Ctrl/⌘ + Space` for search, `F4` for Launchpad, `Ctrl/⌘ + N` for Finder, and `Ctrl/⌘ + W` to close the focused window
 
 ## What it is
