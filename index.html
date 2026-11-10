@@ -402,7 +402,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 <section id="mobileSwitcher" aria-label="App switcher">
  <div class="switcher-blurs"><i></i><i></i><i></i><i></i></div>
  <div class="switcher-card-wrap" id="switcherCardWrap">
-  <div class="switcher-app-title"><img src="assets/icons/browser.svg" alt=""><strong>Browser</strong></div>
+  <div class="switcher-app-title"><img id="switcherAppIcon" src="assets/icons/browser.svg" alt=""><strong id="switcherAppName">Browser</strong></div>
   <button class="switcher-card" id="switcherBrowser" type="button" aria-label="Return to Browser">
    <div class="switcher-preview">
     <div class="switcher-preview-page"></div>
@@ -804,6 +804,7 @@ function renderMobileHome(){
 }
 function showMobileHome(){
  if(!mobileMode())return;
+ currentMobileApp=null;
  $$('.window').forEach(w=>w.classList.remove('open','focused','minimizing'));
  $('#mobileSwitcher').classList.remove('show');
  $('#mobileHome').classList.remove('hidden');
@@ -812,6 +813,11 @@ function showMobileHome(){
 }
 function showMobileSwitcher(){
  if(!mobileMode())return;
+ const active=$('.window.open').slice(-1)[0];
+ currentMobileApp=active?.id||currentMobileApp||'browser';
+ const app=apps.find(a=>a[0]===currentMobileApp)||apps.find(a=>a[0]==='browser');
+ $('#switcherAppIcon').src='assets/icons/'+({finder:'finder.svg',browser:'browser.svg',messages:'messages.svg',photos:'photos.svg',music:'music.svg',notes:'notes.svg',calculator:'calculator.svg',terminal:'terminal.svg',settings:'settings.svg',appstore:'app-store.svg'}[app[0]]||'browser.svg');
+ $('#switcherAppName').textContent=app[1];
  $('#mobileHome').classList.add('hidden');
  $('#mobileSwitcher').classList.add('show');
  $('#mobileStatusBar').style.display='flex';
@@ -821,6 +827,7 @@ openApp=function(id){
  if(mobileMode()){
   if(id==='launchpad'){showMobileHome();return}
   if(id==='about'){notify('About this device');return}
+  currentMobileApp=id;
   $('#mobileSwitcher').classList.remove('show');
   $('#mobileHome').classList.add('hidden');
   $('#mobileStatusBar').style.display='flex';
@@ -845,14 +852,14 @@ minimizeWin=function(w){
 $('#mobileAppGrid').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openApp(b.dataset.open)});
 $('#mobileDock').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openApp(b.dataset.open)});
 $('#mobileSearch').addEventListener('click',()=>toggleSpot());
-$('#switcherBrowser').addEventListener('click',()=>openApp('browser'));
+$('#switcherBrowser').addEventListener('click',()=>openApp(currentMobileApp||'browser'));
 $('#mobileHomeIndicator').addEventListener('click',showMobileHome);
 function mobileTimeTick(){
  const t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
  $('#mobileTime').textContent=t;$('#mobileAppTime').textContent=t;
 }
 mobileTimeTick();setInterval(mobileTimeTick,15000);renderMobileHome();
-let mobileGesture=null;
+let mobileGesture=null,currentMobileApp='browser';
 function gestureStart(e){
  if(!mobileMode()||e.pointerType!=='touch')return;
  mobileGesture={x:e.clientX,y:e.clientY};
@@ -866,8 +873,6 @@ function gestureEnd(e){
 }
 document.addEventListener('pointerdown',gestureStart,{passive:true});
 document.addEventListener('pointerup',gestureEnd,{passive:true});
-$('#mobileRightEdge').addEventListener('pointerdown',e=>{gestureStart({pointerType:'touch',clientX:innerWidth-8,clientY:e.clientY})},{passive:true});
-$('#mobileRightEdge').addEventListener('pointerup',e=>gestureEnd({clientX:innerWidth-8-e.clientX,clientY:e.clientY}),{passive:true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobileMode()){showMobileHome()}});
 window.addEventListener('orientationchange',()=>{if(mobileMode()){$('#mobileHome').classList.remove('hidden');$('#mobileSwitcher').classList.remove('show')}});
 
