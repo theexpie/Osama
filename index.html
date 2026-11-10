@@ -395,7 +395,7 @@ html[data-theme="light"] .dock-area{background:linear-gradient(180deg,rgba(255,2
 </div>
 <script>
 (()=> {
-const $=s=>document.querySelector(s), $=s=>Array.from(document.querySelectorAll(s));
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const getSaved=(key,fallback=null)=>{try{const value=localStorage.getItem(key);return value===null?fallback:value}catch{return fallback}};
 const saveValue=(key,value)=>{try{localStorage.setItem(key,value);return true}catch{return false}};
 const removeSaved=key=>{try{localStorage.removeItem(key)}catch{}};
