@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="100%" height="100%" viewBox="0 0 1440 900">
-<title>Desktop</title>
-<rect width="1440" height="900" fill="#102943"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1440 900">
+<title>Desktop</title><rect width="1440" height="900" fill="#102943"/>
 <foreignObject x="0" y="0" width="100%" height="100%">
 <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;margin:0;padding:0;overflow:hidden">
 <style><![CDATA[
@@ -52,10 +51,8 @@ $("#cc").onclick=()=>$("#controlcenter").classList.toggle("show");$("#apple").on
 $("#launchSearch").addEventListener("input",e=>{$$("#launchGrid .launchapp").forEach(a=>a.style.display=a.textContent.toLowerCase().includes(e.target.value.toLowerCase())?"flex":"none")});
 document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.code==="Space"){e.preventDefault();$("#spotlight").classList.toggle("show");$("#spotInput").focus()}if(e.key==="Escape"){$$("#launcher,#controlcenter,#spotlight,#applemenu").forEach(x=>x.classList.remove("show"))}if(e.key==="F4"&&e.altKey){e.preventDefault();$("#launcher").classList.toggle("show")}});
 $("#spotInput").addEventListener("keydown",e=>{if(e.key==="Enter"){const q=e.target.value.toLowerCase();const id=q.includes("browser")?"browser":q.includes("setting")?"settings":"files";open(id);$("#spotlight").classList.remove("show")}});
-function tick(){const d=new Date();$("#clock").textContent=d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})+"  "+d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})}tick();setInterval(tick,15000);
+window.Desktop={id:"desktop.shell",version:"0.1.0",launch,notify:toast,apps:["files","browser","settings"]};window.addEventListener("desktop:launch",e=>{if(e.detail&&e.detail.app)open(e.detail.app)});function tick(){const d=new Date();$("#clock").textContent=d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})+"  "+d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})}tick();setInterval(tick,15000);
 document.addEventListener("pointerdown",e=>{if(!e.target.closest("#controlcenter,#cc"))$("#controlcenter").classList.remove("show");if(!e.target.closest("#applemenu,#apple"))$("#applemenu").classList.remove("show")});
 })();
 ]]></script>
-</div>
-</foreignObject>
-</svg>
+</div></foreignObject></svg>
