@@ -11,7 +11,7 @@ Open `index.html` on a modern desktop browser. The SVG entrypoint is `osama.svg`
 - Tahoe-style desktop wallpaper with day/night variants
 - Translucent menu bar, system status area, Dock and popovers
 - Dock magnification that pushes neighboring icons aside, bounce feedback, running indicators, scrollable narrow-screen Dock, animated popovers, and window transitions
-- Finder-style file manager with a populated Home directory, sidebar navigation, inline search, new folders, file selection, rename, duplicate, trash, preview, and context actions
+- Finder-style file manager with a populated Home directory, sidebar navigation, inline search, new folders, file selection, drag-and-drop moves, reordering, rename, duplicate, trash, preview, and context actions. File changes persist locally in the browser
 - System Settings with appearance, wallpaper, Dock, desktop, Control Center, sound and keyboard sections
 - Launchpad and Spotlight-style app search
 - Control Center with Wi-Fi, Bluetooth, Focus, brightness, volume, Dark Mode and screen-mirroring toggles
@@ -38,4 +38,5 @@ The day/night wallpaper images are loaded from the MacTahoe GTK Theme repository
 - `index.html` — main desktop shell
 - `osama.svg` — SVG-hosted copy of the desktop shell
 - `browser.html` — Browser app loaded inside its desktop window
+- `assets/icons/` — bundled upstream MacTahoe icon-theme SVG files
 - `LICENSES/` — upstream theme license texts
